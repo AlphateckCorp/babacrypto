@@ -1,0 +1,7 @@
+.copyright {
+    text-align: center;
+    font-size: 12px;
+    @include bp(tablet) {
+        font-size: 16px;
+    };
+}

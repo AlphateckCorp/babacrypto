@@ -1,0 +1,52 @@
+@mixin clearfix {
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+@mixin bp($screen) {
+	@if $screen == "phone" {
+		@media screen and (min-width: 480px) {
+			@content;
+		}
+	}
+	@if $screen == "tablet" {
+		@media screen and (min-width: 768px) {
+			@content;
+		}
+	}
+	@if $screen == "laptop" {
+		@media screen and (min-width: 1024px) {
+			@content;
+		}
+	}
+	@if $screen == "desktop" {
+		@media screen and (min-width: 1200px) {
+			@content;
+		}
+	}
+}
+
+@mixin font($font-name, $size) {
+
+	@if $font-name == "myriadpro" {
+		font: rem($size) "Myriad Pro";
+	} @else if $font-name == "myriadpro-sb" {
+		font: 600 rem($size) "Myriad Pro Semibold";
+	} @else if $font-name == "myriadpro-b" {
+		font: 700 rem($size) "Myriad Pro Bold";
+	}
+
+	font-size: rem($size);
+}
+
+%btn {
+	padding: 0;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	background: none;
+	text-align: center;
+}

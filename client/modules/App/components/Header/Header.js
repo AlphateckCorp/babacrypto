@@ -1,45 +1,39 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
-import { FormattedMessage } from 'react-intl';
+import React from 'react';
 
-// Import Style
-import styles from './Header.css';
-
-export function Header(props, context) {
-  const languageNodes = props.intl.enabledLanguages.map(
-    lang => <li key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</li>
-  );
+export function Header() {
+  // const languageNodes = props.intl.enabledLanguages.map(
+  //   lang => <li key={lang} onClick={() => props.switchLanguage(lang)} className={lang === props.intl.locale ? styles.selected : ''}>{lang}</li>
+  // );
 
   return (
-    <div className={styles.header}>
-      <div className={styles['language-switcher']}>
-        <ul>
-          <li><FormattedMessage id="switchLanguage" /></li>
-          {languageNodes}
-        </ul>
+    // header
+    <header className="c-header l-header">
+      <div className="grid-container">
+        <div className="grid-x align-center">
+          <div className="cell shrink">
+            {/* c-logotype */}
+            <div className="c-logotype">
+              <a href="/">
+                <div className="c-logotype__text">
+                  <span className="t--blue">baba</span><span>crypto</span><span className="c-logotype__small">.com</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className={styles.content}>
-        <h1 className={styles['site-title']}>
-          <Link to="/" ><FormattedMessage id="siteTitle" /></Link>
-        </h1>
-        {
-          context.router.isActive('/', true)
-            ? <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
-            : null
-        }
-      </div>
-    </div>
+    </header>
   );
 }
 
-Header.contextTypes = {
-  router: React.PropTypes.object,
-};
+// Header.contextTypes = {
+//   router: React.PropTypes.object,
+// };
 
-Header.propTypes = {
-  toggleAddPost: PropTypes.func.isRequired,
-  switchLanguage: PropTypes.func.isRequired,
-  intl: PropTypes.object.isRequired,
-};
+// Header.propTypes = {
+//   toggleAddPost: PropTypes.func.isRequired,
+//   switchLanguage: PropTypes.func.isRequired,
+//   intl: PropTypes.object.isRequired,
+// };
 
 export default Header;

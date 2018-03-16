@@ -1,0 +1,6 @@
+.l-footer {
+    padding: 25px 0;
+    @include bp(tablet) {
+        padding: 35px 0;
+    };
+}

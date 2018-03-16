@@ -27,7 +27,11 @@ module.exports = {
         loader: 'style-loader!css-loader?localIdentName=' + cssModulesIdentName + '&modules&importLoaders=1&sourceMap!postcss-loader',
       },
       {
-        test: /\.jpe?g$|\.gif$|\.png$|\.svg$/i,
+        test: /\.scss$/,
+        loaders: 'css-loader/locals?localIdentName=[name]__[local]__[hash:base64:5]&modules&importLoaders=1!sass-loader',
+      },
+      {
+        test: /\.jpe?g$|\.gif$|\.png$|\.woff$|\.woff2$|\.eot$|\.ttf$|\.svg$/i,
         loader: 'url-loader?limit=10000',
       },
     ],

@@ -44,12 +44,21 @@ module.exports = {
         test: /\.css$/,
         include: /node_modules/,
         loaders: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?localIdentName=[hash:base64]&modules&importLoaders=1!sass-loader'),
+      }, {
+        test: /\.scss$/,
+        include: /node_modules/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
       }, {
         test: /\.jsx*$/,
         exclude: /node_modules/,
         loader: 'babel',
       }, {
-        test: /\.(jpe?g|gif|png|svg)$/i,
+        test: /\.jpe?g$|\.gif$|\.png$|\.woff$|\.woff2$|\.eot$|\.ttf$|\.svg$/i,
         loader: 'url-loader?limit=10000',
       }, {
         test: /\.json$/,

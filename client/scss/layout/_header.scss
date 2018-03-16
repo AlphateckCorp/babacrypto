@@ -1,0 +1,6 @@
+.l-header {
+    padding: 15px 0;
+    @include bp(laptop) {
+        padding: 20px 0;
+    };
+}

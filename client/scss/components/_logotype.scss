@@ -1,0 +1,35 @@
+.c-logotype {
+    text-align: center;
+}
+
+.c-logotype__text {
+    // height: 24px;
+    color: $white;
+    text-transform: uppercase;
+    @include font(myriadpro-sb, 30px);
+    // line-height: 30px;
+    @include bp(laptop) {
+        // height: 37px;
+        // line-height: 46px;
+        font-size: 48px;
+    };
+
+    & * {
+        display: inline-block;
+        // height: 24px;
+        // line-height: 30px;
+        @include bp(laptop) {
+            // height: 37px;
+            // line-height: 46px;
+            font-size: 48px;
+        };
+    }
+}
+
+.c-logotype__small {
+    font-weight: 400;
+    font-size: rem(20px);
+    @include bp(laptop) {
+        font-size: 24px;
+    };
+}

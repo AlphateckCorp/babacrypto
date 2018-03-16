@@ -23,7 +23,7 @@ module.exports = {
   output: {
     path: __dirname,
     filename: 'app.js',
-    publicPath: 'http://0.0.0.0:8000/',
+    publicPath: 'http://localhost:8000/',
   },
 
   resolve: {
@@ -45,11 +45,19 @@ module.exports = {
         include: /node_modules/,
         loaders: ['style-loader', 'css-loader'],
       }, {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loader: 'style-loader!css-loader?localIdentName=[name]__[local]__[hash:base64:5]&modules&importLoaders=1&sourceMap!sass-loader?sourceMap',
+      }, {
+        test: /\.scss$/,
+        include: /node_modules/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
+      }, {
         test: /\.jsx*$/,
         exclude: [/node_modules/, /.+\.config.js/],
         loader: 'babel',
       }, {
-        test: /\.(jpe?g|gif|png|svg)$/i,
+        test: /\.jpe?g$|\.gif$|\.png$|\.woff$|\.woff2$|\.eot$|\.ttf$|\.svg$/i,
         loader: 'url-loader?limit=10000',
       }, {
         test: /\.json$/,

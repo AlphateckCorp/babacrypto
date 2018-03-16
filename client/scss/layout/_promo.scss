@@ -1,0 +1,9 @@
+.l-promo {
+    margin: 0 auto;
+    @include bp(tablet) {
+        width: 500px;
+    };
+    @include bp(laptop) {
+        width: 800px;
+    };
+}

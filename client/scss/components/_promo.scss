@@ -1,0 +1,10 @@
+.c-promo {
+
+}
+
+.c-promo__text {
+    margin-top: 20px;
+    @include bp(tablet) {
+        margin-top: 25px;
+    };
+}
