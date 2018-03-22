@@ -59,6 +59,7 @@ class Home extends Component {
         if (this.props.getCoinsList) {
             var dataList = this.props.getCoinsList;
             // console.log(dataList, 'dataList');
+            // console.log(dataList, 'dataList');            
             var coinContent = dataList.map(function (data, index) {
                 return (<tr key={index}>
                     <td className="headcol">{data.SortOrder}</td>
