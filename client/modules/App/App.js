@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 // Import Style
-import styles from './App.css';
+// import styles from './App.css';
 
 // Import Components
 import Helmet from 'react-helmet';
@@ -53,7 +53,8 @@ export class App extends Component {
             intl={this.props.intl}
             toggleAddPost={this.toggleAddPostSection}
           />
-          <div className={styles.container}>
+          {/* <div className={styles.container}> */}
+          <div className="container">
             {this.props.children}
           </div>
           <Footer />

@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
-
+import request from 'request';
 // Webpack Requirements
 import webpack from 'webpack';
 import config from '../webpack.config.dev';
@@ -56,10 +56,21 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 
 // Apply body Parser and server public assets and routes
 app.use(compression());
-app.use(bodyParser.json({ limit: '20mb' }));
-app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
+// app.use(bodyParser.json({ limit: '20mb' }));
+// app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
-app.use('/api', posts);
+// app.use('/api', posts);
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+app.use('/api',  function(req, res) {  
+    // var url = "http://localhost:8080" + req.url;
+    var url = "http://dev.babacrypto.com/api/" + req.url;
+    req.pipe(request(url)).pipe(res);
+  });
+
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
@@ -80,7 +91,7 @@ const renderFullPage = (html, initialState) => {
         ${head.script.toString()}
 
         ${isProdMode ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
-        <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
+        <link rel='stylesheet' href='${isProdMode ? assetsManifest['/stylesCustom.css'] : '/stylesCustom.css'}' />
         <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
       </head>
       <body>
@@ -93,7 +104,7 @@ const renderFullPage = (html, initialState) => {
           //]]>` : ''}
         </script>
         <script src='${isProdMode ? assetsManifest['/vendor.js'] : '/vendor.js'}'></script>
-        <script src='${isProdMode ? assetsManifest['/app.js'] : '/app.js'}'></script>
+        <script src='${isProdMode ? assetsManifest['/app.js'] : '/app.js'}'></script> 
       </body>
     </html>
   `;

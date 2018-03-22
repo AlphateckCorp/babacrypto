@@ -27,10 +27,41 @@ export default (
     <IndexRoute
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
+          cb(null, require('./modules/App/Home/Home').default);
+        });
+      }}
+    />
+
+    <Route
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
           cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
         });
       }}
     />
+    <Route
+      path="/top_casions"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/App/TopCasions/TopCasions').default);
+        });
+      }}
+    />
+    <Route
+      path="/chart"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/App/ChartPage/ChartPage').default);
+        });
+      }}
+    />
+    {/* <IndexRoute
+    getComponent={(nextState, cb) => {
+      require.ensure([], require => {
+        cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
+      });
+    }}
+  /> */}
     <Route
       path="/posts/:slug-:cuid"
       getComponent={(nextState, cb) => {

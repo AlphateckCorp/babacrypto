@@ -17,7 +17,8 @@ module.exports = {
     vendor: [
       'react',
       'react-dom',
-    ]
+    ],
+    stylesCustom: './scss/maincss.js'
   },
 
   output: {
@@ -47,13 +48,19 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?localIdentName=[hash:base64]&modules&importLoaders=1!sass-loader'),
-      }, {
-        test: /\.scss$/,
-        include: /node_modules/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader']
-      }, {
+        include: /scss/,
+        loader: ExtractTextPlugin.extract("style", "css!sass")
+      },
+      // {
+      //   test: /\.scss$/,
+      //   exclude: /node_modules/,
+      //   loader: ExtractTextPlugin.extract('style-loader', 'css-loader?localIdentName=[hash:base64]&modules&importLoaders=1!sass-loader'),
+      // }, {
+      //   test: /\.scss$/,
+      //   include: /node_modules/,
+      //   loaders: ['style-loader', 'css-loader', 'sass-loader']
+      // }, 
+      {
         test: /\.jsx*$/,
         exclude: /node_modules/,
         loader: 'babel',
