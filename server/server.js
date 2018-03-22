@@ -40,20 +40,6 @@ import posts from './routes/post.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
-// Set native promises as mongoose promise
-mongoose.Promise = global.Promise;
-
-// MongoDB Connection
-mongoose.connect(serverConfig.mongoURL, (error) => {
-  if (error) {
-    console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
-    throw error;
-  }
-
-  // feed some dummy data in DB.
-  dummyData();
-});
-
 // Apply body Parser and server public assets and routes
 app.use(compression());
 // app.use(bodyParser.json({ limit: '20mb' }));
