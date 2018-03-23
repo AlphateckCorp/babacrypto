@@ -14,7 +14,7 @@ class ChartPage extends Component {
         // s.innerHTML = "document.write('This is output by document.write()!')";
         s.innerHTML = "This is output by";
         this.instance.appendChild(s);
-        console.log("didmountwork");
+        // console.log("didmountwork");
     }
     focusFile(e) {
         

@@ -1,38 +1,38 @@
-@font-face {
-    font-family: "Myriad Pro";
-    src: url("/font/MyriadProRegular/MyriadProRegular.eot");
-    src: local("Myriad Pro"), local("MyriadPro"), local("Myriad Pro Regular"), local("MyriadPro Regular"),
-         url("/font/MyriadProRegular/MyriadProRegular.woff2") format("woff2"),
-         url("/font/MyriadProRegular/MyriadProRegular.woff") format("woff"),
-         url("/font/MyriadProRegular/MyriadProRegular.ttf") format("truetype");
-    font-style: normal;
-    font-weight: normal;
-    // font-weight: 400;
-}
+// @font-face {
+//     font-family: "Myriad Pro";
+//     src: url("/font/MyriadProRegular/MyriadProRegular.eot");
+//     src: local("Myriad Pro"), local("MyriadPro"), local("Myriad Pro Regular"), local("MyriadPro Regular"),
+//          url("/font/MyriadProRegular/MyriadProRegular.woff2") format("woff2"),
+//          url("/font/MyriadProRegular/MyriadProRegular.woff") format("woff"),
+//          url("/font/MyriadProRegular/MyriadProRegular.ttf") format("truetype");
+//     font-style: normal;
+//     font-weight: normal;
+//     // font-weight: 400;
+// }
 
-@font-face {
-    font-family: "Myriad Pro Semibold";
-    src: url("/font/MyriadProSemiBold/MyriadProSemiBold.eot");
-    src: local("Myriad Pro Semibold"), local("MyriadPro Semibold"),
-         url("/font/MyriadProSemiBold/MyriadProSemiBold.woff2") format("woff2"),
-         url("/font/MyriadProSemiBold/MyriadProSemiBold.woff") format("woff"),
-         url("/font/MyriadProSemiBold/MyriadProSemiBold.ttf") format("truetype");
-    font-style: normal;
-    font-weight: bold;
-    // font-weight: 600;
-}
+// @font-face {
+//     font-family: "Myriad Pro Semibold";
+//     src: url("/font/MyriadProSemiBold/MyriadProSemiBold.eot");
+//     src: local("Myriad Pro Semibold"), local("MyriadPro Semibold"),
+//          url("/font/MyriadProSemiBold/MyriadProSemiBold.woff2") format("woff2"),
+//          url("/font/MyriadProSemiBold/MyriadProSemiBold.woff") format("woff"),
+//          url("/font/MyriadProSemiBold/MyriadProSemiBold.ttf") format("truetype");
+//     font-style: normal;
+//     font-weight: bold;
+//     // font-weight: 600;
+// }
 
-@font-face {
-    font-family: "Myriad Pro Bold";
-    src: url("/font/MyriadProBold/MyriadProBold.eot");
-    src: local("Myriad Pro Bold"), local("MyriadPro Bold"),
-         url("/font/MyriadProBold/MyriadProBold.woff2") format("woff2"),
-         url("/font/MyriadProBold/MyriadProBold.woff") format("woff"),
-         url("/font/MyriadProBold/MyriadProBold.ttf") format("truetype");
-    font-style: normal;
-    font-weight: bold;
-    // font-weight: 700;
-}
+// @font-face {
+//     font-family: "Myriad Pro Bold";
+//     src: url("/font/MyriadProBold/MyriadProBold.eot");
+//     src: local("Myriad Pro Bold"), local("MyriadPro Bold"),
+//          url("/font/MyriadProBold/MyriadProBold.woff2") format("woff2"),
+//          url("/font/MyriadProBold/MyriadProBold.woff") format("woff"),
+//          url("/font/MyriadProBold/MyriadProBold.ttf") format("truetype");
+//     font-style: normal;
+//     font-weight: bold;
+//     // font-weight: 700;
+// }
 
 p {
     color: $black;
