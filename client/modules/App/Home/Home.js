@@ -3,78 +3,73 @@ import { connect } from 'react-redux';
 import InfoSection from '../InfoSection/InfoSection';
 import { FetchCoinsRequest } from './HomeAction';
 import { getCoins } from './HomeReducer';
-
+import styles from './Home.css';
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             coinContent: [],
-            coinContentList: []
+            coinContentList: [],
+            datahandle: '',
+            symbolSt:'$',
+            typeId: 0
         }
     }
     componentWillMount(props) {
-        // console.log("componentWillMount");
         this.props.dispatch(FetchCoinsRequest());
     }
     onchange = (e) => {
-        var checkType= e.target.value;
-        /*
-        var selectTypeByid='';
-        switch(checkType){
-            case ('EUR'): 
+        var checkType = e.target.value;
+        var selectTypeByid = '';
+        var currencySymbols = '';
+        switch (checkType) {
+            case ('EUR'):
                 selectTypeByid = 1;
+                currencySymbols = '€';
                 break;
-            case ('ETH'): 
+            case ('ETH'):
                 selectTypeByid = 2;
-                break;
-            case ("BTC"): 
-                selectTypeByid = 3;
+                currencySymbols = 'Ξ';
                 break;
             default:
                 selectTypeByid = 0;
+                currencySymbols = '$';
         }
-        if (this.props.getCoinsList) {
-            var dataList = this.props.getCoinsList;
-            var coinContents = '';
-            var coinContents = dataList.map(function (data, index) {
-                var keyId = data.coinlistinfos[selectTypeByid];
-                // console.log(keyId, "keyid");
-                // return (
-                //     <tr key={index}>
-                //         <td className="headcol">{data.SortOrder}</td>
-                //         <td className="headcol2 t--blue">{data.CoinName}</td>
-                        
-                //     </tr>
-                // );
-                return ({keyId});
-            }); 
-        }
-    */
+        this.state.typeId = selectTypeByid;
+        this.state.symbolSt = currencySymbols;
+        this.setState(this.state);
     }
     render() {
         var coinContentList = [];
         var coinContent = '';
-       
+        var self = this.state;
+
         if (this.props.getCoinsList) {
             var dataList = this.props.getCoinsList;
-            // console.log(dataList, 'dataList');
-            // console.log(dataList, 'dataList');            
             var coinContent = dataList.map(function (data, index) {
+                if ((data.coinlistinfos).length > 0) {
+                    return (<tr key={index}>
+                        <td className="headcol" style={{ width: "50px" }}>
+                            <img src={"https://cryptocompare.com" + data.ImageUrl} width="30" />
+                        </td>
+                        <td className={styles.coinName + " headcol2 t--blue"}>{data.CoinName} <br />
+                            <span className="t--green">{data.Symbol} </span>
+                        </td>
+                        <td>{self.symbolSt} {data.coinlistinfos[self.typeId].MKTCAP}</td>
+                        <td>{self.symbolSt} {data.coinlistinfos[self.typeId].PRICE}</td>
+                        <td>{self.symbolSt} {data.coinlistinfos[self.typeId].SUPPLY}</td>
+                        <td>{self.symbolSt} {data.coinlistinfos[self.typeId].TOTALVOLUME24H}</td>
+                        <td className="t--green">{self.symbolSt} {data.coinlistinfos[self.typeId].VOLUME24HOUR}</td>
+                        <td className="t--red">{self.symbolSt} {data.coinlistinfos[self.typeId].CHANGE24HOUR}</td>
+                    </tr>);
+                }
                 return (<tr key={index}>
-                    <td className="headcol">{data.SortOrder}</td>
-                    <td className="headcol2 t--blue">{data.CoinName}</td>
-                    <td>$ {data.coinlistinfos[0].MKTCAP}</td>
-                    <td>$ {data.coinlistinfos[0].PRICE}</td>
-                    <td>$ {data.coinlistinfos[0].SUPPLY}</td>
-                    <td>$ {data.coinlistinfos[0].TOTALVOLUME24H}</td>
-                    <td className="t--green">$ {data.coinlistinfos[0].VOLUME24HOUR}</td>
-                    <td className="t--red">$ {data.coinlistinfos[0].CHANGE24HOUR}</td>
+                    <td className="headcol" colSpan="8"> Loading </td>
                 </tr>);
             });
-    
         }
-    
+
         return (
             <div>
                 <InfoSection />
@@ -82,10 +77,10 @@ class Home extends Component {
                     <div className="grid-container">
                         <div className="grid-x align-justify">
                             <div className="cell shrink">
-                                <select id="" onChange={this.onchange} className="styler">
-                                    <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="ETH">ETH</option>
+                                <select id="" onChange={this.onchange} className={styles.selectStyle + " styler"}>
+                                    <option className="abc" value="USD">USD</option>
+                                    <option className="abc" value="EUR">EUR</option>
+                                    <option className="abc" value="ETH">ETH</option>
                                 </select>
                             </div>
                             <div className="cell small-5 medium-shrink">
@@ -97,7 +92,8 @@ class Home extends Component {
                                         <thead>
                                             <tr>
                                                 <th className="headcol">#</th>
-                                                <th className="headcol2">Coin</th>
+                                                <th className={styles.coinName + " headcol2"}>Coin</th>
+
                                                 <th className="market-cap-col">Market Cap</th>
                                                 <th>Price</th>
                                                 <th>Circulating Supply</th>
@@ -107,77 +103,7 @@ class Home extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-
-                                            {coinContent}
-
-                                            {/*
-                                            <tr>
-                                                <td className="headcol">1</td>
-                                                <td className="headcol2 t--blue">Bitcoin</td>
-                                                <td>$11,600,105</td>
-                                                <td>$3,774,181</td>
-                                                <td>$16,586,412</td>
-                                                <td>$984,687,000</td>
-                                                <td className="t--green">1.60%</td>
-                                                <td className="t--red">-2.10%</td>
-                                                <td className="t--green">3.50%</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="headcol">2</td>
-                                                <td className="headcol2 t--blue">Ethereum Classic</td>
-                                                <td>$27,160,471,470</td>
-                                                <td>$94,812,199</td>
-                                                <td>$438,884,000</td>
-                                                <td>$984,687,000</td>
-                                                <td className="t--green">1.60%</td>
-                                                <td className="t--green">22.10%</td>
-                                                <td className="t--green">3.50%</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="headcol">3</td>
-                                                <td className="headcol2 t--blue">Bitcoin</td>
-                                                <td>$62,600,105,442</td>
-                                                <td>$3,774,181</td>
-                                                <td>$16,586,412</td>
-                                                <td>$984,687,000</td>
-                                                <td className="t--green">1.60%</td>
-                                                <td className="t--red">-2.10%</td>
-                                                <td className="t--green">3.50%</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="headcol">4</td>
-                                                <td className="headcol2 t--blue">Ethereum</td>
-                                                <td>$27,160,471,470</td>
-                                                <td>$94,812,199</td>
-                                                <td>$438,884,000</td>
-                                                <td>$984,687,000</td>
-                                                <td className="t--green">1.60%</td>
-                                                <td className="t--green">22.10%</td>
-                                                <td className="t--green">3.50%</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="headcol">5</td>
-                                                <td className="headcol2 t--blue">Bitcoin</td>
-                                                <td>$62,600,105,442</td>
-                                                <td>$3,774,181</td>
-                                                <td>$16,586,412</td>
-                                                <td>$984,687,000</td>
-                                                <td className="t--green">1.60%</td>
-                                                <td className="t--red">-2.10%</td>
-                                                <td className="t--green">3.50%</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="headcol">6</td>
-                                                <td className="headcol2 t--blue">Ethereum</td>
-                                                <td>$27,160,471,470</td>
-                                                <td>$94,812,199</td>
-                                                <td>$438,884,000</td>
-                                                <td>$984,687,000</td>
-                                                <td className="t--green">1.60%</td>
-                                                <td className="t--green">22.10%</td>
-                                                <td className="t--green">3.50%</td>
-                                            </tr>
-                                            */}
+                                            {(coinContent!='')? coinContent : <tr><td className={styles.loadingClass+" headcol"} colSpan="8">Loading...</td></tr>}
                                         </tbody>
                                     </table>
                                 </div>

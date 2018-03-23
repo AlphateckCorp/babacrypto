@@ -1,0 +1,15 @@
+.selectStyle{
+    padding: 8px 15px;
+    font-weight: 600;
+    border-radius: 6PX;
+    cursor:pointer;
+}
+.coinName{
+    padding-left:25px!important;
+    vertical-align:middle;
+}
+.loadingClass{
+    text-align: center;
+    font-weight: 700;
+    font-family: monospace;
+}
