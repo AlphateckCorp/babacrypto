@@ -24,7 +24,7 @@ class Navigation extends Component {
                                 <Link className={styles.navbarLiA + " " + styles.navLiA} to="/">COINS</Link>
                             </li>                         
                             <li className={[styles.floatLeft + " " + styles.navLi]}>
-                                <Link className={styles.navbarLiA + " " + styles.navLiA} to="/exchange">Exchanges</Link>
+                                <Link className={styles.navbarLiA + " " + styles.navLiA} to="/exchanges">Exchanges</Link>
                             </li>
                         </ul>
                     </div>
