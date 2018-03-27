@@ -13,7 +13,7 @@ class Exchange extends Component {
         }
     }
     componentWillMount(props) {
-//         this.props.dispatch(FetchExchangeRequest());
+        this.props.dispatch(FetchExchangeRequest());
     }
 
     renderTableRows = (finalData) => {
