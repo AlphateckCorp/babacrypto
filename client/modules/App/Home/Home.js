@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import InfoSection from '../InfoSection/InfoSection';
 import { FetchCoinsRequest } from './HomeAction';
@@ -19,6 +20,17 @@ class Home extends Component {
     componentWillMount(props) {
         this.props.dispatch(FetchCoinsRequest());
     }
+    tick = (props) => {
+        var coinData = (this.props.getCoinsList);
+        this.props.dispatch(FetchCoinsRequest());
+    };
+    componentDidMount = (props) => {
+        this.interval = setInterval(this.tick, 10000);
+    };
+    componentWillUnmount = (props) => {
+        clearInterval(this.interval);
+    };
+
     onchange = (e) => {
         var checkType = e.target.value;
         var selectTypeByid = '';
@@ -43,29 +55,34 @@ class Home extends Component {
     render() {
         var coinContentList = [];
         var coinContent = '';
+        var marketCap = 0;
         var self = this.state;
-
-        if (this.props.getCoinsList) {
+        if (this.props.getCoinsList.length>0) {
             var dataList = this.props.getCoinsList;
+            
             var coinContent = dataList.map(function (data, index) {
                 if ((data.coinlistinfos).length > 0) {
+                    marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
                     return (<tr key={index}>
                         <td className="headcol" style={{ width: "50px" }}>
                             <img src={"https://cryptocompare.com" + data.ImageUrl} width="30" />
                         </td>
-                        <td className={styles.coinName + " headcol2 t--blue"}>{data.CoinName} <br />
+                        <td className={styles.coinName + " headcol2 t--blue"}>
+                            <Link to={"/chart/"+data.Symbol}>
+                            {data.CoinName} <br />
                             <span className="t--green">{data.Symbol} </span>
+                            </Link>
                         </td>
-                        <td>{self.symbolSt} {data.coinlistinfos[self.typeId].MKTCAP}</td>
-                        <td>{self.symbolSt} {data.coinlistinfos[self.typeId].PRICE}</td>
-                        <td>{self.symbolSt} {data.coinlistinfos[self.typeId].SUPPLY}</td>
-                        <td>{self.symbolSt} {data.coinlistinfos[self.typeId].TOTALVOLUME24H}</td>
-                        <td className="t--green">{self.symbolSt} {data.coinlistinfos[self.typeId].VOLUME24HOUR}</td>
-                        <td className="t--red">{self.symbolSt} {data.coinlistinfos[self.typeId].CHANGE24HOUR}</td>
+                        <td>{self.symbolSt}{data.coinlistinfos[self.typeId].MKTCAP}</td>
+                        <td>{self.symbolSt}{data.coinlistinfos[self.typeId].PRICE}</td>
+                        <td>{self.symbolSt}{data.coinlistinfos[self.typeId].SUPPLY}</td>
+                        <td>{self.symbolSt}{data.coinlistinfos[self.typeId].TOTALVOLUME24H}</td>
+                        <td className="t--green">{self.symbolSt}{data.coinlistinfos[self.typeId].VOLUME24HOUR}</td>
+                        <td className="t--red">{self.symbolSt}{data.coinlistinfos[self.typeId].CHANGE24HOUR}</td>
                     </tr>);
                 }
                 return (<tr key={index}>
-                    <td className="headcol" colSpan="8"> Loading </td>
+                    <td className={styles.loadingClass+" headcol"} colSpan="8">Loading...</td>
                 </tr>);
             });
         }
@@ -84,7 +101,10 @@ class Home extends Component {
                                 </select>
                             </div>
                             <div className="cell small-5 medium-shrink">
-                                <p className="t--right"><strong>Total Market Cap:</strong> $148,862,390,050</p>
+                                <p className="t--right"><strong>Total Market Cap:</strong> 
+                                {/* $148,862,390,050 */}
+                               {this.state.symbolSt+ " "+ marketCap}
+                                </p>
                             </div>
                             <div className="cell">
                                 <div className="table-wrap l-table">

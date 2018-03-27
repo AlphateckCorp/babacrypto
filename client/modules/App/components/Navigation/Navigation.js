@@ -20,13 +20,12 @@ class Navigation extends Component {
                     </div>
                     <div className="collapse navbar-collapse" id="myNavbar">
                         <ul className={[styles.nav + " " + styles.navbarNav]}>
-                            {/* <li className={[styles.floatLeft + " " + styles.navLi]}>
-                                <Link className={styles.navbarLiA + " " + styles.navLiA} to="/">Home</Link>
-                            </li> */}
                             <li className={[styles.floatLeft + " " + styles.navLi]}>
-                                <Link className={styles.navbarLiA + " " + styles.navLiA} to="/chart">Chart</Link>
+                                <Link className={styles.navbarLiA + " " + styles.navLiA} to="/">COINS</Link>
+                            </li>                         
+                            <li className={[styles.floatLeft + " " + styles.navLi]}>
+                                <Link className={styles.navbarLiA + " " + styles.navLiA} to="/exchange">Exchanges</Link>
                             </li>
-                            {/* <li className={[styles.floatLeft + " " + styles.navLi]}><a className={styles.navbarLiA + " " + styles.navLiA} href="#">Page 3</a></li> */}
                         </ul>
                     </div>
                 </div>

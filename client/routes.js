@@ -48,7 +48,23 @@ export default (
       }}
     />
     <Route
+      path="/exchanges"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/App/Exchange/Exchange').default);
+        });
+      }}
+    />
+    <Route
       path="/chart"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/App/ChartPage/ChartPage').default);
+        });
+      }}
+    />
+     <Route
+      path="/chart/:coin"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/App/ChartPage/ChartPage').default);

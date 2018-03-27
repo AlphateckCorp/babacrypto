@@ -7,9 +7,19 @@ class InfoSection extends Component {
                 <div className="grid-container">
                     <div className="grid-y align-center">
                         <div className="c-promo l-promo">
-                            <h1 className="heading heading--1">Top 10 casinos</h1>
-                            <h2 className="heading heading--2 t--dark-blue">Take your pick for august 2017</h2>
-                            <p className="t--white c-promo__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione id soluta atque necessitatibus natus cupiditate, veniam molestiae, architecto maiores asperiores eveniet, in, quia accusantium! Quos sint tempora, pariatur blanditiis repudiandae iusto. Possimus adipisci aperiam reiciendis, repellendus perspiciatis minus autem corporis?</p>
+                            <h1 className="heading heading--1">All cryptocurrencies list at babacrypto.com</h1>
+                            <h2 className="heading heading--2 t--dark-blue">Find the next best digital coin!</h2>
+                            <p className="t--white c-promo__text">
+                                Welcome to babacrypto.com! World's leading site for CryptoCurrency Analysis.
+    Our goal is to provide CryptoCurrency enthusiasts with the best set of tools to make the right investing decisions. Below you'll find a detailed list which shows all the digital coins in the world, use
+    the statistics to learn about each coin's behavior and invest wisely based on facts rather than on "gut
+    currency!
+    feeling"!
+                            </p>
+                            <p className="t--white c-promo__text" >
+                            babacrypto.com list all the CryptoCurrency coins, get insights about
+CryptoCurrency market cap, price, trade volume and chose the best digital currency!
+                            </p>
                         </div>
                     </div>
                 </div>

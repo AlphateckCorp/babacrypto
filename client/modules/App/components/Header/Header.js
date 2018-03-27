@@ -8,7 +8,7 @@ export function Header() {
 
   return (
     <div>
-      <header className="c-header l-header">
+      {/* <header className="c-header l-header">
         <div className="grid-container">
           <div className="grid-x align-center">
             <div className="cell shrink">
@@ -23,7 +23,7 @@ export function Header() {
             </div>
           </div>
         </div>
-      </header>
+      </header> */}
       <Navigation />
     </div>
 

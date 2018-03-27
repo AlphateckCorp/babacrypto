@@ -1,7 +1,7 @@
 export default {
   locale: 'en',
   messages: {
-    siteTitle: 'MERN Starter Blog',
+    siteTitle: 'List of all CryptoCurrencies at babacrypto.com - [2018]',
     addPost: 'Add Post',
     switchLanguage: 'Switch Language',
     twitterMessage: 'We are on Twitter',
