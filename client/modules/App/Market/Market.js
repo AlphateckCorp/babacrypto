@@ -194,15 +194,8 @@ class Market extends Component {
                                         </thead>
                                         <tbody>
                                             {(exchangeMarketlist) ? (exchangeMarketlist != "error") ? exchangeMarketlist : <tr><td colSpan={6} style={{ textAlign: "center" }}>Record Not Found</td></tr> :
-                                                <tr>
-                                                    <td colSpan={6}>
-                                                        <div className='sweet-loading' style={{ textAlign: "center" }}>
-                                                            <SyncLoader
-                                                                color={'#000'}
-                                                                size={12}
-                                                                loading={this.state.loading}
-                                                            />
-                                                        </div> </td>
+                                                <tr >
+                                                    <td className="loadingClass headcol" colSpan="6">Loading...</td>
                                                 </tr>
                                             }
                                         </tbody>
