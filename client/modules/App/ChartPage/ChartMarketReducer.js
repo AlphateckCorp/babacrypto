@@ -1,19 +1,18 @@
 import { 
     // ADD_POST, 
-    ADD_COINSLIST
+    ADD_EXCHANGELIST
 } from './ChartPageAction';
 
 // Initial State
-const initialState = { data: [] };
+const initialState = { exchange:[] };
 
-const ChartPageReducer = (state = initialState, action) => {
+const ChartMarketReducer = (state = initialState, action) => {
   switch (action.type) {
     
-    case ADD_COINSLIST :
+      case ADD_EXCHANGELIST :
       return {
-        data: action.coins,
+        exchange: action.exchange,
       };
-    
 
     default:
       return state;
@@ -23,10 +22,10 @@ const ChartPageReducer = (state = initialState, action) => {
 /* Selectors */
 
 // Get all posts
-export const getCoinsList = state => state.Chartlist.data;
+export const getExchangeList = state => state.ChartMarket.exchange;
 
 // Get post by cuid
 // export const getPost = (state, cuid) => state.posts.data.filter(post => post.cuid === cuid)[0];
 
 // Export Reducer
-export default ChartPageReducer;
+export default ChartMarketReducer;

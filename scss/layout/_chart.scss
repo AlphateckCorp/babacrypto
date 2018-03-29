@@ -1,0 +1,55 @@
+.selectStyle{
+    padding: 8px 15px;
+    font-weight: 600;
+    border-radius: 6PX;
+    cursor:pointer;
+}
+.coinName{
+    padding-left:25px!important;
+    vertical-align:middle;
+}
+.loadingClass{
+    text-align: center;
+    font-weight: 700;
+    font-family: monospace;
+}
+.mainCoinshow{
+    background-color: #fff;
+    padding: 25px;
+    border: 2px solid #ccc;
+    margin-top: 15px;
+    border-radius: 6px;
+    // box-shadow: 3px 4px #888;
+}
+
+.column {
+    float: left;
+    width: 33.33%;
+    @include bp(tablet) {
+        width: auto;
+        float:none;
+	};
+}
+.makeBold{
+    font-weight:600;
+}
+.makeHeading{
+    font-weight:600;
+    font-size: 20px;
+}
+.smallHeading{
+    font-size:12px;
+}
+.primarybtn{
+    background-color: cornflowerblue;
+    border: none;
+    color: white;
+    padding: 5px 21px;
+    text-align: center;
+    text-decoration: none; 
+    display: inline-block; 
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+}

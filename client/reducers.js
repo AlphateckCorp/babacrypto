@@ -8,8 +8,10 @@ import app from './modules/App/AppReducer';
 import posts from './modules/Post/PostReducer';
 import intl from './modules/Intl/IntlReducer';
 import CoinList from './modules/App/Home/HomeReducer';
-import ExchangeList from './modules/App/Exchange/ExchangeReducer';
+import ExchangeList from './modules/App/Exchanges/ExchangesReducer';
 import Chartlist from './modules/App/ChartPage/ChartPageReducer';
+import ChartMarket from './modules/App/ChartPage/ChartMarketReducer';
+import Market from './modules/App/Market/MarketReducer';
 
 // Combine all reducers into one root reducer
 export default combineReducers({
@@ -19,4 +21,6 @@ export default combineReducers({
   CoinList,
   ExchangeList,
   Chartlist,
+  ChartMarket,
+  Market,
 });

@@ -35,7 +35,7 @@ export class App extends Component {
         <div>
           <Helmet
             title="List of all CryptoCurrencies at babacrypto.com - [2018]"
-            titleTemplate="%s - Blog App"
+            titleTemplate=""
             meta={[
               { charset: 'utf-8' },
               {

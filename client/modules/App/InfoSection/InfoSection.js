@@ -16,10 +16,6 @@ class InfoSection extends Component {
     currency!
     feeling"!
                             </p>
-                            <p className="t--white c-promo__text" >
-                            babacrypto.com list all the CryptoCurrency coins, get insights about
-CryptoCurrency market cap, price, trade volume and chose the best digital currency!
-                            </p>
                         </div>
                     </div>
                 </div>

@@ -51,26 +51,35 @@ export default (
       path="/exchanges"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
-          cb(null, require('./modules/App/Exchange/Exchange').default);
+          cb(null, require('./modules/App/Exchanges/Exchanges').default);
         });
       }}
     />
     <Route
+     path="/exchanges/:market"
+     getComponent={(nextState, cb) => {
+       require.ensure([], require => {
+         cb(null, require('./modules/App/Market/Market').default);
+       });
+     }}
+   />
+    {/* <Route
       path="/chart"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/App/ChartPage/ChartPage').default);
         });
       }}
-    />
+    /> */}
      <Route
-      path="/chart/:coin"
+      path="/coins/:coin"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/App/ChartPage/ChartPage').default);
         });
       }}
     />
+    
     {/* <IndexRoute
     getComponent={(nextState, cb) => {
       require.ensure([], require => {

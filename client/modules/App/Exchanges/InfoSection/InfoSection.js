@@ -16,9 +16,6 @@ list you'll find its supported coins (currencies which are available on its plat
 volume in the last 24 hours, which can help you understand the popularity of each exchange. For
 more info or to start trading, use the VISIT button and you'll be directed to your desired exchange.
                             </p>
-                            <p className="t--white c-promo__text">List of all Cryptocurrency Exchanges | Crypto exchanges supported coins
-and volume amount, Find the best CryptoCurrency trading platforms! -
-[2018]                            </p>
                         </div>
                     </div>
                 </div>

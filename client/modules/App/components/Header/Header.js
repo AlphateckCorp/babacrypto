@@ -8,23 +8,18 @@ export function Header() {
 
   return (
     <div>
-      {/* <header className="c-header l-header">
+      <header className="c-header l-header">
         <div className="grid-container">
-          <div className="grid-x align-center">
-            <div className="cell shrink">
-              <div className="c-logotype">
-                <Link to="/">
-                  <div className="c-logotype__text">
-                    <span className="t--blue">baba</span><span>crypto</span><span className="c-logotype__small">.com</span>
-
-                  </div>
-                </Link>
+          <div className="grid-x">
+            <div className="cell">
+              <div className="">
+              <Navigation />
               </div>
             </div>
           </div>
         </div>
-      </header> */}
-      <Navigation />
+      </header>
+      
     </div>
 
   );

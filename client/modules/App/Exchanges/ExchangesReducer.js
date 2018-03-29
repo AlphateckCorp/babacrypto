@@ -2,7 +2,7 @@ import {
     // ADD_POST, 
     ADD_EXCHANGE
     // DELETE_POST 
-} from './ExchangeAction';
+} from './ExchangesAction';
 
 // Initial State
 const initialState = { data: [] };

@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import InfoSection from '../InfoSection/InfoSection';
 import { FetchCoinsRequest } from './HomeAction';
 import { getCoins } from './HomeReducer';
-import styles from './Home.css';
+import DocumentMeta from 'react-document-meta';
+import numeral from 'numeral';
 
 class Home extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class Home extends Component {
             coinContent: [],
             coinContentList: [],
             datahandle: '',
-            symbolSt:'$',
+            symbolSt: '$',
             typeId: 0
         }
     }
@@ -25,6 +26,8 @@ class Home extends Component {
         this.props.dispatch(FetchCoinsRequest());
     };
     componentDidMount = (props) => {
+        // document.title = "List of all CryptoCurrencies at babacrypto.com - [2018]";
+        // document.head.querySelector('meta[name=description]').content = 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!';
         this.interval = setInterval(this.tick, 10000);
     };
     componentWillUnmount = (props) => {
@@ -53,57 +56,68 @@ class Home extends Component {
         this.setState(this.state);
     }
     render() {
+        const meta = {
+            title: 'List of all CryptoCurrencies at babacrypto.com - [2018]',
+            description: 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!',
+            meta: {
+              charset: 'utf-8',
+              name: {
+                keywords: 'Digital Currency, react'
+              }
+            }
+          };
         var coinContentList = [];
         var coinContent = '';
         var marketCap = 0;
         var self = this.state;
-        if (this.props.getCoinsList.length>0) {
+        if (this.props.getCoinsList.length > 0) {
             var dataList = this.props.getCoinsList;
-            
+
             var coinContent = dataList.map(function (data, index) {
                 if ((data.coinlistinfos).length > 0) {
                     marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+
                     return (<tr key={index}>
                         <td className="headcol" style={{ width: "50px" }}>
                             <img src={"https://cryptocompare.com" + data.ImageUrl} width="30" />
                         </td>
-                        <td className={styles.coinName + " headcol2 t--blue"}>
-                            <Link to={"/chart/"+data.Symbol}>
-                            {data.CoinName} <br />
-                            <span className="t--green">{data.Symbol} </span>
+                        <td className="coinName headcol2 t--blue">
+                            <Link to={"/coins/" + data.Symbol}>
+                                {data.CoinName} <br />
+                                <span className="t--green">{data.Symbol} </span>
                             </Link>
                         </td>
-                        <td>{self.symbolSt}{data.coinlistinfos[self.typeId].MKTCAP}</td>
-                        <td>{self.symbolSt}{data.coinlistinfos[self.typeId].PRICE}</td>
-                        <td>{self.symbolSt}{data.coinlistinfos[self.typeId].SUPPLY}</td>
-                        <td>{self.symbolSt}{data.coinlistinfos[self.typeId].TOTALVOLUME24H}</td>
-                        <td className="t--green">{self.symbolSt}{data.coinlistinfos[self.typeId].VOLUME24HOUR}</td>
-                        <td className="t--red">{self.symbolSt}{data.coinlistinfos[self.typeId].CHANGE24HOUR}</td>
+                        <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000')}</td>
+                        <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].PRICE).format('0,0.00')}</td>
+                        <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000')}</td>
+                        <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000')}</td>
+                        <td className="t--green">{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000')}</td>
+                        <td className="t--red">{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
                     </tr>);
                 }
                 return (<tr key={index}>
-                    <td className={styles.loadingClass+" headcol"} colSpan="8">Loading...</td>
+                    <td className="loadingClass headcol" colSpan="8">Loading...</td>
                 </tr>);
             });
         }
 
         return (
-            <div>
+            <DocumentMeta {...meta}>
                 <InfoSection />
                 <main className="main">
                     <div className="grid-container">
                         <div className="grid-x align-justify">
                             <div className="cell shrink">
-                                <select id="" onChange={this.onchange} className={styles.selectStyle + " styler"}>
+                                <select id="" onChange={this.onchange} className="selectStyle styler">
                                     <option className="abc" value="USD">USD</option>
                                     <option className="abc" value="EUR">EUR</option>
                                     <option className="abc" value="ETH">ETH</option>
                                 </select>
                             </div>
                             <div className="cell small-5 medium-shrink">
-                                <p className="t--right"><strong>Total Market Cap:</strong> 
-                                {/* $148,862,390,050 */}
-                               {this.state.symbolSt+ " "+ marketCap}
+                                <p className="t--right"><strong>Total Market Cap:</strong>
+                                    {/* $148,862,390,050 */}
+                                    {this.state.symbolSt + " " + (numeral(marketCap).format('0,0.000'))}
                                 </p>
                             </div>
                             <div className="cell">
@@ -112,7 +126,7 @@ class Home extends Component {
                                         <thead>
                                             <tr>
                                                 <th className="headcol">#</th>
-                                                <th className={styles.coinName + " headcol2"}>Coin</th>
+                                                <th className="coinName headcol2">Coin</th>
 
                                                 <th className="market-cap-col">Market Cap</th>
                                                 <th>Price</th>
@@ -123,7 +137,7 @@ class Home extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {(coinContent!='')? coinContent : <tr><td className={styles.loadingClass+" headcol"} colSpan="8">Loading...</td></tr>}
+                                            {(coinContent != '') ? coinContent : <tr><td className="loadingClass headcol" colSpan="8">Loading...</td></tr>}
                                         </tbody>
                                     </table>
                                 </div>
@@ -131,15 +145,12 @@ class Home extends Component {
                         </div>
                     </div>
                 </main>
-            </div>
+            </DocumentMeta>
         );
     }
 }
 
 
-
-
-// export default Home;
 function mapStateToProps(state) {
     return {
         getCoinsList: getCoins(state)
