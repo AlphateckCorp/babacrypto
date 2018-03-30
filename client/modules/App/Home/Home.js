@@ -92,7 +92,7 @@ class Home extends Component {
                         <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000')}</td>
                         <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000')}</td>
                         <td className="t--green">{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000')}</td>
-                        <td className="t--red">{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
+                        <td className={(data.coinlistinfos[self.typeId].CHANGE24HOUR>0)? "t--green" : "t--red"}>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
                     </tr>);
                 }
                 return (<tr key={index}>
@@ -115,9 +115,8 @@ class Home extends Component {
                                 </select>
                             </div>
                             <div className="cell small-5 medium-shrink">
-                                <p className="t--right"><strong>Total Market Cap:</strong>
-                                    {/* $148,862,390,050 */}
-                                    {this.state.symbolSt + " " + (numeral(marketCap).format('0,0.000'))}
+                                <p className="t--right"><strong>Total Market Cap: </strong>
+                                    {this.state.symbolSt + (numeral(marketCap).format('0,0.000'))}
                                 </p>
                             </div>
                             <div className="cell">

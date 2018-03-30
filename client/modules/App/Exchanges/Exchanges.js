@@ -43,22 +43,22 @@ class Exchange extends Component {
             }
             rowEle.push(
                 <tr key={`market-${market}`}>
-                    <td className="coinName headcol2 t--blue">
+                    <td className="coinName headcol t--blue">
                         <span>{market} </span>
                     </td>
                     {(length != '') ?
-                        <td className="headcol2 t--blue">
+                        <td className="t--blue">
                             <span className="t--black">
                                 {((Array.from(new Set(finalData[market]))).splice(2, 6)).join(', ')}
                             </span>
                             <span className="t--blue"> +{length} </span>
                         </td>
                         :
-                        <td className=" headcol2 t--blue">
+                        <td className="t--blue">
                             <span className="t--black">{finalData[market].join(', ')} </span>
                         </td>
                     }
-                    <td className=" headcol2 t--blue">
+                    <td className="t--blue">
                         <Link to={"/exchanges/" + market}><button className="primarybtn"> Visit </button></Link>
                     </td>
 
@@ -119,7 +119,7 @@ class Exchange extends Component {
                                     <table className="table responsive js-table">
                                         <thead>
                                             <tr>
-                                                <th className="coinName headcol2">Exchange</th>
+                                                <th className="headcol2">Exchange</th>
                                                 <th className="market-cap-col">Coins</th>
                                                 <th className="market-cap-col">Visit</th>
                                             </tr>

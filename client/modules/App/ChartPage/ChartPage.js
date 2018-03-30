@@ -87,7 +87,7 @@ class ChartPage extends Component {
                             </div>
                     <div className="medium-12">
                         <div className="medium-12" style={{ fontSize: "28px", color: "#767B7F" }}>
-                            {self.symbolSt} {numeral(data.PRICE).format('0,0')}  <span style={{ fontSize: "16px", color: "#5BB85D" }}> {numeral(data.CHANGEPCT24HOUR).format('0,0.00')} %</span>
+                            {self.symbolSt} {numeral(data.PRICE).format('0,0')}  <span className={(data.CHANGEPCT24HOUR>0)? "t--green" : "t--red"} style={{ fontSize: "16px", color: "#5BB85D" }}> {numeral(data.CHANGEPCT24HOUR).format('0,0.00')} %</span>
                         </div>
                         <div className="medium-12" style={{ fontSize: "14px", fontWeight: "600" }}>
                             Open: <span style={{ color: "#7F8386" }}> {self.symbolSt} {numeral(data.OPENDAY).format('0,0')}  </span>

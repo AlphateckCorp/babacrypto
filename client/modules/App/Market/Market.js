@@ -20,8 +20,8 @@ class Market extends Component {
         var MarketName = this.props.params.market;
         this.props.dispatch(FetchMarketRequest(MarketName));
     }
-    componentDidMount(props){
-        document.title = this.props.params.market +" Markets";
+    componentDidMount(props) {
+        document.title = this.props.params.market + " Markets";
     }
 
     onchange = (e) => {
@@ -55,16 +55,16 @@ class Market extends Component {
         this.state.symbolName = symbolName;
         this.setState(this.state);
     }
-    
+
     coinNameCall = (exchangecoin) => {
         var exName = this.props.params.market;
         var excoins = exchangecoin;
         var length = '';
-            if(excoins.length>6){
-                length = excoins.length-6;
-            }else{
-                length = '';
-            }
+        if (excoins.length > 6) {
+            length = excoins.length - 6;
+        } else {
+            length = '';
+        }
         var self = this.state;
         return (<div className="grid-x mainCoinshow" >
             <div className="medium-4 small-12">
@@ -85,12 +85,12 @@ class Market extends Component {
                     <div className="medium-12" style={{ fontSize: "28px", color: "#767B7F" }}>
 
 
-                    {(length != '') ? 
-                    <span className="t--black" style={{ fontSize: "20px", fontWeight: "600" }}> {((Array.from(new Set(excoins))).splice(0, 6)).join(', ')} 
-                      <span className="t--blue" style={{ fontSize: "20px", fontWeight: "600" }}> +{length} </span>
-                     </span>
-                     : excoins.join(', ')}
-                        
+                        {(length != '') ?
+                            <span className="t--black" style={{ fontSize: "20px", fontWeight: "600" }}> {((Array.from(new Set(excoins))).splice(0, 6)).join(', ')}
+                                <span className="t--blue" style={{ fontSize: "20px", fontWeight: "600" }}> +{length} </span>
+                            </span>
+                            : excoins.join(', ')}
+
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@ class Market extends Component {
                     var boundedPrecision = 8;
                     var value = data.PRICE;
                     var CHANGE24HOUR = data.CHANGE24HOUR;
-                    
+
                     var power = Math.pow(10, 8);
                     function roundingFunction(x) {
                         return Number.parseFloat(x).toFixed(8);
@@ -139,10 +139,10 @@ class Market extends Component {
                         <td>{self.symbolSt}
                             {(numeral(data.PRICE).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(data.PRICE).format('0,0.00000000')}
                         </td>
-                        <td className="t--green"> {numeral(data.CHANGEPCT24HOUR).format('0,0.000')} %</td>
-                        <td className="t--red">{self.symbolSt}
-                        {/* {numeral(data.CHANGE24HOUR).format('0,0.000')} */}
-                        {(numeral(data.CHANGE24HOUR).format('0,0[.]00000000') == 'NaN') ? change24hours : numeral(data.CHANGEPCT24HOUR).format('0,0.00000000')}
+                        <td className={(data.CHANGE24HOUR > 0) ? "t--green" : "t--red"}> {numeral(data.CHANGEPCT24HOUR).format('0,0.000')} %</td>
+                        <td className={(data.CHANGE24HOUR > 0) ? "t--green" : "t--red"}>{self.symbolSt}
+                            {/* {numeral(data.CHANGE24HOUR).format('0,0.000')} */}
+                            {(numeral(data.CHANGE24HOUR).format('0,0[.]00000000') == 'NaN') ? change24hours : numeral(data.CHANGEPCT24HOUR).format('0,0.00000000')}
                         </td>
                         <td>{self.symbolSt}{numeral(data.VOLUME24HOURTO).format('0,0.000')}</td>
                     </tr>);
@@ -157,7 +157,7 @@ class Market extends Component {
             <div>
                 <main className="main">
                     <div className="grid-container" style={{ paddingBottom: "35px" }}>
-                     
+
                         {(coinSymbolList.length > 0) ? this.coinNameCall(coinSymbolList) :
                             <div className='sweet-loading' style={{ textAlign: "center" }}>
                                 <SyncLoader
@@ -172,7 +172,7 @@ class Market extends Component {
 
                     <div className="grid-container">
                         <div className="grid-x align-justify">
-                            <span style={{ padding: "35px 0 0 0 " }}>{this.props.params.market} Markets  </span>
+                            <span style={{ padding: "35px 0 15px 0", fontWeight: "600", fontSize: "20px" }}>{this.props.params.market} Markets  </span>
                             <div className="cell">
                                 <div className="cell shrink">
                                     <select id="" onChange={this.onchange} className="selectStyle styler">
