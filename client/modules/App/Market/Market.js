@@ -72,7 +72,7 @@ class Market extends Component {
                     Exchange Name
                             </div>
                 <div className="medium-12">
-                    <div className="medium-12" style={{ fontSize: "28px", color: "#767B7F" }}>
+                    <div className="medium-12" style={{ fontSize: "20px", color: "#767B7F" }}>
                         {exName}
                     </div>
                 </div>
@@ -82,12 +82,12 @@ class Market extends Component {
                     Supported Coins
                             </div>
                 <div className="medium-12">
-                    <div className="medium-12" style={{ fontSize: "28px", color: "#767B7F" }}>
+                    <div className="medium-12" style={{ fontSize: "18px", color: "#767B7F" }}>
 
 
                         {(length != '') ?
-                            <span className="t--black" style={{ fontSize: "20px", fontWeight: "600" }}> {((Array.from(new Set(excoins))).splice(0, 6)).join(', ')}
-                                <span className="t--blue" style={{ fontSize: "20px", fontWeight: "600" }}> +{length} </span>
+                            <span className="t--black" style={{ fontSize: "16px", fontWeight: "600" }}> {((Array.from(new Set(excoins))).splice(0, 6)).join(', ')}
+                                <span className="t--blue" style={{ fontSize: "16px", fontWeight: "600" }}> +{length} </span>
                             </span>
                             : excoins.join(', ')}
 
@@ -172,7 +172,7 @@ class Market extends Component {
 
                     <div className="grid-container">
                         <div className="grid-x align-justify">
-                            <span style={{ padding: "35px 0 15px 0", fontWeight: "600", fontSize: "20px" }}>{this.props.params.market} Markets  </span>
+                            <span className="allTableHeading">{this.props.params.market} Markets  </span>
                             <div className="cell">
                                 <div className="cell shrink">
                                     <select id="" onChange={this.onchange} className="selectStyle styler">

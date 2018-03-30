@@ -53,3 +53,25 @@
     text-transform: uppercase;
     cursor: pointer;
 }
+
+.chartHeading{
+    font-size: 28px;
+    color: rgb(118, 123, 127);
+    @include bp(tabletMax) {
+        font-size: 20px;
+        color: rgb(118, 123, 127);
+    };
+}
+.chartSubHeading{
+    font-size: 14px;
+    font-weight: 600;
+    @include bp(tabletMax) {
+        font-size: 13px;
+        font-weight: 600;
+    };
+}
+.allTableHeading{
+    padding: 35px 0px 15px;
+    font-weight: 600;
+    font-size: 20px;
+}

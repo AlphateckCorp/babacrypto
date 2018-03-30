@@ -34,8 +34,6 @@ class Navigation extends Component {
         <nav id="menu">
             <ul id="menu-closed">
                 <li>
-                    {/* <a href="#">Start</a> */}
-                    {/* style={{fontSize:"15px", paddingRight:"40px"}} */}
                     <Link className="navbrand"  to="/">
                            <span className="t--blue">baba</span><span>crypto</span><span className="">.com</span>
                     </Link>
@@ -46,7 +44,7 @@ class Navigation extends Component {
                         </li>
                 <li> <Link className="" to="/exchanges">Exchanges</Link></li>
                 <li><a href="#menu-closed">&#215; </a></li>
-                <li><a href="#menu">&#9776; MENU</a></li>
+                <li><a href="#menu">&#9776;</a></li>
             </ul>
         </nav>
 

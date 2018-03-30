@@ -87,12 +87,12 @@ class Home extends Component {
                                 <span className="t--green">{data.Symbol} </span>
                             </Link>
                         </td>
-                        <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000')}</td>
-                        <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].PRICE).format('0,0.00')}</td>
-                        <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000')}</td>
-                        <td>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000')}</td>
-                        <td className="t--green">{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000')}</td>
-                        <td className={(data.coinlistinfos[self.typeId].CHANGE24HOUR>0)? "t--green" : "t--red"}>{self.symbolSt} {numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].PRICE).format('0,0.00')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000')}</td>
+                        <td className="t--green">{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000')}</td>
+                        <td className={(data.coinlistinfos[self.typeId].CHANGE24HOUR>0)? "t--green" : "t--red"}>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
                     </tr>);
                 }
                 return (<tr key={index}>

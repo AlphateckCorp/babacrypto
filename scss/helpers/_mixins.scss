@@ -22,6 +22,11 @@
 			@content;
 		}
 	}
+	@if $screen == "tabletMax" {
+		@media screen and (max-width: 1023px) {
+			@content;
+		}
+	}
 	@if $screen == "laptop" {
 		@media screen and (min-width: 1024px) {
 			@content;

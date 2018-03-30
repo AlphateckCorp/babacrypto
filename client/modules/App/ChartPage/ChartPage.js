@@ -86,17 +86,17 @@ class ChartPage extends Component {
                         Price
                             </div>
                     <div className="medium-12">
-                        <div className="medium-12" style={{ fontSize: "28px", color: "#767B7F" }}>
-                            {self.symbolSt} {numeral(data.PRICE).format('0,0')}  <span className={(data.CHANGEPCT24HOUR>0)? "t--green" : "t--red"} style={{ fontSize: "16px", color: "#5BB85D" }}> {numeral(data.CHANGEPCT24HOUR).format('0,0.00')} %</span>
+                        <div className="medium-12 chartHeading">
+                            {self.symbolSt}{numeral(data.PRICE).format('0,0')}  <span className={(data.CHANGEPCT24HOUR>0)? "t--green" : "t--red"} style={{ fontSize: "16px", color: "#5BB85D" }}> {numeral(data.CHANGEPCT24HOUR).format('0,0.00')} %</span>
                         </div>
-                        <div className="medium-12" style={{ fontSize: "14px", fontWeight: "600" }}>
-                            Open: <span style={{ color: "#7F8386" }}> {self.symbolSt} {numeral(data.OPENDAY).format('0,0')}  </span>
+                        <div className="medium-12 chartSubHeading">
+                            Open: <span style={{ color: "#7F8386" }}> {self.symbolSt}{numeral(data.OPENDAY).format('0,0')}  </span>
                         </div>
-                        <div className="medium-12" style={{ fontSize: "14px", fontWeight: "600" }}>
-                            High: <span style={{ color: "#7F8386" }}> {self.symbolSt} {numeral(data.HIGHDAY).format('0,0')}   </span>
+                        <div className="medium-12 chartSubHeading">
+                            High: <span style={{ color: "#7F8386" }}> {self.symbolSt}{numeral(data.HIGHDAY).format('0,0')}   </span>
                         </div>
-                        <div className="medium-12" style={{ fontSize: "14px", fontWeight: "600" }}>
-                            Low: <span style={{ color: "#7F8386" }}> {self.symbolSt} {numeral(data.LOWDAY).format('0,0')}  </span>
+                        <div className="medium-12 chartSubHeading">
+                            Low: <span style={{ color: "#7F8386" }}> {self.symbolSt}{numeral(data.LOWDAY).format('0,0')}  </span>
                         </div>
                     </div>
                 </div>
@@ -105,11 +105,11 @@ class ChartPage extends Component {
                         Market Cap
                             </div>
                     <div className="medium-12">
-                        <div className="medium-12" style={{ fontSize: "28px", color: "#767B7F" }}>
-                            {self.symbolSt} {numeral(data.MKTCAP).format('0,0.000')}
+                        <div className="medium-12 chartHeading" >
+                            {self.symbolSt}{numeral(data.MKTCAP).format('0,0.000')}
                         </div>
-                        <div className="medium-12" style={{ fontSize: "14px", fontWeight: "600" }}>
-                            24H Trade Volume: <span style={{ color: "#7F8386" }}> {self.symbolSt} {numeral(data.TOTALVOLUME24H).format('0,0.000')}</span>
+                        <div className="medium-12 chartSubHeading">
+                            24H Trade Volume: <span style={{ color: "#7F8386" }}> {self.symbolSt}{numeral(data.TOTALVOLUME24H).format('0,0.000')}</span>
                         </div>
                     </div>
                 </div>
@@ -118,11 +118,11 @@ class ChartPage extends Component {
                         Available Supply
                             </div>
                     <div className="medium-12">
-                        <div className="medium-12" style={{ fontSize: "28px", color: "#767B7F" }}>
+                        <div className="medium-12 chartHeading">
                             {self.symbolSt}{numeral(data.SUPPLY).format('0,0')}
                         </div>
-                        <div className="medium-12" style={{ fontSize: "14px", fontWeight: "600" }}>
-                            Max Supply: <span style={{ color: "#7F8386" }}> {self.symbolSt} {numeral(totalCoinSupply).format('0,0.000')}</span>
+                        <div className="medium-12 chartSubHeading">
+                            Max Supply: <span style={{ color: "#7F8386" }}> {self.symbolSt}{numeral(totalCoinSupply).format('0,0.000')}</span>
                         </div>
                     </div>
                 </div>
@@ -213,7 +213,7 @@ class ChartPage extends Component {
 
                     <div className="grid-container">
                         <div className="grid-x align-justify">
-                            <span style={{ padding: "35px 0 0 0 " }}>{coinlist.CoinName} Markets  </span>
+                            <span className="allTableHeading">{coinlist.CoinName} Markets  </span>
                             <div className="cell">
                                 <div className="table-wrap l-table">
 
