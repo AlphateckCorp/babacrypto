@@ -119,7 +119,7 @@ class Exchange extends Component {
                                     <table className="table responsive js-table">
                                         <thead>
                                             <tr>
-                                                <th className="headcol2">Exchange</th>
+                                                <th className="headcol2" style={{padding:"6px"}}>Exchange</th>
                                                 <th className="market-cap-col">Coins</th>
                                                 <th className="market-cap-col">Visit</th>
                                             </tr>
