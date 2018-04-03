@@ -59,9 +59,9 @@ strong { font-weight: 600; }
     @include bp(tablet) {
         font-size: 25px;
     };
-    // @include bp(laptop) {
-    //     font-size: 30px;
-    // };
+    @include bp(laptop) {
+         font-size: 30px;
+    };
    
 }
 .heading--2 {
