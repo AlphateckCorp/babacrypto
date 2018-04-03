@@ -52,16 +52,16 @@ strong { font-weight: 600; }
 }
 
 .heading--1 {
-    font-size: 40px;
+    font-size: 30px;
     @include bp(mobile) {
-        font-size: 28px;
+        font-size: 20px;
     };
     @include bp(tablet) {
-        font-size: 45px;
+        font-size: 25px;
     };
-    @include bp(laptop) {
-        font-size: 55px;
-    };
+    // @include bp(laptop) {
+    //     font-size: 30px;
+    // };
    
 }
 .heading--2 {

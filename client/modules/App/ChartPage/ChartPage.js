@@ -80,9 +80,9 @@ class ChartPage extends Component {
         });
 
         var coindata = coinlistDtl.map((data, index) => {
-            return (<div key={index} className="grid-x mainCoinshow" >
+            return (<div key={index} className="grid-x mainCoinshow">
                 <div className="medium-4 small-12">
-                    <div className="medium-12" style={{ fontSize: "24px" }}>
+                    <div className="medium-12 chartHeadSt">
                         Price
                             </div>
                     <div className="medium-12">
@@ -101,11 +101,11 @@ class ChartPage extends Component {
                     </div>
                 </div>
                 <div className="medium-4 small-12">
-                    <div className="medium-12" style={{ fontSize: "24px" }}>
+                    <div className="medium-12 chartHeadSt">
                         Market Cap
                             </div>
                     <div className="medium-12">
-                        <div className="medium-12 chartHeading" >
+                        <div className="medium-12 chartHeading">
                             {self.symbolSt}{numeral(data.MKTCAP).format('0,0.000')}
                         </div>
                         <div className="medium-12 chartSubHeading">
@@ -114,7 +114,7 @@ class ChartPage extends Component {
                     </div>
                 </div>
                 <div className="medium-4 small-12">
-                    <div className="medium-12" style={{ fontSize: "24px" }}>
+                    <div className="medium-12 chartHeadSt">
                         Available Supply
                             </div>
                     <div className="medium-12">

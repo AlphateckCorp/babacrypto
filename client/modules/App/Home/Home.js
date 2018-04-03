@@ -83,7 +83,7 @@ class Home extends Component {
                         </td>
                         <td className="coinName headcol2 t--blue">
                             <Link to={"/coins/" + data.Symbol}>
-                                {data.CoinName} <br />
+                                <span className="t--blue">{data.CoinName}</span> <br />
                                 <span className="t--green">{data.Symbol} </span>
                             </Link>
                         </td>

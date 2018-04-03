@@ -9,8 +9,8 @@ export function Header() {
   return (
     <div>
       <header className="c-header l-header">
-        <div className="grid-container">
-        {/* <div className=""> */}
+        {/* <div className="grid-container"> */}
+        <div className="">
           <div className="grid-x">
             <div className="cell">
               <div className="">

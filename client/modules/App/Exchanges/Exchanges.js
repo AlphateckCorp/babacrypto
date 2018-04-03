@@ -44,7 +44,7 @@ class Exchange extends Component {
             rowEle.push(
                 <tr key={`market-${market}`}>
                     <td className="coinName headcol t--blue">
-                        <span>{market} </span>
+                    <Link to={"/exchanges/" + market}><span className="t--blue">{market} </span></Link>
                     </td>
                     {(length != '') ?
                         <td className="t--blue">

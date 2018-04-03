@@ -13,8 +13,11 @@ table caption {
     padding: 0.5rem 0.625rem 0.625rem;
     font-weight: bold; }
 table thead {
-    background: #f8f8f8;
-    color: #0a0a0a; }
+    // background: #f8f8f8;
+    color: #0a0a0a; 
+    font-size:14px;
+    border-bottom: 2px solid #f0f0f0;
+}
 table tfoot {
     background: #f1f1f1;
     color: #0a0a0a; }
