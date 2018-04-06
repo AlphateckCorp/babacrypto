@@ -22,7 +22,7 @@ table tfoot {
     background: #f1f1f1;
     color: #0a0a0a; }
 table tr {
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
     &:first-child {
         th {
             vertical-align: middle;
@@ -69,7 +69,8 @@ table tbody th,
 table tbody td {
     padding: 1.1rem 0.625rem;
     font-size: 14px;
-    text-align: left; }
+    text-align: left;
+    vertical-align: middle; }
 
 table tbody tr:nth-child(even) {
     // border-bottom: 0;
@@ -121,3 +122,17 @@ table.unstriped tbody tr {
 
     .table-scroll table {
         width: auto; }
+    .bold_number{
+        font-weight: bold
+    }
+    .main{
+        @include bp(mobile) {
+         background: #fff
+        };
+    }
+    .main .grid-container{
+        @include bp(mobile) {
+         padding-left: 5px;
+         padding-right: 5px;
+        };
+    }

@@ -57,7 +57,7 @@ class Home extends Component {
     }
     render() {
         const meta = {
-            title: 'List of all CryptoCurrencies at babacrypto.com - [2018]',
+            title: 'List of all CryptoCurrencies at babacrypto.com 2018',
             description: 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!',
             meta: {
               charset: 'utf-8',
@@ -79,12 +79,11 @@ class Home extends Component {
 
                     return (<tr key={index}>
                         <td className="headcol" style={{ width: "50px" }}>
-                            <img src={"https://cryptocompare.com" + data.ImageUrl} width="30" />
+                           <span className="bold_number"> {1 + index} </span>
                         </td>
                         <td className="coinName headcol2 t--blue">
                             <Link to={"/coins/" + data.Symbol}>
-                                <span className="t--blue">{data.CoinName}</span> <br />
-                                <span className="t--green">{data.Symbol} </span>
+                                <span className="t--blue">{data.CoinName}</span>
                             </Link>
                         </td>
                         <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000')}</td>

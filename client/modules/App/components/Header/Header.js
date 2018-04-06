@@ -11,7 +11,7 @@ export function Header() {
       <header className="c-header l-header">
         {/* <div className="grid-container"> */}
         <div className="">
-          <div className="grid-x">
+          <div className="grid-container">
             <div className="cell">
               <div className="">
               <Navigation />

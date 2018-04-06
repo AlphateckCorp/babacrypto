@@ -66,13 +66,18 @@ class Market extends Component {
             length = '';
         }
         var self = this.state;
-        return (<div className="grid-x mainCoinshow" >
+        return (
+            <div>
+            <h1 className="top_pad_heading">{this.props.params.market} Review </h1>
+
+        <div className="grid-x mainCoinshow" >
+       
             <div className="medium-4 small-12">
                 <div className="medium-12" style={{ fontSize: "24px" }}>
                     Exchange Name
                             </div>
                 <div className="medium-12">
-                    <div className="medium-12" style={{ fontSize: "20px", color: "#767B7F" }}>
+                    <div className="medium-12" style={{ fontSize: "24px", color: "#767B7F" }}>
                         {exName}
                     </div>
                 </div>
@@ -86,7 +91,7 @@ class Market extends Component {
 
 
                         {(length != '') ?
-                            <span className="t--black" style={{ fontSize: "16px", fontWeight: "600" }}> {((Array.from(new Set(excoins))).splice(0, 6)).join(', ')}
+                            <span className="" style={{ fontSize: "16px", fontWeight: "600" }}> {((Array.from(new Set(excoins))).splice(0, 6)).join(', ')}
                                 <span className="t--blue" style={{ fontSize: "16px", fontWeight: "600" }}> +{length} </span>
                             </span>
                             : excoins.join(', ')}
@@ -94,6 +99,7 @@ class Market extends Component {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         );
     }
@@ -172,7 +178,7 @@ class Market extends Component {
 
                     <div className="grid-container">
                         <div className="grid-x align-justify">
-                            <span className="allTableHeading">{this.props.params.market} Markets  </span>
+                            <h2 className="allTableHeading">{this.props.params.market} Markets  </h2>
                             <div className="cell">
                                 <div className="cell shrink">
                                     <select id="" onChange={this.onchange} className="selectStyle styler">

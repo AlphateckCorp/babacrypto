@@ -70,7 +70,7 @@
 	position:absolute;
 	width:2em;
 	left:0;
-	margin-top: -1px;
+	margin-top: 3px;
 	border-bottom: 2px solid #f0f0f0;
 	@include bp(tablet) {
 		position: static;
@@ -82,7 +82,7 @@
 	position:absolute;
 	width: 8.4em;
 	left: 2em;
-	margin-top: -1px;
+	margin-top: 3px;
 	// border-right: 2px solid #f0f0f0;
 	border-bottom: 2px solid #f0f0f0;
 	white-space: nowrap;
