@@ -122,7 +122,7 @@ nav {
 	// background-color: rgb(19, 51, 61);
 	// box-shadow: 0 1px 2px rgba(19, 51, 61, 0.5);
 	// margin: 3em 0 6em;
-	padding: 0 1em;
+	
 	height: 44px; /* Menu height */
 	overflow: hidden; /* Don't show anything outside the nav */
 }
@@ -139,6 +139,18 @@ nav li {
 	display: inline-block;
 }
 
+nav ul li:first-child a{
+    padding-left: 0;
+    @include bp(mobile) {
+        padding: 0 3em
+    };
+    
+}
+
+nav ul li:first-child a:hover{
+    background: none
+}
+
 nav a {
 	display: inline-block;
 	padding: 0 1em;
@@ -151,6 +163,11 @@ nav a {
 	line-height: 44px; /* Menu height */
     height: 44px; /* Menu height */
     
+}
+.c-header .grid-container{
+    @include bp(mobile) {
+        padding: 0
+    };
 }
 .navbrand{
     font-size:18px;
@@ -178,6 +195,10 @@ nav li:last-child { /* The menu button */
     padding-right:  0px;
     font-size:17px;
 }
+nav li:last-child a {
+    font-size:30px;
+    padding: 0 10px;
+}
 
 nav li:nth-last-child(2) { /* The close button */
 	display: none;
@@ -198,7 +219,7 @@ nav#menu:target li {
 
 nav#menu:target a {
 	display: block;
-	padding: 0 2em;
+	
 	background-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -207,7 +228,7 @@ nav#menu:target a:hover {
 }
 
 nav#menu:target li:not(:first-child) {
-	margin-top: 2px;
+    border-bottom: 1px solid #424242;
 }
 
 nav#menu:target li:last-child {

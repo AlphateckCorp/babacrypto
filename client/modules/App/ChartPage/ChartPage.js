@@ -38,7 +38,7 @@ class ChartPage extends Component {
         if (this.props.exchangeCoinsList != "undefined" && this.props.exchangeCoinsList.length > 0) {
             var coinName = this.props.exchangeCoinsList[0].CoinName;
             var fsym = this.props.params.coin;
-            document.title = "[" + coinName + "] Charts [" + coinName + "] Markets ([" + fsym + "]/[USD])";
+            document.title =   coinName + " Charts | " + coinName + " Markets (" + fsym + "/USD)";
             // document.head.querySelector('meta[name=description]').content = 'New Description'
         //     var description = document.querySelector('meta[name="description"]');
         // description.setAttribute('content', "abc" ? "head.description" : '');  
@@ -87,7 +87,7 @@ class ChartPage extends Component {
                             </div>
                     <div className="medium-12">
                         <div className="medium-12 chartHeading">
-                            {self.symbolSt}{numeral(data.PRICE).format('0,0')}  <span className={(data.CHANGEPCT24HOUR>0)? "t--green" : "t--red"} style={{ fontSize: "16px", color: "#5BB85D" }}> {numeral(data.CHANGEPCT24HOUR).format('0,0.00')} %</span>
+                            {self.symbolSt}{numeral(data.PRICE).format('0,0')}  <span className={(data.CHANGEPCT24HOUR>0)? "t--green" : "t--red"} > {numeral(data.CHANGEPCT24HOUR).format('0,0.00')} %</span>
                         </div>
                         <div className="medium-12 chartSubHeading">
                             Open: <span style={{ color: "#7F8386" }}> {self.symbolSt}{numeral(data.OPENDAY).format('0,0')}  </span>
@@ -119,10 +119,10 @@ class ChartPage extends Component {
                             </div>
                     <div className="medium-12">
                         <div className="medium-12 chartHeading">
-                            {self.symbolSt}{numeral(data.SUPPLY).format('0,0')}
+                            {numeral(data.SUPPLY).format('0,0')}
                         </div>
                         <div className="medium-12 chartSubHeading">
-                            Max Supply: <span style={{ color: "#7F8386" }}> {self.symbolSt}{numeral(totalCoinSupply).format('0,0.000')}</span>
+                            Max Supply: <span style={{ color: "#7F8386" }}>{numeral(totalCoinSupply).format('0,0.000')}</span>
                         </div>
                     </div>
                 </div>
@@ -158,14 +158,14 @@ class ChartPage extends Component {
                 var exchangeMarketlist = datalist.map((data, key) => {
                     return (<tr key={key}>
                         <td className="headcol" style={{ width: "50px" }}>
-                            {key + 1}
+                        <span className="bold_number">{key + 1}</span>
                         </td>
                         <td className="coinName headcol2 t--blue">
-                            {data.MARKET}
+                        <Link to={"/exchanges/" + data.MARKET}><span className="t--blue">{data.MARKET} </span></Link>
                         </td>
                         <td>{self.symbolSt}{numeral(data.PRICE).format('0,0.00')}</td>
-                        <td className="t--green">{numeral(data.CHANGEPCT24HOUR).format('0,0.000')} %</td>
-                        <td className="t--red">{self.symbolSt}{numeral(data.CHANGE24HOUR).format('0,0.000')}</td>
+                        <td className={(data.CHANGEPCT24HOUR>0)? "t--green" : "t--red"}>{numeral(data.CHANGEPCT24HOUR).format('0,0.000')} %</td>
+                        <td className={(data.CHANGE24HOUR>0)? "t--green" : "t--red"} >{self.symbolSt}{numeral(data.CHANGE24HOUR).format('0,0.000')}</td>
                         <td>{self.symbolSt}{numeral(data.VOLUME24HOURTO).format('0,0.000')}</td>
                         <td> <Link to={"/exchanges/" + data.MARKET}><button className="primarybtn"> Visit </button></Link></td>
                     </tr>);
@@ -184,10 +184,13 @@ class ChartPage extends Component {
                         <div className="grid-x align-justify">
                             {(coinlist) ?
                                 <div className="cell shrink">
-                                    <span> {coinlist.CoinName}</span><span>({coinlist.Name}) </span>
-                                    <select id="" onChange={this.onchange} className="selectStyle styler">
+                                <h1 className="float_left top_pad_heading">
+                                     {coinlist.CoinName} <span> ({coinlist.Name}) </span>
+                                </h1>    
+                                    <select id="" onChange={this.onchange} className="selectStyle styler float_left">
                                         {selectType}
                                     </select>
+                                    <div className="clear"></div>
                                 </div>
                                 : ''}
                         </div>
@@ -203,17 +206,17 @@ class ChartPage extends Component {
 
                         }
                     </div>
-
+                        
                     <div className="grid-container">
                         <div className="grid-x align-justify">
-
+                         <h2 className="allTableHeading">Bitcoin Charts</h2>
                             <div ref={el => (this.instance = el)} style={{ width: "100%" }} />
                         </div>
                     </div>
 
                     <div className="grid-container">
                         <div className="grid-x align-justify">
-                            <span className="allTableHeading">{coinlist.CoinName} Markets  </span>
+                        <h2 className="allTableHeading">{coinlist.CoinName} Markets  <span>  ({coinlist.Name +"/"+ self.symbolName}) </span>  </h2>
                             <div className="cell">
                                 <div className="table-wrap l-table">
 
