@@ -34,7 +34,7 @@ export class App extends Component {
         {this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
         <div>
           <Helmet
-            title="List of all CryptoCurrencies at babacrypto.com - [2018]"
+            title="List of all CryptoCurrencies at babacrypto.com 2018"
             titleTemplate=""
             meta={[
               { charset: 'utf-8' },

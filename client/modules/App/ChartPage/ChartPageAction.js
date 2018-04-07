@@ -20,11 +20,13 @@ export function addExchangelist(exchange) {
 export function FetchCoinsListRequest(coinInputSymbol) {
   return (dispatch) => {
     return callApi('exchangecoin', 'POST', {'coinInputSymbol':coinInputSymbol}).then(res => {     
+      
       dispatch(addCoinslist(res));
     });
   };
 }
 export function FetchExchangeListRequest(coinInputSymbol) {
+  
   return (dispatch) => {
     return callApi('exchangemarketlist', 'POST', {'coinInputSymbol':coinInputSymbol}).then(res => {
       dispatch(addExchangelist(res));

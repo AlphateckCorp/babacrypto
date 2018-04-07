@@ -55,6 +55,48 @@ class Home extends Component {
         this.state.symbolSt = currencySymbols;
         this.setState(this.state);
     }
+    reverseHandle=(props)=>{
+        if (this.props.getCoinsList.length > 0) {
+            console.log("reverse");
+            // var coinContentList = [];
+            // var coinContent = '';
+            // var marketCap = 0;
+            var self = this.state;
+            // var dataList = this.props.getCoinsList;
+            var dataList = (this.props.getCoinsList).reverse();
+            console.log(dataList, "datalist");
+            var coinContent = dataList.map(function (data, index) {
+                var CoinName = '';
+                if ((data.coinlistinfos).length > 0) {
+                    CoinName = ((data.CoinName).toLowerCase().trim());
+                    CoinName = CoinName.replace(' / ','_');
+                    CoinName = CoinName.replace(' ','-');
+                    
+                    return (<tr key={index}>
+                        <td className="headcol" style={{ width: "50px" }}>
+                           <span className="bold_number"> {1 + index} </span>
+                        </td>
+                        <td className="coinName headcol2 t--blue">
+                            <Link to={"/coins/" + CoinName}>
+                                <span className="t--blue">{data.CoinName}</span>
+                            </Link>
+                        </td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].PRICE).format('0,0.00')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000')}</td>
+                        <td className="t--green">{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000')}</td>
+                        <td className={(data.coinlistinfos[self.typeId].CHANGE24HOUR>0)? "t--green" : "t--red"}>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
+                    </tr>);
+                }
+                return (<tr key={index}>
+                    <td className="loadingClass headcol" colSpan="8">Loading...</td>
+                </tr>);
+            });
+            // console.log(coinContent, "coinContent")
+            return (coinContent);
+        }
+    }
     render() {
         const meta = {
             title: 'List of all CryptoCurrencies at babacrypto.com 2018',
@@ -72,9 +114,15 @@ class Home extends Component {
         var self = this.state;
         if (this.props.getCoinsList.length > 0) {
             var dataList = this.props.getCoinsList;
-
+            // var dataList = (this.props.getCoinsList).reverse();
+            
             var coinContent = dataList.map(function (data, index) {
+                var CoinName = '';
                 if ((data.coinlistinfos).length > 0) {
+                    CoinName = ((data.CoinName).toLowerCase().trim());
+                    CoinName = CoinName.replace(' / ','_');
+                    CoinName = CoinName.replace(' ','-');
+                    
                     marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
 
                     return (<tr key={index}>
@@ -82,7 +130,7 @@ class Home extends Component {
                            <span className="bold_number"> {1 + index} </span>
                         </td>
                         <td className="coinName headcol2 t--blue">
-                            <Link to={"/coins/" + data.Symbol}>
+                            <Link to={"/coins/" + CoinName}>
                                 <span className="t--blue">{data.CoinName}</span>
                             </Link>
                         </td>
@@ -123,9 +171,10 @@ class Home extends Component {
                                     <table className="table responsive js-table">
                                         <thead>
                                             <tr>
-                                                <th className="headcol">#</th>
+                                                <th className="headcol"># 
+                                                {/* <span onClick={this.reverseHandle}> Rev</span> */}
+                                                </th>
                                                 <th className="coinName headcol2">Coin</th>
-
                                                 <th className="market-cap-col">Market Cap</th>
                                                 <th>Price</th>
                                                 <th>Circulating Supply</th>

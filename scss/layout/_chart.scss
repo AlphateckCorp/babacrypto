@@ -41,9 +41,9 @@
     font-size: 18px ;
     font-weight: normal
 }
-.t--red,t--green{
-    font-size: 16px
-}
+// .t--red,.t--green{
+//     font-size: 16px
+// }
 
 
 .column {
@@ -111,4 +111,7 @@ h2 span{
     @include bp(tabletMax) {
         font-size: 20px;
     };
+}
+.tooltipStyle {
+    max-width: 75%;
 }

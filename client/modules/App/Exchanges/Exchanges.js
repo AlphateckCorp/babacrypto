@@ -6,19 +6,22 @@ import { FetchExchangeRequest } from './ExchangesAction';
 import { getExchange } from './ExchangesReducer';
 // import styles from './../Home/Home.css';
 import DocumentMeta from 'react-document-meta';
-
-
+import ReactTooltip from 'react-tooltip';
+// import { Manager, Reference, Popper } from 'react-popper';
+// import Popover from 'react-simple-popover';
 class Exchange extends Component {
     constructor(props) {
         super(props);
         this.state = {
             datahandle: '',
+            openPopup: false,
+            open: false
         }
     }
     componentWillMount(props) {
         this.props.dispatch(FetchExchangeRequest());
     }
-
+   
     renderTableRows = (finalData) => {
         let rowEle = [];
         const isEmpty = (obj) => {
@@ -35,23 +38,29 @@ class Exchange extends Component {
 
         for (let market in finalData) {
             var data = finalData[market];
+            var listofEx = ((Array.from(new Set(finalData[market]))).join(', '));
+            
             var length = '';
             if (data.length > 6) {
                 length = data.length - 6;
             } else {
                 length = '';
             }
+            var marketName = ((market).toLowerCase().trim());
             rowEle.push(
                 <tr key={`market-${market}`}>
                     <td className="coinName headcol t--blue">
-                    <Link to={"/exchanges/" + market}><span className="t--blue">{market} </span></Link>
+                        <Link to={"/exchanges/" + marketName}><span className="t--blue">{market} </span></Link>
                     </td>
                     {(length != '') ?
-                        <td className="t--blue">
+                        <td className="">
                             <span className="t--black">
                                 {((Array.from(new Set(finalData[market]))).splice(2, 6)).join(', ')}
                             </span>
-                            <span className="t--blue"> +{length} </span>
+                            <span className="" style={{ background: "#fff", border:"1px solid black", padding: "5px", marginLeft: "9px", borderRadius: "5px" }}>
+                                <span data-tip={listofEx}> +{length} </span>  
+                                 <ReactTooltip className="tooltipStyle" />                                  
+                            </span>
                         </td>
                         :
                         <td className="t--blue">
@@ -59,7 +68,7 @@ class Exchange extends Component {
                         </td>
                     }
                     <td className="t--blue">
-                        <Link to={"/exchanges/" + market}><button className="primarybtn"> Visit </button></Link>
+                        <Link to={"/exchanges/" + marketName}><button className="primarybtn"> Visit </button></Link>
                     </td>
 
 
@@ -69,7 +78,7 @@ class Exchange extends Component {
 
         return rowEle;
     }
-
+    
     render() {
         const meta = {
             title: 'All CryptoCurrency Exchanges List | Crypto Trading Platforms - [2018]',
@@ -103,7 +112,7 @@ class Exchange extends Component {
                 }).map(symbol => {
                     return symbol.FROMSYMBOL;
                 });
-
+                
                 finalData[element] = datalists;
             });
         }
@@ -119,7 +128,7 @@ class Exchange extends Component {
                                     <table className="table responsive js-table">
                                         <thead>
                                             <tr>
-                                                <th className="headcol2" style={{padding:"6px"}}>Exchange</th>
+                                                <th className="headcol2" style={{ padding: "6px" }}>Exchange</th>
                                                 <th className="market-cap-col">Coins</th>
                                                 <th className="market-cap-col">Visit</th>
                                             </tr>
