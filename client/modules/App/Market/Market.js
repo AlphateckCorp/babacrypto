@@ -95,7 +95,7 @@ class Market extends Component {
                                 {(length != '') ?
                                     <span className="" style={{ fontSize: "16px", fontWeight: "600" }}> {((Array.from(new Set(excoins))).splice(0, 6)).join(', ')}
                                         <span data-tip={listofEx} className="t--blue" style={{ fontSize: "16px", fontWeight: "600" }}> +{length} </span>
-                                        <ReactTooltip className="tooltipStyle" />
+                                        <ReactTooltip className="tooltipStyle" type="light" event="click" border="true"/>
                                     </span>
                                     : excoins.join(', ')}
 
