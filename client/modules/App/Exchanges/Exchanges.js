@@ -57,9 +57,9 @@ class Exchange extends Component {
                             <span className="t--black">
                                 {((Array.from(new Set(finalData[market]))).splice(2, 6)).join(', ')}
                             </span>
-                            <span className="" style={{ background: "#fff", border:"1px solid black", padding: "5px", marginLeft: "9px", borderRadius: "5px" }}>
+                            <span className="" style={{ background: "#fff", border:"1px solid black", padding: "5px", marginLeft: "9px", borderRadius: "5px", display: "inline-block" }}>
                                 <span data-tip={listofEx}> +{length} </span>  
-                                 <ReactTooltip className="tooltipStyle" />                                  
+                                 <ReactTooltip className="tooltipStyle" type="light" event="click" border="true"/>                                  
                             </span>
                         </td>
                         :
