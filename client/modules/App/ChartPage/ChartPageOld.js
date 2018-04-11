@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { FetchCoinsListRequest, FetchExchangeListRequest } from './ChartPageAction';
 import { getCoinsList } from './ChartPageReducer';
 import { getExchangeList } from './ChartMarketReducer';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 import numeral from 'numeral';
 
@@ -28,13 +27,13 @@ class ChartPage extends Component {
             var coinName = this.props.exchangeCoinsList[0].CoinName;
             var symbol = this.props.exchangeCoinsList[0].Symbol;
 
-            const s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.src = "https://widgets.cryptocompare.com/serve/v3/coin/chart?fsym=" + symbol + "&tsyms=USD,EUR,ETH";
-            s.async = true;
-            // s.innerHTML = "document.write('This is output by document.write()!')";
-            s.innerHTML = "This is output by";
-            this.instance.appendChild(s);
+            // const s = document.createElement('script');
+            // s.type = 'text/javascript';
+            // s.src = "https://widgets.cryptocompare.com/serve/v3/coin/chart?fsym=" + symbol + "&tsyms=USD,EUR,ETH";
+            // s.async = true;
+            // // s.innerHTML = "document.write('This is output by document.write()!')";
+            // s.innerHTML = "This is output by";
+            // this.instance.appendChild(s);
         }
 
     }
@@ -94,7 +93,7 @@ class ChartPage extends Component {
             return self.typeId == index;
         });
 
-        var coindata = coinlistDtl ? coinlistDtl.map((data, index) => {
+        var coindata = coinlistDtl.map((data, index) => {
             return (<div key={index} className="grid-x mainCoinshow">
                 <div className="medium-4 small-12">
                     <div className="medium-12 chartHeadSt">
@@ -143,7 +142,7 @@ class ChartPage extends Component {
                 </div>
             </div>
             );
-        }) : '';
+        })
 
         return coindata;
 
@@ -160,9 +159,9 @@ class ChartPage extends Component {
             coinlist = exchangecoin[0];
             var list = exchangecoin[0].coinlistinfos;
 
-            var selectType = list ? list.map((data, key) => {
+            var selectType = list.map((data, key) => {
                 return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);
-            }):'';
+            });
         }
         if (this.props.exchangeMarketList != undefined && this.props.exchangeMarketList.length > 0) {
             var exchangeMarket = this.props.exchangeMarketList;
@@ -172,7 +171,6 @@ class ChartPage extends Component {
             var datalist = exchangeMarket.filter((data) => {
                 return data.TOSYMBOL == self.symbolName;
             });
-            /*
             if (datalist.length > 0) {
                 var exchangeMarketlist = datalist.map((data, key) => {
                     var marketName = ((data.MARKET).toLowerCase().trim());
@@ -194,82 +192,7 @@ class ChartPage extends Component {
             } else {
                 exchangeMarketlist = "error";
             }
-            */
-
-
-            if (datalist.length > 0) {
-                var datazls = [];
-                var exchangeMarketlist =  datalist ? datalist.map((data, key) => {
-                    const datazls = {
-                        "id": key + 1,
-                        "marketName": data.MARKET,
-                        "price": data.PRICE,
-                        "changePct24Hour": data.CHANGEPCT24HOUR,
-                        "change24Hour":data.CHANGE24HOUR,
-                        "vol24h": data.VOLUME24HOUR,
-                        "visit": data.MARKET
-                    }
-                    return datazls;
-
-                }) : '';
-            } 
-        } 
-
-    
-        const visitAction = (action, listObj) => {
-            var marketName = ((action).toLowerCase().trim());
-            return (
-                <Link to={"/exchanges/" + marketName}>
-                    <button className="primarybtn"> Visit </button>
-                </Link>
-            );
-        }
-       
-        const numberLayout = (action, listObj) => {
-            var data = '';
-            if (action == listObj.price) {
-                return (self.symbolSt + "" + numeral(action).format('0,0.00'));
-            } else if (action == listObj.changePct24Hour) {
-                return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
-            } else if (action == listObj.change24Hour) {
-                return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
-                 
-            } else if (action == listObj.vol24h) {
-                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
-            }
-        };
-        const vol24hSortFunc = (a, b, order) =>{
-            if (order === 'desc') {
-                return (Number(b.vol24h) - Number(a.vol24h));
-            } else {
-                return (Number(a.vol24h) - Number(b.vol24h));
-            }
-        };
-        const change24HourSortFunc = (a, b, order) =>{
-            if (order === 'desc') {
-                return (Number(b.change24Hour) - Number(a.change24Hour));
-            } else {
-                return (Number(a.change24Hour) - Number(b.change24Hour));
-            }
-        };
-        const changePct24HourSortFunc = (a, b, order) =>{
-            if (order === 'desc') {
-                return (Number(b.changePct24Hour) - Number(a.changePct24Hour));
-            } else {
-                return (Number(a.changePct24Hour) - Number(b.changePct24Hour));
-            }
-        };
-        const priceSortFunc = (a, b, order) =>{
-            if (order === 'desc') {
-                return (Number(b.price) - Number(a.price));
-            } else {
-                return (Number(a.price) - Number(b.price));
-            }
-        };
-        const blueLayout = (action, listObj) =>{
-            return (<span className="t--blue">{action}</span>);
-        };
-        
+        } else { exchangeMarketlist = "error"; }
 
         return (
             <div>
@@ -289,7 +212,7 @@ class ChartPage extends Component {
                                 </div>
                                 : ''}
                         </div>
-                        
+
                         {(exchangecoin) ? this.coinNameCall(exchangecoin) :
                             <div className='sweet-loading' style={{ textAlign: "center" }}>
                                 <SyncLoader
@@ -301,7 +224,7 @@ class ChartPage extends Component {
                         }
                     </div>
 
-                    <div className="grid-container">
+                    {/* <div className="grid-container">
                         {(this.state.showChart) ?
                             <div className="grid-x align-justify">
                                 <h2 className="allTableHeading">{(coinlist) ? coinlist.CoinName : ''} Charts</h2>
@@ -319,7 +242,7 @@ class ChartPage extends Component {
                             </div>
                             </div>
                         }
-                    </div>
+                    </div> */}
 
                     <div className="grid-container">
                         <div className="grid-x align-justify">
@@ -327,16 +250,30 @@ class ChartPage extends Component {
                             
                             <div className="cell">
                                 <div className="table-wrap l-table">
-                                    <BootstrapTable data={exchangeMarketlist} striped hover >
-                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='10px'>#</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='20px'>Exchange</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='price' width='20px'  dataSort sortFunc={priceSortFunc} dataFormat={numberLayout}>Price</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='changePct24Hour'  dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='20px'> 24h % Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='change24Hour'  dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='15px'>24h Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc}  dataFormat={numberLayout} width='20px' >24h Volume</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='visit' dataFormat={visitAction} width='15px'> Visit</TableHeaderColumn>
 
-                                    </BootstrapTable>
+                                    <table className="table responsive js-table">
+                                        <thead>
+                                            <tr>
+                                                <th className="headcol">#</th>
+                                                <th className="coinName headcol2">Exchange</th>
+                                                <th className="market-cap-col">Price</th>
+                                                <th>24h % Change</th>
+                                                <th>24h Change</th>
+                                                <th>24h Volume</th>
+                                                <th>Visit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {(exchangeMarketlist) ?
+                                                (exchangeMarketlist != "error") ? exchangeMarketlist :
+                                                    <tr><td colSpan={7} style={{ textAlign: "center" }}>Record Not Found</td></tr> :
+                                                <tr >
+                                                    <td className="loadingClass headcol" colSpan="8">Loading...</td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

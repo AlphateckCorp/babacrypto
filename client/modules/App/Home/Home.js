@@ -6,7 +6,7 @@ import { FetchCoinsRequest } from './HomeAction';
 import { getCoins } from './HomeReducer';
 import DocumentMeta from 'react-document-meta';
 import numeral from 'numeral';
-
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +15,10 @@ class Home extends Component {
             coinContentList: [],
             datahandle: '',
             symbolSt: '$',
-            typeId: 0
+            typeId: 0,
+            changeData: false,
+            reverseState: false,
+            data: ''
         }
     }
     componentWillMount(props) {
@@ -33,6 +36,44 @@ class Home extends Component {
     componentWillUnmount = (props) => {
         clearInterval(this.interval);
     };
+    // componentWillReceiveProps = (prev, next) => {
+    //   console.log(prev, "prev")
+    //     console.log(next, "next")
+    // }
+
+
+    changeByPrice = (props) => {
+        var coinContentList = [];
+        var coinContent = '';
+        var dataElement = {};
+        var self = this.state;
+        var emptyArr = [];
+        if (this.props.getCoinsList.length > 0) {
+            var dataList = this.props.getCoinsList;
+            const items = dataList
+                .map((item, i) => {
+                    return item.coinlistinfos[self.typeId];
+                })
+                .sort((a, b) => {
+                    return b.PRICE - a.PRICE;
+                })
+                .map((item, i) => {
+                    console.log(item, "item");
+                    return item;
+                });
+
+            var list = items.map((itemLs, index) => {
+                var data = dataList.filter(function (datazz, index) {
+                    return (datazz.Symbol == itemLs.CoinInputSymbol);
+                });
+                return data;
+            });
+
+            coinContent = list;
+            return coinContent;
+
+        }
+    }
 
     onchange = (e) => {
         var checkType = e.target.value;
@@ -51,28 +92,146 @@ class Home extends Component {
                 selectTypeByid = 0;
                 currencySymbols = '$';
         }
+
         this.state.typeId = selectTypeByid;
         this.state.symbolSt = currencySymbols;
         this.setState(this.state);
     }
-    reverseHandle=(props)=>{
+    reverseHandle = (props) => {
+        var dataArr = [];
+        var dataList = '';
         if (this.props.getCoinsList.length > 0) {
-            console.log("reverse");
-            // var coinContentList = [];
-            // var coinContent = '';
+            var coinContentList = [];
+            var coinContent = '';
             // var marketCap = 0;
             var self = this.state;
-            // var dataList = this.props.getCoinsList;
-            var dataList = (this.props.getCoinsList).reverse();
-            console.log(dataList, "datalist");
+            if (this.state.reverseState) {
+
+                dataList = (this.props.getCoinsList).reverse();
+                this.state.reverseState = false;
+            } else {
+                dataList = (this.props.getCoinsList);
+                this.state.reverseState = true;
+            }
+            this.setState(this.state);
+            var dataListindex = dataList.length;
             var coinContent = dataList.map(function (data, index) {
                 var CoinName = '';
                 if ((data.coinlistinfos).length > 0) {
                     CoinName = ((data.CoinName).toLowerCase().trim());
-                    CoinName = CoinName.replace(' / ','_');
-                    CoinName = CoinName.replace(' ','-');
-                    
-                    return (<tr key={index}>
+                    CoinName = CoinName.replace(' / ', '_');
+                    CoinName = CoinName.replace(' ', '-');
+                    var indx = dataListindex - index;
+
+                    return (<tr key={indx}>
+                        <td className="headcol" style={{ width: "50px" }}>
+                            <span className="bold_number"> {indx} </span>
+                        </td>
+                        <td className="coinName headcol2 t--blue">
+                            <Link to={"/coins/" + CoinName}>
+                                <span className="t--blue">{data.CoinName}</span>
+                            </Link>
+                        </td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].PRICE).format('0,0.00')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000')}</td>
+                        <td className="t--green">{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000')}</td>
+                        <td className={(data.coinlistinfos[self.typeId].CHANGE24HOUR > 0) ? "t--green" : "t--red"}>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
+                    </tr>);
+                }
+                return (<tr key={index}>
+                    <td className="loadingClass headcol" colSpan="8">Loading...</td>
+                </tr>);
+            });
+            // coinContent = dataArr;
+            // this.state.changeData = true;
+            // this.state.data = coinContent;
+
+
+            // console.log(this.state.reverseState, "reverseState");
+
+            // this.setState(this.state);
+            // console.log(coinContent, "coinContent")
+            return coinContent;
+            // return (coinContent);
+        }
+    }
+
+    reverseHtml = (props) => {
+        var dataArr = [];
+        var coinContentList = [];
+        var coinContent = '';
+        var marketCap = 0;
+        if (this.props.getCoinsList.length > 0) {
+
+            var self = this.state;
+            var dataList = (this.props.getCoinsList).reverse();
+
+            var dataListindex = dataList.length;
+            var coinContent = dataList.map(function (data, index) {
+                var CoinName = '';
+                if ((data.coinlistinfos).length > 0) {
+                    CoinName = ((data.CoinName).toLowerCase().trim());
+                    CoinName = CoinName.replace(' / ', '_');
+                    CoinName = CoinName.replace(' ', '-');
+
+                    marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+
+                    return (<tr key={dataListindex - index}>
+                        <td className="headcol" style={{ width: "50px" }}>
+                            <span className="bold_number"> {dataListindex - index} </span>
+                        </td>
+                        <td className="coinName headcol2 t--blue">
+                            <Link to={"/coins/" + CoinName}>
+                                <span className="t--blue">{data.CoinName}</span>
+                            </Link>
+                        </td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].PRICE).format('0,0.00')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000')}</td>
+                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000')}</td>
+                        <td className="t--green">{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000')}</td>
+                        <td className={(data.coinlistinfos[self.typeId].CHANGE24HOUR > 0) ? "t--green" : "t--red"}>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
+                    </tr>);
+                }
+                return (<tr key={index}>
+                    <td className="loadingClass headcol" colSpan="8">Loading...</td>
+                </tr>);
+            });
+
+            return coinContent;
+        }
+    }
+
+    renderHtml = (props) => {
+        var coinContentList = [];
+        // var coinContent = '';
+        var coinContent = [];
+
+        // var coinsList = [];
+        var marketCap = 0;
+        var self = this.state;
+        if (this.props.getCoinsList.length > 0) {
+
+            // var dataList = (this.props.getCoinsList).reverse();
+
+            if (this.state.reverseState) {
+                var dataList = (this.props.getCoinsList).reverse();
+            } else {
+                var dataList = this.props.getCoinsList;
+            }
+            var coinContent = dataList.map(function (data, index) {
+                var CoinName = '';
+                if ((data.coinlistinfos).length > 0) {
+                    CoinName = ((data.CoinName).toLowerCase().trim());
+                    CoinName = CoinName.replace(' / ', '_');
+                    CoinName = CoinName.replace(' ', '-');
+
+                    marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+
+                    /*return (
+                      <tr key={index}>
                         <td className="headcol" style={{ width: "50px" }}>
                            <span className="bold_number"> {1 + index} </span>
                         </td>
@@ -88,65 +247,151 @@ class Home extends Component {
                         <td className="t--green">{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000')}</td>
                         <td className={(data.coinlistinfos[self.typeId].CHANGE24HOUR>0)? "t--green" : "t--red"}>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
                     </tr>);
+                    */
+
+                    coinContent = {
+                        id: index,
+                        CoinName: data.CoinName,
+                        mkcapital: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000'),
+                        price: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].PRICE).format('0,0.00'),
+                        supply: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000'),
+                        totalVol24h: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000'),
+                        vol24h: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000'),
+                        change24h: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')
+                    }
                 }
+
                 return (<tr key={index}>
                     <td className="loadingClass headcol" colSpan="8">Loading...</td>
                 </tr>);
             });
-            // console.log(coinContent, "coinContent")
-            return (coinContent);
+            console.log(coinContent, "coinContent");
+            return coinContent;
         }
     }
+    
     render() {
+
         const meta = {
             title: 'List of all CryptoCurrencies at babacrypto.com 2018',
             description: 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!',
             meta: {
-              charset: 'utf-8',
-              name: {
-                keywords: 'Digital Currency, react'
-              }
+                charset: 'utf-8',
+                name: {
+                    keywords: 'Digital Currency, react'
+                }
             }
-          };
-        var coinContentList = [];
-        var coinContent = '';
+        };
+        var coinContent = [];
         var marketCap = 0;
         var self = this.state;
+
         if (this.props.getCoinsList.length > 0) {
-            var dataList = this.props.getCoinsList;
-            // var dataList = (this.props.getCoinsList).reverse();
-            
-            var coinContent = dataList.map(function (data, index) {
+            var dataList = (this.props.getCoinsList);
+            coinContent = dataList.map(function (data, index) {
                 var CoinName = '';
                 if ((data.coinlistinfos).length > 0) {
                     CoinName = ((data.CoinName).toLowerCase().trim());
-                    CoinName = CoinName.replace(' / ','_');
-                    CoinName = CoinName.replace(' ','-');
-                    
-                    marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+                    CoinName = CoinName.replace(' / ', '_');
+                    CoinName = CoinName.replace(' ', '-');
 
-                    return (<tr key={index}>
-                        <td className="headcol" style={{ width: "50px" }}>
-                           <span className="bold_number"> {1 + index} </span>
-                        </td>
-                        <td className="coinName headcol2 t--blue">
-                            <Link to={"/coins/" + CoinName}>
-                                <span className="t--blue">{data.CoinName}</span>
-                            </Link>
-                        </td>
-                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000')}</td>
-                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].PRICE).format('0,0.00')}</td>
-                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000')}</td>
-                        <td>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000')}</td>
-                        <td className="t--green">{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000')}</td>
-                        <td className={(data.coinlistinfos[self.typeId].CHANGE24HOUR>0)? "t--green" : "t--red"}>{self.symbolSt}{numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')}</td>
-                    </tr>);
+                    marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+                    const datazl = {
+                        "id": index + 1,
+                        "CoinName": data.CoinName,
+                        "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
+                        "price": data.coinlistinfos[self.typeId].PRICE,
+                        "supply": data.coinlistinfos[self.typeId].SUPPLY,
+                        "totalVol24h":data.coinlistinfos[self.typeId].TOTALVOLUME24H,
+                        "vol24h": data.coinlistinfos[self.typeId].VOLUME24HOUR,
+                        "change24h": data.coinlistinfos[self.typeId].CHANGE24HOUR
+                    };
+                    return datazl;
                 }
-                return (<tr key={index}>
-                    <td className="loadingClass headcol" colSpan="8">Loading...</td>
-                </tr>);
+                return coinContent;
             });
         }
+
+        const colorAction = (action, listObj) => {
+            var data = '';
+            if (action > 0) {
+                data = <span className="t--green">{self.symbolSt}{numeral(action).format('0,0.000')}</span>
+            } else {
+                data = <span className="t--red">{self.symbolSt}{numeral(action).format('0,0.000')}</span>
+            }
+            return (data);
+        }
+        const LinkAction = (action, listObj) => {
+            var CoinName = ((listObj.CoinName).toLowerCase().trim());
+            CoinName = CoinName.replace(' / ', '_');
+            CoinName = CoinName.replace(' ', '-');
+            return (
+                <Link to={"/coins/" + CoinName}>
+                    <span className="t--blue">{listObj.CoinName}</span>
+                </Link>
+            );
+        }
+        const numberLayout = (action, listObj) => {
+            if (action == listObj.mkcapital) {
+                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
+            } else if (action == listObj.price) {
+                return (self.symbolSt + "" + numeral(action).format('0,0.00'));
+            } else if (action == listObj.supply) {
+                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
+            } else if (action == listObj.totalVol24h) {
+                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
+            } else if (action == listObj.vol24h) {
+                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
+            } else if (action == listObj.change24h) {
+                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
+            }
+        }
+        const mkcapitalSortFunc = (a, b, order) => {
+            if (order === 'desc') {
+                return (Number(b.mkcapital) - Number(a.mkcapital));
+            } else {
+                return (Number(a.mkcapital) - Number(b.mkcapital));
+            }
+        }
+        const priceSortFunc = (a, b, order) => {
+            if (order === 'desc') {
+                return (Number(b.price) - Number(a.price));
+            } else {
+                return (Number(a.price) - Number(b.price));
+            }
+        }
+        const supplySortFunc = (a, b, order) => {
+            if (order === 'desc') {
+                return (Number(b.supply) - Number(a.supply));
+            } else {
+                return (Number(a.supply) - Number(b.supply));
+            }
+        }
+        const totalVol24hSortFunc = (a, b, order) => {
+            if (order === 'desc') {
+                return (Number(b.totalVol24h) - Number(a.totalVol24h));
+            } else {
+                return (Number(a.totalVol24h) - Number(b.totalVol24h));
+            }
+        }
+        const vol24hSortFunc = (a, b, order) => {
+            if (order === 'desc') {
+                return (Number(b.vol24h) - Number(a.vol24h));
+            } else {
+                return (Number(a.vol24h) - Number(b.vol24h));
+            }
+        }
+        const change24hSortFunc = (a, b, order) => {
+            if (order === 'desc') {
+                return (Number(b.change24h) - Number(a.change24h));
+            } else {
+                return (Number(a.change24h) - Number(b.change24h));
+            }
+        };
+        var options = {
+            // noDataText: (<span className="loadingClass headcol" colSpan="6"> Record Not Found!! </span>)
+            noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>)
+        };
 
         return (
             <DocumentMeta {...meta}>
@@ -168,26 +413,26 @@ class Home extends Component {
                             </div>
                             <div className="cell">
                                 <div className="table-wrap l-table">
-                                    <table className="table responsive js-table">
-                                        <thead>
-                                            <tr>
-                                                <th className="headcol"># 
-                                                {/* <span onClick={this.reverseHandle}> Rev</span> */}
-                                                </th>
-                                                <th className="coinName headcol2">Coin</th>
-                                                <th className="market-cap-col">Market Cap</th>
-                                                <th>Price</th>
-                                                <th>Circulating Supply</th>
-                                                <th>24h Volume</th>
-                                                <th>24h Change</th>
-                                                <th>7d Change</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {(coinContent != '') ? coinContent : <tr><td className="loadingClass headcol" colSpan="8">Loading...</td></tr>}
-                                        </tbody>
-                                    </table>
+
+                                    <BootstrapTable data={coinContent} striped hover options={options} >
+                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='10px'>#</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='CoinName' dataSort={true} dataFormat={LinkAction} width='20px'>Coin</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='mkcapital' dataSort sortFunc={mkcapitalSortFunc} dataFormat={numberLayout} width='20px'>Market Cap</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout} width='20px' >Price</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='supply' dataSort sortFunc={supplySortFunc} dataFormat={numberLayout} width='20px' > Circulating Supply</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='totalVol24h' dataSort sortFunc={totalVol24hSortFunc} dataFormat={numberLayout} width='20px' >24h Volume</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='vol24h' dataFormat={colorAction} dataSort sortFunc={vol24hSortFunc} width='15px'>24h Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='change24h' dataFormat={colorAction} dataSort sortFunc={change24hSortFunc} width='15px'> 7d Change</TableHeaderColumn>
+
+
+                                    </BootstrapTable>
                                 </div>
+                                {/*                               
+                                <BootstrapTable data={products} striped hover>
+                                    <TableHeaderColumn isKey dataField='id'>Product ID</TableHeaderColumn>
+                                    <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
+                                    <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
+                                </BootstrapTable> */}
                             </div>
                         </div>
                     </div>

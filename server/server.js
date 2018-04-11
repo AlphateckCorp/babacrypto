@@ -52,7 +52,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use('/api',  function(req, res) {  
-    // var url = "http://localhost:8900" + req.url;
+    // var url = "http://localhost:4000" + req.url;
     var url = "http://dev.babacrypto.com/api/web" + req.url;
     req.pipe(request(url)).pipe(res);
   });
@@ -70,6 +70,7 @@ const renderFullPage = (html, initialState) => {
     <!doctype html>
     <html>
       <head>
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NR43GS2');</script>
         ${head.base.toString()}
         ${head.title.toString()}
         ${head.meta.toString()}
@@ -79,8 +80,11 @@ const renderFullPage = (html, initialState) => {
         ${isProdMode ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
         <link rel='stylesheet' href='${isProdMode ? assetsManifest['/stylesCustom.css'] : '/stylesCustom.css'}' />
         <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
+        <link rel="shortcut icon" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://npmcdn.com/react-bootstrap-table/dist/react-bootstrap-table-all.min.css" />
       </head>
       <body>
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NR43GS2"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div id="root">${html}</div>
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
@@ -91,6 +95,8 @@ const renderFullPage = (html, initialState) => {
         </script>
         <script src='${isProdMode ? assetsManifest['/vendor.js'] : '/vendor.js'}'></script>
         <script src='${isProdMode ? assetsManifest['/app.js'] : '/app.js'}'></script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> </script>
       </body>
     </html>
   `;
