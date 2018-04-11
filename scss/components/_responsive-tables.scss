@@ -39,10 +39,31 @@
 .l-table {
 	margin-top: 15px;
 }
-
+.__react_component_tooltip{
+	white-space: normal;
+}
+.dropup, .dropdown {
+    position: relative;
+}
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-top: 4px solid \9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+.dropup .caret, .navbar-fixed-bottom .dropdown .caret {
+    border-top: 0;
+    border-bottom: 4px dashed;
+    border-bottom: 4px solid \9;
+    content: "";
+}
 .table-wrap {
 	overflow-x:scroll;
-	margin-left: 8.1em;
 	margin-right: -.9375rem;
 	border: 1px solid #e0e0e0;
 	box-shadow: 0 1px 7px rgba(118, 118, 118, 0.18);

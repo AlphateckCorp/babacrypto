@@ -267,7 +267,12 @@ class ChartPage extends Component {
             }
         };
         const blueLayout = (action, listObj) =>{
-            return (<span className="t--blue">{action}</span>);
+            var marketName = ((action).toLowerCase().trim());
+            return (
+                <Link to={"/exchanges/" + marketName}>
+                    <span className="t--blue">{action}</span>
+                </Link>
+            );
         };
         
 
