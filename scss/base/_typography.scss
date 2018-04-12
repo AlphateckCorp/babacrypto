@@ -36,7 +36,6 @@
 
 p {
     color: $black;
-    @include font(myriadpro, 14px);
     @include bp(tablet) {
         line-height: 1.6;
         font-size: 15px;
@@ -67,7 +66,7 @@ strong { font-weight: 600; }
 .heading--2 {
     color: darken($blue, 20%);
     letter-spacing: 2px;
-    @include font(myriadpro-sb, 15px);
+    //@include font(myriadpro-sb, 15px);
     @include bp(tablet) {
         letter-spacing: 5px;
         font-size: 16px;

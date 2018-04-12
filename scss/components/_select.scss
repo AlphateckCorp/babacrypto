@@ -28,7 +28,7 @@
     text-shadow: none;
     color: $black;
     text-transform: uppercase;
-    @include font(myriadpro-sb, 17px);
+   // @include font(myriadpro-sb, 17px);
     line-height: 34px;
     &:hover,
     &:active {
