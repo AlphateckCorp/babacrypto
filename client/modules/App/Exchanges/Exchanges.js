@@ -143,8 +143,8 @@ class Exchange extends Component {
     render() {
         var rowEle = [];
         const meta = {
-            title: 'All CryptoCurrency Exchanges List | Crypto Trading Platforms - [2018]',
-            description: 'List of all Cryptocurrency Exchanges | Crypto exchanges supported coins and volume amount, Find the best CryptoCurrency trading platforms! -[2018]',
+            title: 'All CryptoCurrency Exchanges List | Crypto Trading Platforms 2018',
+            description: 'List of all Cryptocurrency Exchanges | Crypto exchanges supported coins and volume amount, Find the best CryptoCurrency trading platforms! 2018',
             meta: {
                 charset: 'utf-8',
                 name: {

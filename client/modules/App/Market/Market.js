@@ -23,7 +23,9 @@ class Market extends Component {
         this.props.dispatch(FetchMarketRequest(MarketName));
     }
     componentDidMount(props) {
-        document.title = this.props.params.market + " Markets";
+        var MkName = this.props.params.market;
+        var data = MkName.charAt(0).toUpperCase() + MkName.substr(1);
+        document.title = data + " Markets";
     }
 
     onchange = (e) => {
@@ -113,7 +115,7 @@ class Market extends Component {
         var selectType = '';
         var MarketList = '';
         var self = this.state;
-        var marketcapital = 0;
+        var marketVol24Hour = 0;
         if (this.props.MarketList != undefined && this.props.MarketList.length > 0) {
             MarketList = this.props.MarketList;
             var opArr = ['USD', 'ETH', 'EUR', 'BTC'];
@@ -135,7 +137,7 @@ class Market extends Component {
                     var boundedPrecision = 8;
                     var value = data.PRICE;
                     var CHANGE24HOUR = data.CHANGE24HOUR;
-                    marketcapital += parseFloat(data.VOLUME24HOUR);
+                    marketVol24Hour += parseFloat(data.VOLUME24HOUR);
                     var power = Math.pow(10, 8);
                     function roundingFunction(x) {
                         return Number.parseFloat(x).toFixed(8);
@@ -173,8 +175,8 @@ class Market extends Component {
             }
             else {
                 errorActive = true;
-                exchangeMarketlist= [];
-               
+                exchangeMarketlist = [];
+
             }
         }
 
@@ -188,7 +190,7 @@ class Market extends Component {
             var boundedPrecision = 8;
             var value = action;
             var valueToRound = ((value.toString().indexOf('e') >= 0) ? (value * power) : (value + 'e+' + boundedPrecision));
-             var outputz = ((roundingFunction(valueToRound) / power).toFixed(boundedPrecision));
+            var outputz = ((roundingFunction(valueToRound) / power).toFixed(boundedPrecision));
 
 
             var data = '';
@@ -267,49 +269,28 @@ class Market extends Component {
                         <div className="grid-x align-justify">
                             <h2 className="allTableHeading" style={{ textTransform: "capitalize" }}>{this.props.params.market} Markets  </h2>
                             <div className="cell">
-                                <div className="cell shrink">
-                                    <select id="" onChange={this.onchange} className="selectStyle styler">
-                                        {selectType}
-                                    </select>
-                                </div>
-                                <div className="cell small-5 medium-shrink">
-                                    <p className="t--right"><strong>Total Market Cap: </strong>
-                                        {this.state.symbolSt + (numeral(marketcapital).format('0,0.000'))}
-                                    </p>
+                                <div className="grid-x align-justify">
+                                    <div className="cell shrink">
+                                        <select id="" onChange={this.onchange} className="selectStyle styler">
+                                            {selectType}
+                                        </select>
+                                    </div>
+                                    <div className="cell small-5 medium-shrink">
+                                        <p className="t--right"><strong>Total 24h Volume: </strong>
+                                            {this.state.symbolSt + (numeral(marketVol24Hour).format('0,0.000'))}
+                                        </p>
+                                    </div>
                                 </div>
                                 <div className="table-wrap l-table">
-                                    {/*                                     
-                                    <table className="table responsive js-table">
-                                        <thead>
-                                            <tr>
-                                                <th className="headcol">#</th>
-                                                <th className="coinName headcol2">Market</th>
-                                                <th className="market-cap-col">Price</th>
-                                                <th>24h % Change</th>
-                                                <th>24h Change</th>
-                                                <th>24h Volume</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {(exchangeMarketlist) ? (exchangeMarketlist != "error") ? exchangeMarketlist : <tr><td colSpan={6} style={{ textAlign: "center" }}>Record Not Found</td></tr> :
-                                                <tr >
-                                                    <td className="loadingClass headcol" colSpan="6">Loading...</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table> */}
-                                   
-                                        <BootstrapTable data={exchangeMarketlist} striped hover  options={options}>
-                                            <TableHeaderColumn isKey dataField='id' dataSort={true} width='10px'>#</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='20px'>Exchange</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='price' width='20px' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout}>Price</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='changePct24Hour' dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='20px'> 24h % Change</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='change24Hour' dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='15px'>24h Change</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc} dataFormat={numberLayout} width='20px' >24h Volume</TableHeaderColumn>
+                                    <BootstrapTable data={exchangeMarketlist} striped hover options={options}>
+                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='10px'>#</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='20px'>Market</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='price' width='20px' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout}>Price</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='changePct24Hour' dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='20px'> 24h % Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='change24Hour' dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='15px'>24h Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc} dataFormat={numberLayout} width='20px' >24h Volume</TableHeaderColumn>
 
-                                        </BootstrapTable>
-                                   
-
+                                    </BootstrapTable>
                                 </div>
                             </div>
                         </div>
