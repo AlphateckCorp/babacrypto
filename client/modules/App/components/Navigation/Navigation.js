@@ -1,6 +1,8 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { slide as Menu } from 'react-burger-menu'
+
 class Navigation extends Component {
 
     render() {
@@ -30,7 +32,7 @@ class Navigation extends Component {
             //     </div>
             // </nav>
 
-
+            <div>
         <nav id="menu">
             <ul id="menu-closed">
                 <li>
@@ -47,6 +49,14 @@ class Navigation extends Component {
                 <li><a href="#menu">&#9776;</a></li>
             </ul>
         </nav>
+        <Link className="navbrand_logo"  to="/">
+                           <span className="t--blue">baba</span><span>crypto</span><span className="">.com</span>
+                    </Link>
+            <Menu right>
+                <Link id="coins" className="menu-item" to="/">COINS</Link>
+                <Link id="exchanges" className="menu-item" to="/exchanges">EXCHANGES</Link>
+            </Menu>
+        </div>
 
         );
     }
