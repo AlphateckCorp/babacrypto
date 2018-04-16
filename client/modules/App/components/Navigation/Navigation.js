@@ -36,6 +36,8 @@ class Navigation extends Component {
                         <li>
                             <Link className="" to="/exchanges">Exchanges</Link>
                         </li>
+                        <li><a href="#menu-closed">&#215; </a></li>
+                        <li><a href="#menu">&#9776;</a></li>
                     </ul>
                 </nav>
                 <Link className="navbrand_logo"  to="/">
