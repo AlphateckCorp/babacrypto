@@ -13,9 +13,7 @@ export function Header() {
         <div className="">
           <div className="grid-container">
             <div className="cell">
-              <div className="">
               <Navigation />
-              </div>
             </div>
           </div>
         </div>
