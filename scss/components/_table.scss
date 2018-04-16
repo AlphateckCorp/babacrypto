@@ -136,3 +136,6 @@ table.unstriped tbody tr {
          padding-right: 5px;
         };
     }
+.react-bs-table table {
+    table-layout: auto !important;
+}

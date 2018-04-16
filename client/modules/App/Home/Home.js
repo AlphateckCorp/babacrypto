@@ -406,8 +406,8 @@ class Home extends Component {
                                     <option className="abc" value="ETH">ETH</option>
                                 </select>
                             </div>
-                            <div className="cell small-5 medium-shrink">
-                                <p className="t--right"><strong>Total Market Cap: </strong>
+                            <div className="cell small-7 medium-shrink">
+                                <p><strong>Total Market Cap: </strong>
                                     {this.state.symbolSt + (numeral(marketCap).format('0,0.000'))}
                                 </p>
                             </div>
