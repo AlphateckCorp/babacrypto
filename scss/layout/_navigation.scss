@@ -270,7 +270,7 @@ nav#menu:target li:nth-last-child(2) {
 }
 /* Position and sizing of burger button */
 .bm-burger-button {
-    position: fixed;
+    position: absolute;
     width: 24px;
     height: 20px;
     right: 18px;
