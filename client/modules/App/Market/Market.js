@@ -105,6 +105,11 @@ class Market extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className="medium-4 small-12 right_btn">
+                        <Link to={"/exchanges/" + exName} target="_blank" rel="nofollow">
+                            <button className="primarybtn"> Visit </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         );

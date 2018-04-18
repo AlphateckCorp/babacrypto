@@ -200,7 +200,7 @@ class Exchange extends Component {
         const visitAction = (action, listObj) => {
             var marketName = ((action).toLowerCase().trim());
             return (
-                <Link to={"/exchanges/" + marketName}>
+                <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
                     <button className="primarybtn"> Visit </button>
                 </Link>
             );

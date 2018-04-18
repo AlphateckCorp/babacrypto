@@ -90,7 +90,7 @@ h2 span{
         color: rgb(118, 123, 127);
     };
     @include bp(mobile){
-        font-size:16px;
+        font-size:25px;
     }
 }
 .chartSubHeading{
@@ -111,6 +111,9 @@ h2 span{
     @include bp(tabletMax) {
         font-size: 20px;
     };
+    @include bp(mobile){
+        margin-top: 30px;
+     }
 }
 .tooltipStyle {
     max-width: 75%;
