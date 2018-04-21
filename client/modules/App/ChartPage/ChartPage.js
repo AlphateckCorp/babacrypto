@@ -230,7 +230,7 @@ class ChartPage extends Component {
             if (action == listObj.price) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.00'));
             } else if (action == listObj.changePct24Hour) {
-                return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
+                return data = <span className={(action >= 0)? "t--green": "t--red" }>{numeral(action).format('0,0.000')} %</span>
             } else if (action == listObj.change24Hour) {
                 return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
                  

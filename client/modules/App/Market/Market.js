@@ -143,6 +143,7 @@ class Market extends Component {
                     var value = data.PRICE;
                     var CHANGE24HOUR = data.CHANGE24HOUR;
                     marketVol24Hour += parseFloat(data.VOLUME24HOUR);
+                    console.log(data.VOLUME24HOUR, "VOL");
                     var power = Math.pow(10, 8);
                     function roundingFunction(x) {
                         return Number.parseFloat(x).toFixed(8);
@@ -207,7 +208,7 @@ class Market extends Component {
             } else if (action == listObj.changePct24Hour) {
                 // return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
 
-                return data = <span className={(action >= 0) ? "t--green" : "t--red"}> {self.symbolSt} {((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(action).format('0,0.00000000'))} </span>;
+                return data = <span className={(action >= 0) ? "t--green" : "t--red"}> {((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz +' %' : numeral(action).format('0,0.00000000'))} % </span>;
 
             } else if (action == listObj.change24Hour) {
                 // return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>

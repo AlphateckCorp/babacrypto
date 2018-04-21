@@ -288,9 +288,39 @@ class Home extends Component {
 
         if (this.props.getCoinsList.length > 0) {
             var dataList = (this.props.getCoinsList);
+          
             coinContent = dataList.map(function (data, index) {
+                // var CoinName = '';
+                // if ((data.coinlistinfos).length > 0) {
+                //     CoinName = ((data.CoinName).toLowerCase().trim());
+                //     CoinName = CoinName.replace(' / ', '_');
+                //     CoinName = CoinName.replace(' ', '-');
+
+                //     marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+                //     const datazl = {
+                //         "id": index + 1,
+                //         "CoinName": data.CoinName,
+                //         "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
+                //         "price": data.coinlistinfos[self.typeId].PRICE,
+                //         "supply": data.coinlistinfos[self.typeId].SUPPLY,
+                //         "totalVol24h":data.coinlistinfos[self.typeId].TOTALVOLUME24H,
+                //         "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR,
+                //         "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
+                //     };
+                //     return datazl;
+                // }
+                // return coinContent;
+                return data;
+            }).sort((a, b) => {
+                console.log(a, "a");
+                console.log(b, "b")
+                return b.coinlistinfos[self.typeId].MKTCAP - a.coinlistinfos[self.typeId].MKTCAP;
+            })
+            .map((data, index) => {
+                // console.log(item, "item");
+                // return item;
                 var CoinName = '';
-                if ((data.coinlistinfos).length > 0) {
+                // if ((data.coinlistinfos).length > 0) {
                     CoinName = ((data.CoinName).toLowerCase().trim());
                     CoinName = CoinName.replace(' / ', '_');
                     CoinName = CoinName.replace(' ', '-');
@@ -303,21 +333,24 @@ class Home extends Component {
                         "price": data.coinlistinfos[self.typeId].PRICE,
                         "supply": data.coinlistinfos[self.typeId].SUPPLY,
                         "totalVol24h":data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-                        "vol24h": data.coinlistinfos[self.typeId].VOLUME24HOUR,
-                        "change24h": data.coinlistinfos[self.typeId].CHANGE24HOUR
+                        "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR,
+                        "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
                     };
                     return datazl;
-                }
-                return coinContent;
+                // }
+                // return coinContent;
             });
+            
+            
+            ;
         }
 
         const colorAction = (action, listObj) => {
             var data = '';
             if (action > 0) {
-                data = <span className="t--green">{self.symbolSt}{numeral(action).format('0,0.000')}</span>
+                data = <span className="t--green">{numeral(action).format('0,0.000')} %</span>
             } else {
-                data = <span className="t--red">{self.symbolSt}{numeral(action).format('0,0.000')}</span>
+                data = <span className="t--red">{numeral(action).format('0,0.000')} %</span>
             }
             return (data);
         }
@@ -337,7 +370,7 @@ class Home extends Component {
             } else if (action == listObj.price) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.00'));
             } else if (action == listObj.supply) {
-                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
+                return (numeral(action).format('0,0.000'));
             } else if (action == listObj.totalVol24h) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.000'));
             } else if (action == listObj.vol24h) {
@@ -390,7 +423,9 @@ class Home extends Component {
         };
         var options = {
             // noDataText: (<span className="loadingClass headcol" colSpan="6"> Record Not Found!! </span>)
-            noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>)
+            noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>),
+            sortName: 'mkcapital',
+      sortOrder: 'desc'
         };
 
         return (
@@ -422,7 +457,7 @@ class Home extends Component {
                                         <TableHeaderColumn dataField='supply' dataSort sortFunc={supplySortFunc} dataFormat={numberLayout} width='20px' > Circulating Supply</TableHeaderColumn>
                                         <TableHeaderColumn dataField='totalVol24h' dataSort sortFunc={totalVol24hSortFunc} dataFormat={numberLayout} width='20px' >24h Volume</TableHeaderColumn>
                                         <TableHeaderColumn dataField='vol24h' dataFormat={colorAction} dataSort sortFunc={vol24hSortFunc} width='15px'>24h Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='change24h' dataFormat={colorAction} dataSort sortFunc={change24hSortFunc} width='15px'> 7d Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='change24h' dataFormat={colorAction} dataSort sortFunc={change24hSortFunc} width='15px'> 1d Change</TableHeaderColumn>
 
 
                                     </BootstrapTable>
