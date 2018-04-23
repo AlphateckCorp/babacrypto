@@ -7,6 +7,7 @@ import { getMarket } from './MarketReducer';
 import numeral from 'numeral';
 import ReactTooltip from 'react-tooltip';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import DocumentMeta from 'react-document-meta';
 
 class Market extends Component {
     constructor(props) {
@@ -16,6 +17,8 @@ class Market extends Component {
             symbolSt: '$',
             typeId: 0,
             symbolName: 'USD',
+            metaTitle : '',
+            metaDescription:''
         }
     }
     componentWillMount(props) {
@@ -25,6 +28,9 @@ class Market extends Component {
     componentDidMount(props) {
         var MkName = this.props.params.market;
         var data = MkName.charAt(0).toUpperCase() + MkName.substr(1);
+        this.state.metaTitle = data + " Markets";
+        this.state.metaDescription = "Full Review of " +data+ " Exchange Platform | Full list of " +data+ " Pricesper Market and "+data+ " Supported Coins at Babacrypto.com -2018"
+        this.setState(this.state);
         document.title = data + " Markets";
     }
 
@@ -115,6 +121,16 @@ class Market extends Component {
         );
     }
     render() {
+      const meta = {
+        title: this.state.metaTitle,
+        description: this.state.metaDescription,
+        meta: {
+            charset: 'utf-8',
+            name: {
+                keywords: 'Digital Currency,react'
+            }
+        }
+      };
         var coinSymbolList = [];
         var errorActive = false;
         var selectType = '';
@@ -143,7 +159,7 @@ class Market extends Component {
                     var value = data.PRICE;
                     var CHANGE24HOUR = data.CHANGE24HOUR;
                     marketVol24Hour += parseFloat(data.VOLUME24HOUR);
-                    console.log(data.VOLUME24HOUR, "VOL");
+                    
                     var power = Math.pow(10, 8);
                     function roundingFunction(x) {
                         return Number.parseFloat(x).toFixed(8);
@@ -256,6 +272,7 @@ class Market extends Component {
         };
         return (
             <div>
+            <DocumentMeta {...meta}>
                 <main className="main">
                     <div className="grid-container" style={{ paddingBottom: "35px" }}>
 
@@ -289,12 +306,12 @@ class Market extends Component {
                                 </div>
                                 <div className="table-wrap l-table">
                                     <BootstrapTable data={exchangeMarketlist} striped hover options={options}>
-                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='10px'>#</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='20px'>Market</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='price' width='20px' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout}>Price</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='changePct24Hour' dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='20px'> 24h % Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='change24Hour' dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='15px'>24h Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc} dataFormat={numberLayout} width='20px' >24h Volume</TableHeaderColumn>
+                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='150'>Market</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout}  width='150'>Price</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='changePct24Hour' dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='150'> 24h % Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='change24Hour' dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='150'>24h Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc} dataFormat={numberLayout} width='200' >24h Volume</TableHeaderColumn>
 
                                     </BootstrapTable>
                                 </div>
@@ -302,7 +319,7 @@ class Market extends Component {
                         </div>
                     </div>
                 </main >
-
+                </DocumentMeta>
 
             </div >
         )

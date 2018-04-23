@@ -58,7 +58,6 @@ class Home extends Component {
                     return b.PRICE - a.PRICE;
                 })
                 .map((item, i) => {
-                    console.log(item, "item");
                     return item;
                 });
 
@@ -265,7 +264,6 @@ class Home extends Component {
                     <td className="loadingClass headcol" colSpan="8">Loading...</td>
                 </tr>);
             });
-            console.log(coinContent, "coinContent");
             return coinContent;
         }
     }
@@ -282,6 +280,7 @@ class Home extends Component {
                 }
             }
         };
+        
         var coinContent = [];
         var marketCap = 0;
         var self = this.state;
@@ -312,8 +311,6 @@ class Home extends Component {
                 // return coinContent;
                 return data;
             }).sort((a, b) => {
-                console.log(a, "a");
-                console.log(b, "b")
                 return b.coinlistinfos[self.typeId].MKTCAP - a.coinlistinfos[self.typeId].MKTCAP;
             })
             .map((data, index) => {
@@ -429,7 +426,8 @@ class Home extends Component {
         };
 
         return (
-            <DocumentMeta {...meta}>
+          <div>
+            <DocumentMeta {...meta} />
                 <InfoSection />
                 <main className="main">
                     <div className="grid-container">
@@ -449,15 +447,15 @@ class Home extends Component {
                             <div className="cell">
                                 <div className="table-wrap l-table">
 
-                                    <BootstrapTable data={coinContent} striped hover options={options} >
-                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='10px'>#</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='CoinName' dataSort={true} dataFormat={LinkAction} width='20px'>Coin</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='mkcapital' dataSort sortFunc={mkcapitalSortFunc} dataFormat={numberLayout} width='20px'>Market Cap</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout} width='20px' >Price</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='supply' dataSort sortFunc={supplySortFunc} dataFormat={numberLayout} width='20px' > Circulating Supply</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='totalVol24h' dataSort sortFunc={totalVol24hSortFunc} dataFormat={numberLayout} width='20px' >24h Volume</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='vol24h' dataFormat={colorAction} dataSort sortFunc={vol24hSortFunc} width='15px'>24h Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='change24h' dataFormat={colorAction} dataSort sortFunc={change24hSortFunc} width='15px'> 1d Change</TableHeaderColumn>
+                                    <BootstrapTable data={coinContent} striped hover options={options}  >
+                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='CoinName' dataSort={true} dataFormat={LinkAction} width='150'>Coin</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='mkcapital' dataSort sortFunc={mkcapitalSortFunc} dataFormat={numberLayout} width='165'>Market Cap</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout} width='100' >Price</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='supply' dataSort sortFunc={supplySortFunc} dataFormat={numberLayout} width='165' > Circulating Supply</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='totalVol24h' dataSort sortFunc={totalVol24hSortFunc} dataFormat={numberLayout} width='150' >24h Volume</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='vol24h' dataFormat={colorAction} dataSort sortFunc={vol24hSortFunc} width='125'>24h Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='change24h' dataFormat={colorAction} dataSort sortFunc={change24hSortFunc} width='125'> 1d Change</TableHeaderColumn>
 
 
                                     </BootstrapTable>
@@ -472,7 +470,7 @@ class Home extends Component {
                         </div>
                     </div>
                 </main>
-            </DocumentMeta>
+            </div>
         );
     }
 }

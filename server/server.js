@@ -10,7 +10,7 @@ import webpack from 'webpack';
 import config from '../webpack.config.dev';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-
+import DocumentMeta from 'react-document-meta';
 // Initialize the Express App
 const app = new Express();
 
@@ -57,11 +57,10 @@ app.use('/api',  function(req, res) {
     req.pipe(request(url)).pipe(res);
   });
 
-
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
   const head = Helmet.rewind();
-
+  const metas = DocumentMeta.rewind();
   // Import Manifests
   const assetsManifest = process.env.webpackAssets && JSON.parse(process.env.webpackAssets);
   const chunkManifest = process.env.webpackChunkAssets && JSON.parse(process.env.webpackChunkAssets);
@@ -70,13 +69,16 @@ const renderFullPage = (html, initialState) => {
     <!doctype html>
     <html>
       <head>
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NR43GS2');</script>
+      
         ${head.base.toString()}
         ${head.title.toString()}
         ${head.meta.toString()}
         ${head.link.toString()}
         ${head.script.toString()}
-
+        
+        ${ metas.title ? `<meta name="title" content='${metas.title}'> `: '' }
+        ${ metas.description ? `<meta name="description" content='${metas.description}'> `: '' }
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NR43GS2');</script>
         ${isProdMode ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
         <link rel='stylesheet' href='${isProdMode ? assetsManifest['/stylesCustom.css'] : '/stylesCustom.css'}' />
         <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />

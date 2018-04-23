@@ -6,7 +6,7 @@ import { FetchCoinsListRequest, FetchExchangeListRequest } from './ChartPageActi
 import { getCoinsList } from './ChartPageReducer';
 import { getExchangeList } from './ChartMarketReducer';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-
+import DocumentMeta from 'react-document-meta';
 import numeral from 'numeral';
 
 class ChartPage extends Component {
@@ -17,7 +17,10 @@ class ChartPage extends Component {
             symbolSt: '$',
             typeId: 0,
             symbolName: 'USD',
-            showChart: false
+            showChart: false,
+            meta:false,
+            metaTitle : '',
+            metaDescription:''
         }
     }
 
@@ -52,11 +55,19 @@ class ChartPage extends Component {
     }
     componentWillReceiveProps(prev, next) {
         if (this.props.exchangeCoinsList != "undefined" && this.props.exchangeCoinsList.length > 0) {
+            this.state.coinList = this.props.exchangeCoinsList;
             var coinName = this.props.exchangeCoinsList[0].CoinName;
             var symbol = this.props.exchangeCoinsList[0].Symbol;
-            document.title = coinName + " Charts | " + coinName + " Markets (" + symbol + "/USD)";
-            this.state.coinList = this.props.exchangeCoinsList;
-            this.setState(this.state);
+            // var symbol = this.props.exchangeCoinsList[0].Symbol;
+            // console.log(this.state.symbolName, "name")
+            var symbolName = this.state.symbolName;
+            // document.title = coinName + " Charts | " + coinName + " Markets (" + symbol + "/"+symbolName + ")";
+            // document.description = "Complete Overview of "+coinName+ " ("+symbol+") CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com"
+            
+            this.state.metaTitle = coinName + " Charts | " + coinName + " Markets (" + symbol + "/"+symbolName + ")";
+            this.state.metaDescription = "Complete Overview of "+coinName+ " ("+symbol+") CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
+            
+        this.setState(this.state);
         }
 
     }
@@ -75,6 +86,11 @@ class ChartPage extends Component {
                 selectTypeByid = 2;
                 currencySymbols = 'Ξ';
                 symbolName = 'ETH';
+                break;
+            case ('BTC'):
+                selectTypeByid = 3;
+                currencySymbols = 'B';
+                symbolName = 'BTC';
                 break;
             default:
                 selectTypeByid = 0;
@@ -149,6 +165,17 @@ class ChartPage extends Component {
 
     }
     render() {
+      const meta = {
+        title: this.state.metaTitle,
+        description: this.state.metaDescription,
+        meta: {
+            charset: 'utf-8',
+            name: {
+                keywords: 'Digital Currency, react'
+            }
+          }
+      };
+        var exchangeMarketlist = [];
         var exchangecoin = '';
         var coinlist = '';
         var selectType = '';
@@ -159,7 +186,13 @@ class ChartPage extends Component {
 
             coinlist = exchangecoin[0];
             var list = exchangecoin[0].coinlistinfos;
-
+            console.log(list, "list");
+            console.log(coinlist, "coinlist");
+            // var selectType = list ? list.filter((data, key) => {
+            //     return data.TOSYMBOL!= 'BTC';
+            // }).map((data, key) =>{
+            //     return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);
+            // }):'';
             var selectType = list ? list.map((data, key) => {
                 return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);
             }):'';
@@ -199,7 +232,8 @@ class ChartPage extends Component {
 
             if (datalist.length > 0) {
                 var datazls = [];
-                var exchangeMarketlist =  datalist ? datalist.map((data, key) => {
+                exchangeMarketlist =  datalist ? datalist.map((data, key) => {
+                  console.log(data, "data");
                     const datazls = {
                         "id": key + 1,
                         "marketName": data.MARKET,
@@ -211,7 +245,7 @@ class ChartPage extends Component {
                     }
                     return datazls;
 
-                }) : '';
+                }) : [];
             } 
         } 
 
@@ -228,7 +262,7 @@ class ChartPage extends Component {
         const numberLayout = (action, listObj) => {
             var data = '';
             if (action == listObj.price) {
-                return (self.symbolSt + "" + numeral(action).format('0,0.00'));
+                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
             } else if (action == listObj.changePct24Hour) {
                 return data = <span className={(action >= 0)? "t--green": "t--red" }>{numeral(action).format('0,0.000')} %</span>
             } else if (action == listObj.change24Hour) {
@@ -277,7 +311,8 @@ class ChartPage extends Component {
         
 
         return (
-            <div>
+          <div>
+            <DocumentMeta {...meta} />
                 <main className="main">
 
                     <div className="grid-container" style={{ paddingBottom: "35px" }}>
@@ -333,13 +368,13 @@ class ChartPage extends Component {
                             <div className="cell">
                                 <div className="table-wrap l-table">
                                     <BootstrapTable data={exchangeMarketlist} striped hover >
-                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='10px'>#</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='20px'>Exchange</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='price' width='20px'  dataSort sortFunc={priceSortFunc} dataFormat={numberLayout}>Price</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='changePct24Hour'  dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='20px'> 24h % Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='change24Hour'  dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='15px'>24h Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc}  dataFormat={numberLayout} width='20px' >24h Volume</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='visit' dataFormat={visitAction} width='15px'> Visit</TableHeaderColumn>
+                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='125'>Exchange</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout} width='125'>Price</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='changePct24Hour'  dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='125'> 24h % Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='change24Hour'  dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='125'>24h Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc}  dataFormat={numberLayout} width='125' >24h Volume</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='visit' dataFormat={visitAction} width='150'> Visit</TableHeaderColumn>
 
                                     </BootstrapTable>
                                 </div>

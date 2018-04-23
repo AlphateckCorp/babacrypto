@@ -256,6 +256,7 @@ class Exchange extends Component {
 
 
         return (
+          <div>
             <DocumentMeta {...meta}>
                 <InfoSection />
                 <main className="main">
@@ -284,11 +285,11 @@ class Exchange extends Component {
                             <div className="cell">
                             <div className="table-wrap l-table">
                             <BootstrapTable data={this.renderTableRows(finalData, volData)} striped hover options={options}>
-                                <TableHeaderColumn isKey dataField='id' dataSort={true} width='10px'>#</TableHeaderColumn>
-                                <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={LinkAction} width='20px'>Exchange</TableHeaderColumn>
-                                <TableHeaderColumn dataField='coins' width='40px' dataFormat={coinShowAction}>Coins</TableHeaderColumn>
-                                <TableHeaderColumn dataField='vol24h' width='20px' dataSort sortFunc={vol24hSortFunc}  dataFormat={vol24hAction} >24h volume</TableHeaderColumn>
-                                <TableHeaderColumn dataField='visit' width='20px' dataFormat={visitAction} > Visit</TableHeaderColumn>
+                                <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
+                                <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
+                                <TableHeaderColumn dataField='coins' width='320' dataFormat={coinShowAction}>Coins</TableHeaderColumn>
+                                <TableHeaderColumn dataField='vol24h' width='150' dataSort sortFunc={vol24hSortFunc}  dataFormat={vol24hAction} >24h volume</TableHeaderColumn>
+                                <TableHeaderColumn dataField='visit' width='150' dataFormat={visitAction} > Visit</TableHeaderColumn>
                             </BootstrapTable>
                             </div>
                             </div>
@@ -296,6 +297,7 @@ class Exchange extends Component {
                     </div>
                 </main>
             </DocumentMeta >
+          </div>
         );
     }
 }
