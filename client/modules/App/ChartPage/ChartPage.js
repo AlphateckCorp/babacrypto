@@ -61,10 +61,11 @@ class ChartPage extends Component {
             // var symbol = this.props.exchangeCoinsList[0].Symbol;
             // console.log(this.state.symbolName, "name")
             var symbolName = this.state.symbolName;
-            // document.title = coinName + " Charts | " + coinName + " Markets (" + symbol + "/"+symbolName + ")";
+            document.title = coinName +"("+symbol+") Overview | "+coinName +" Price, Charts and Market Cap";
             // document.description = "Complete Overview of "+coinName+ " ("+symbol+") CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com"
             
-            this.state.metaTitle = coinName + " Charts | " + coinName + " Markets (" + symbol + "/"+symbolName + ")";
+            // this.state.metaTitle = coinName + " Charts | " + coinName + " Markets (" + symbol + "/"+symbolName + ")";
+            this.state.metaTitle = coinName +"("+symbol+") Overview | "+coinName +" Price, Charts and Market Cap";
             this.state.metaDescription = "Complete Overview of "+coinName+ " ("+symbol+") CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
             
         this.setState(this.state);
@@ -314,7 +315,6 @@ class ChartPage extends Component {
           <div>
             <DocumentMeta {...meta} />
                 <main className="main">
-
                     <div className="grid-container" style={{ paddingBottom: "35px" }}>
                         <div className="grid-x align-justify">
                             {(coinlist) ?
