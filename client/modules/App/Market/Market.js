@@ -178,7 +178,7 @@ class Market extends Component {
                         <td>{self.symbolSt}{numeral(data.VOLUME24HOUR).format('0,0.000')}</td>
                     </tr>);
                     */
-                   console.log(data, "datalis");
+                //    console.log(data, "datalis");
                     const datazls = {
                         "id": key + 1,
                         "marketName": data.FROMSYMBOL + "/" + data.TOSYMBOL,

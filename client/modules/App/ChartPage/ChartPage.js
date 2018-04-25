@@ -118,17 +118,17 @@ class ChartPage extends Component {
             
             return self.symbolName == data.TOSYMBOL;
         });
-        var TOTALVOLUME24HList = coindtls.reduce((ls, data) => {
-            console.log(data, "data")
-            console.log(data.LASTMARKET, "LASTMARKET")
-            console.log(data.VOLUME24HOUR, "VOLUME24HOUR");
-            console.log(data.VOLUME24HOURTO, "VOLUME24HOURTO");
+        // var TOTALVOLUME24HList = coindtls.reduce((ls, data) => {
+        //     console.log(data, "data")
+        //     console.log(data.LASTMARKET, "LASTMARKET")
+        //     console.log(data.VOLUME24HOUR, "VOLUME24HOUR");
+        //     console.log(data.VOLUME24HOURTO, "VOLUME24HOURTO");
             
-            console.log(data.TOTALVOLUME24H, "TOTALVOLUME24H");
-            console.log(ls, "ls")
-            var aa = parseFloat(data.TOTALVOLUME24H);
-            return ls += aa;
-        }, 0);
+        //     console.log(data.TOTALVOLUME24H, "TOTALVOLUME24H");
+        //     console.log(ls, "ls")
+        //     var aa = parseFloat(data.TOTALVOLUME24H);
+        //     return ls += aa;
+        // }, 0);
         
         
 
