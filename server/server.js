@@ -64,7 +64,7 @@ const renderFullPage = (html, initialState) => {
   // Import Manifests
   const assetsManifest = process.env.webpackAssets && JSON.parse(process.env.webpackAssets);
   const chunkManifest = process.env.webpackChunkAssets && JSON.parse(process.env.webpackChunkAssets);
-
+  
   return `
     <!doctype html>
     <html>
@@ -77,7 +77,7 @@ const renderFullPage = (html, initialState) => {
         ${head.script.toString()}
         
         
-        ${ metas.description ? `<meta name="description" content='${metas.description}'> `: '' }
+        
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NR43GS2');</script>
         ${isProdMode ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
         <link rel='stylesheet' href='${isProdMode ? assetsManifest['/stylesCustom.css'] : '/stylesCustom.css'}' />

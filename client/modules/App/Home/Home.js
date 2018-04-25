@@ -29,7 +29,7 @@ class Home extends Component {
         this.props.dispatch(FetchCoinsRequest());
     };
     componentDidMount = (props) => {
-        // document.title = "List of all CryptoCurrencies at babacrypto.com - [2018]";
+        // document.title = "List of all CryptoCurrencies at babacrypto.com - 2018";
         // document.head.querySelector('meta[name=description]').content = 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!';
         this.interval = setInterval(this.tick, 10000);
     };
@@ -271,14 +271,8 @@ class Home extends Component {
     render() {
 
         const meta = {
-            title: 'List of all CryptoCurrencies at babacrypto.com 2018',
+            title: "List of all CryptoCurrencies at babacrypto.com - 2018",
             description: 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!',
-            meta: {
-                charset: 'utf-8',
-                name: {
-                    keywords: 'Digital Currency, react'
-                }
-            }
         };
         
         var coinContent = [];
@@ -330,8 +324,8 @@ class Home extends Component {
                         "price": data.coinlistinfos[self.typeId].PRICE,
                         "supply": data.coinlistinfos[self.typeId].SUPPLY,
                         "totalVol24h":data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-                        "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR,
-                        "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
+                        "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
+                        // "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
                     };
                     return datazl;
                 // }
@@ -455,7 +449,7 @@ class Home extends Component {
                                         <TableHeaderColumn dataField='supply' dataSort sortFunc={supplySortFunc} dataFormat={numberLayout} width='165' > Circulating Supply</TableHeaderColumn>
                                         <TableHeaderColumn dataField='totalVol24h' dataSort sortFunc={totalVol24hSortFunc} dataFormat={numberLayout} width='150' >24h Volume</TableHeaderColumn>
                                         <TableHeaderColumn dataField='vol24h' dataFormat={colorAction} dataSort sortFunc={vol24hSortFunc} width='125'>24h Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='change24h' dataFormat={colorAction} dataSort sortFunc={change24hSortFunc} width='125'> 1d Change</TableHeaderColumn>
+                                        {/* <TableHeaderColumn dataField='change24h' dataFormat={colorAction} dataSort sortFunc={change24hSortFunc} width='125'> 1d Change</TableHeaderColumn> */}
 
 
                                     </BootstrapTable>

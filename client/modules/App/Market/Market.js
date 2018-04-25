@@ -28,12 +28,10 @@ class Market extends Component {
     componentDidMount(props) {
         var MkName = this.props.params.market;
         var data = MkName.charAt(0).toUpperCase() + MkName.substr(1);
-        // this.state.metaTitle = data + " Markets";
         this.state.metaTitle = data+ " Exchange Review | Updated "+data+" Market Prices - 2018";
         this.state.metaDescription = "Full Review of " +data+ " Exchange Platform | Full list of " +data+ " Pricesper Market and "+data+ " Supported Coins at Babacrypto.com -2018"
         this.setState(this.state);
-        // document.title = data + " Markets";
-        document.title = data+ " Exchange Review | Updated "+data+" Market Prices - 2018";
+        // document.title = data+ " Exchange Review | Updated "+data+" Market Prices - 2018";
     }
 
     onchange = (e) => {
@@ -125,13 +123,8 @@ class Market extends Component {
     render() {
       const meta = {
         title: this.state.metaTitle,
-        description: this.state.metaDescription,
-        meta: {
-            charset: 'utf-8',
-            name: {
-                keywords: 'Digital Currency,react'
-            }
-        }
+        description: this.state.metaDescription
+      
       };
         var coinSymbolList = [];
         var errorActive = false;
@@ -160,7 +153,7 @@ class Market extends Component {
                     var boundedPrecision = 8;
                     var value = data.PRICE;
                     var CHANGE24HOUR = data.CHANGE24HOUR;
-                    marketVol24Hour += parseFloat(data.VOLUME24HOUR);
+                    marketVol24Hour += parseFloat(data.VOLUME24HOURTO);
                     
                     var power = Math.pow(10, 8);
                     function roundingFunction(x) {
@@ -185,13 +178,15 @@ class Market extends Component {
                         <td>{self.symbolSt}{numeral(data.VOLUME24HOUR).format('0,0.000')}</td>
                     </tr>);
                     */
+                   console.log(data, "datalis");
                     const datazls = {
                         "id": key + 1,
                         "marketName": data.FROMSYMBOL + "/" + data.TOSYMBOL,
                         "price": data.PRICE,
                         "changePct24Hour": data.CHANGEPCT24HOUR,
                         "change24Hour": data.CHANGE24HOUR,
-                        "vol24h": data.VOLUME24HOUR
+                        // "vol24h": data.VOLUME24HOUR
+                        "vol24h" : data.VOLUME24HOURTO
                     }
                     return datazls;
 
@@ -203,10 +198,7 @@ class Market extends Component {
 
             }
         }
-
-        const numberLayout = (action, listObj) => {
-
-
+        const designLayout = (action, listObj) => {
             var power = Math.pow(10, 8);
             function roundingFunction(x) {
                 return Number.parseFloat(x).toFixed(8);
@@ -215,25 +207,30 @@ class Market extends Component {
             var value = action;
             var valueToRound = ((value.toString().indexOf('e') >= 0) ? (value * power) : (value + 'e+' + boundedPrecision));
             var outputz = ((roundingFunction(valueToRound) / power).toFixed(boundedPrecision));
-
-
             var data = '';
-            if (action == listObj.price) {
-                // return (self.symbolSt + "" + numeral(action).format('0,0.00'));
-                // return ((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(action).format('0,0.00000000'));
-                return (self.symbolSt + "" + ((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(action).format('0,0.00000000')));
-
-            } else if (action == listObj.changePct24Hour) {
+            if (action == listObj.changePct24Hour) {
                 // return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
-
                 return data = <span className={(action >= 0) ? "t--green" : "t--red"}> {((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz +' %' : numeral(action).format('0,0.00000000'))} % </span>;
-
             } else if (action == listObj.change24Hour) {
                 // return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
                 return data = <span className={(action >= 0) ? "t--green" : "t--red"}> {self.symbolSt} {((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(action).format('0,0.00000000'))} </span>;
+            }
+        };
+
+        const numberLayout = (action, listObj) => {
+            var power = Math.pow(10, 8);
+            function roundingFunction(x) {
+                return Number.parseFloat(x).toFixed(8);
+            }
+            var boundedPrecision = 8;
+            var value = action;
+            var valueToRound = ((value.toString().indexOf('e') >= 0) ? (value * power) : (value + 'e+' + boundedPrecision));
+            var outputz = ((roundingFunction(valueToRound) / power).toFixed(boundedPrecision));
+            var data = '';
+            if (action == listObj.price) {
+                return (self.symbolSt + "" + ((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(action).format('0,0.00000000')));
 
             } else if (action == listObj.vol24h) {
-                // return (self.symbolSt + "" + numeral(action).format('0,0.000'));
                 return (self.symbolSt + "" + ((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(action).format('0,0.00000000')));
             }
         };
@@ -311,8 +308,8 @@ class Market extends Component {
                                         <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
                                         <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='150'>Market</TableHeaderColumn>
                                         <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout}  width='150'>Price</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='changePct24Hour' dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='150'> 24h % Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='change24Hour' dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='150'>24h Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='changePct24Hour' dataSort sortFunc={changePct24HourSortFunc} dataFormat={designLayout} width='150'> 24h % Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='change24Hour' dataSort sortFunc={change24HourSortFunc} dataFormat={designLayout} width='150'>24h Change</TableHeaderColumn>
                                         <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc} dataFormat={numberLayout} width='200' >24h Volume</TableHeaderColumn>
 
                                     </BootstrapTable>

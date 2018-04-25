@@ -43,7 +43,19 @@ class ChartPage extends Component {
     }
     componentDidMount = (props) => {
         this.interval = setTimeout(this.tick, 5000);
+        this.updateMetaTitle(props);
     };
+    updateMetaTitle = (props) => {
+        if (this.props.exchangeCoinsList != "undefined" && this.props.exchangeCoinsList.length > 0) {
+            this.state.coinList = this.props.exchangeCoinsList;
+            var coinName = this.props.exchangeCoinsList[0].CoinName;
+            var symbol = this.props.exchangeCoinsList[0].Symbol;
+            var symbolName = this.state.symbolName;
+            this.state.metaTitle = coinName +"("+symbol+") Overview | "+coinName +" Price, Charts and Market Cap";
+            this.state.metaDescription = "Complete Overview of "+coinName+ " ("+symbol+") CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
+            this.setState(this.state);
+        }
+    }
     componentWillUnmount = (props) => {
         clearInterval(this.interval);
     };
@@ -58,17 +70,10 @@ class ChartPage extends Component {
             this.state.coinList = this.props.exchangeCoinsList;
             var coinName = this.props.exchangeCoinsList[0].CoinName;
             var symbol = this.props.exchangeCoinsList[0].Symbol;
-            // var symbol = this.props.exchangeCoinsList[0].Symbol;
-            // console.log(this.state.symbolName, "name")
             var symbolName = this.state.symbolName;
-            document.title = coinName +"("+symbol+") Overview | "+coinName +" Price, Charts and Market Cap";
-            // document.description = "Complete Overview of "+coinName+ " ("+symbol+") CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com"
-            
-            // this.state.metaTitle = coinName + " Charts | " + coinName + " Markets (" + symbol + "/"+symbolName + ")";
             this.state.metaTitle = coinName +"("+symbol+") Overview | "+coinName +" Price, Charts and Market Cap";
             this.state.metaDescription = "Complete Overview of "+coinName+ " ("+symbol+") CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
-            
-        this.setState(this.state);
+            this.setState(this.state);
         }
 
     }
@@ -107,11 +112,28 @@ class ChartPage extends Component {
         var self = this.state;
         var totalCoinSupply = exchangecoin[0].TotalCoinSupply
         var coindtls = exchangecoin[0].coinlistinfos;
+        // var TOTALVOLUME24HList = 0;
         var coinlistDtl = coindtls.filter((data, index) => {
-            return self.typeId == index;
+            // return self.typeId == index;
+            
+            return self.symbolName == data.TOSYMBOL;
         });
+        var TOTALVOLUME24HList = coindtls.reduce((ls, data) => {
+            console.log(data, "data")
+            console.log(data.LASTMARKET, "LASTMARKET")
+            console.log(data.VOLUME24HOUR, "VOLUME24HOUR");
+            console.log(data.VOLUME24HOURTO, "VOLUME24HOURTO");
+            
+            console.log(data.TOTALVOLUME24H, "TOTALVOLUME24H");
+            console.log(ls, "ls")
+            var aa = parseFloat(data.TOTALVOLUME24H);
+            return ls += aa;
+        }, 0);
+        
+        
 
         var coindata = coinlistDtl ? coinlistDtl.map((data, index) => {
+            
             return (<div key={index} className="grid-x mainCoinshow">
                 <div className="medium-4 small-12">
                     <div className="medium-12 chartHeadSt">
@@ -141,7 +163,11 @@ class ChartPage extends Component {
                             {self.symbolSt}{numeral(data.MKTCAP).format('0,0.000')}
                         </div>
                         <div className="medium-12 chartSubHeading">
-                            24H Trade Volume: <span style={{ color: "#7F8386" }}> {self.symbolSt}{numeral(data.TOTALVOLUME24H).format('0,0.000')}</span>
+                            24H Trade Volume: <span style={{ color: "#7F8386" }}> 
+                            {self.symbolSt}{numeral(data.VOLUME24HOUR).format('0,0.000')}
+                            {self.symbolSt}{numeral(data.VOLUME24HOURTO).format('0,0.000')}
+                            
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -168,13 +194,7 @@ class ChartPage extends Component {
     render() {
       const meta = {
         title: this.state.metaTitle,
-        description: this.state.metaDescription,
-        meta: {
-            charset: 'utf-8',
-            name: {
-                keywords: 'Digital Currency, react'
-            }
-          }
+        description: this.state.metaDescription
       };
         var exchangeMarketlist = [];
         var exchangecoin = '';
@@ -187,9 +207,9 @@ class ChartPage extends Component {
 
             coinlist = exchangecoin[0];
             var list = exchangecoin[0].coinlistinfos;
-            console.log(list, "list");
-            console.log(coinlist, "coinlist");
-            // var selectType = list ? list.filter((data, key) => {
+            // console.log(list, "list");
+            // console.log(coinlist, "coinlist");
+            // // var selectType = list ? list.filter((data, key) => {
             //     return data.TOSYMBOL!= 'BTC';
             // }).map((data, key) =>{
             //     return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);
@@ -234,7 +254,7 @@ class ChartPage extends Component {
             if (datalist.length > 0) {
                 var datazls = [];
                 exchangeMarketlist =  datalist ? datalist.map((data, key) => {
-                  console.log(data, "data");
+                //   console.log(data, "data");
                     const datazls = {
                         "id": key + 1,
                         "marketName": data.MARKET,
