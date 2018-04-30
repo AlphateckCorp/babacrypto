@@ -215,7 +215,9 @@ class ChartPage extends Component {
             //     return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);
             // }):'';
             var selectType = list ? list.map((data, key) => {
-                return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);
+                if(data.TOSYMBOL!="BTC"){
+                return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);  
+                }
             }):'';
         }
         if (this.props.exchangeMarketList != undefined && this.props.exchangeMarketList.length > 0) {
