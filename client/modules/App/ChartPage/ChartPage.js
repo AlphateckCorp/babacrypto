@@ -165,7 +165,7 @@ class ChartPage extends Component {
                         <div className="medium-12 chartSubHeading">
                             24H Trade Volume: <span style={{ color: "#7F8386" }}> 
                             {self.symbolSt}{numeral(data.VOLUME24HOUR).format('0,0.000')}
-                            // {self.symbolSt}{numeral(data.VOLUME24HOURTO).format('0,0.000')}
+                            
                             
                             </span>
                         </div>
