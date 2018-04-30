@@ -29,7 +29,7 @@ class Market extends Component {
         var MkName = this.props.params.market;
         var data = MkName.charAt(0).toUpperCase() + MkName.substr(1);
         this.state.metaTitle = data+ " Exchange Review | Updated "+data+" Market Prices - 2018";
-        this.state.metaDescription = "Full Review of " +data+ " Exchange Platform | Full list of " +data+ " Pricesper Market and "+data+ " Supported Coins at Babacrypto.com -2018"
+        this.state.metaDescription = "Full Review of " +data+ " Exchange Platform | Full list of " +data+ " Prices per Market and "+data+ " Supported Coins at Babacrypto.com -2018"
         this.setState(this.state);
         // document.title = data+ " Exchange Review | Updated "+data+" Market Prices - 2018";
     }
