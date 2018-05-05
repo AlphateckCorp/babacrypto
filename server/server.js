@@ -53,7 +53,7 @@ app.use(function(req, res, next) {
 });
 app.use('/api',  function(req, res) {  
     // var url = "http://localhost:4000" + req.url;
-    var url = "http://dev.babacrypto.com/api/web" + req.url;
+    var url = "http://api.babacrypto.com" + req.url;
     req.pipe(request(url)).pipe(res);
   });
 
