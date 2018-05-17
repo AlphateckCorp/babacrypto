@@ -56,9 +56,6 @@ class Exchange extends Component {
             let counts = 0;
             var count = volData[len];
             var data = count.map((data, key) => {
-                // console.log(len, "len");
-                // console.log(data, "data");
-                // console.log(market, "market");
                 if (len == market) {
                      return (counts += data);
                 }
@@ -69,7 +66,7 @@ class Exchange extends Component {
         return dataElem;
     }
 
-    renderTableRows = (finalData, volData) => {
+    renderTableRows = (finalData, volData, lists) => {
         var rowEle = [];
         const isEmpty = (obj) => {
             for (var prop in obj) {
@@ -85,9 +82,13 @@ class Exchange extends Component {
         //     return (<tr><td className="loadingClass headcol" colSpan="8">Loading...</td></tr>);
         // }
 
-
         var i = 1;
         for (let market in finalData) {
+
+            var visitLinkj = lists.find(data=> {
+                return data.MARKET == market;
+            });
+
             var data = finalData[market];
             var listofEx = ((Array.from(new Set(finalData[market]))).join(', '));
 
@@ -98,47 +99,25 @@ class Exchange extends Component {
                 length = '';
             }
             var marketName = ((market).toLowerCase().trim());
-            /*
-            rowEle.push(
-                <tr key={`market-${market}`}>
-                    <td className="coinName headcol t--blue">
-                        <Link to={"/exchanges/" + marketName}><span className="t--blue">{market} </span></Link>
-                    </td>
-                    {(length != '') ?
-                        <td className="">
-                            <span className="t--black">
-                                {((Array.from(new Set(finalData[market]))).splice(2, 6)).join(', ')}
-                            </span>
-                            <span className="" style={{ background: "#fff", border:"1px solid black", padding: "5px", marginLeft: "9px", borderRadius: "5px", display: "inline-block" }}>
-                                <span data-tip={listofEx}> +{length} </span>  
-                                 <ReactTooltip className="tooltipStyle" type="light" event="click"/>                                  
-                            </span>
-                        </td>
-                        :
-                        <td className="t--blue">
-                            <span className="t--black">{finalData[market].join(', ')} </span>
-                        </td>
-                    }
-                    <td className="t--blue">
-                             <span className="t--black">${this.sumOfVol(market, volData)}  </span>
-                        </td>
-                    <td className="t--blue">
-                        <Link to={"/exchanges/" + marketName}><button className="primarybtn"> Visit </button></Link>
-                    </td>
-                </tr>
-            )
-            */
+           
+            // rowEle.push({
+            //     id: i++,
+            //     marketName: market,
+            //     coins: finalData[market],
+            //     vol24h: this.sumOfVol(market, volData),
+            //     visit: market
+            // });
             rowEle.push({
                 id: i++,
                 marketName: market,
                 coins: finalData[market],
                 vol24h: this.sumOfVol(market, volData),
-                visit: market
+                visit: visitLinkj
             });
         }
         return rowEle;
     }
-
+    
     render() {
         var rowEle = [];
         const meta = {
@@ -151,8 +130,10 @@ class Exchange extends Component {
         let finalData = {};
         let srtData = {};
         let volData = {};
+        var lists = {};
         if (this.props.getExchangeList.length > 0) {
             var list = this.props.getExchangeList;
+            lists = list;
             var listofdata = [];
             var coinSymbol = [];
             list.forEach(function (data, key) {
@@ -191,12 +172,22 @@ class Exchange extends Component {
             );
         };
         const visitAction = (action, listObj) => {
-            var marketName = ((action).toLowerCase().trim());
-            return (
-                <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
+            
+            if(action.externalLink==''){
+                var marketName = ((action.MARKET).toLowerCase().trim());
+                return (
+                    <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
+                        <button className="primarybtn"> Visit </button>
+                    </Link>
+                );
+            }else{
+                return (
+                    <a href={action.externalLink} target="_blank"> 
                     <button className="primarybtn"> Visit </button>
-                </Link>
-            );
+                    </a>
+                )
+            }
+
         }
         var options = {
             // noDataText: (<span className="loadingClass headcol" colSpan="6"> Record Not Found!! </span>)
@@ -247,7 +238,7 @@ class Exchange extends Component {
             }
         }
 
-
+        
         return (
           <div>
             <DocumentMeta {...meta}>
@@ -277,7 +268,7 @@ class Exchange extends Component {
                             </div> */}
                             <div className="cell">
                             <div className="table-wrap l-table">
-                            <BootstrapTable data={this.renderTableRows(finalData, volData)} striped hover options={options}>
+                            <BootstrapTable data={this.renderTableRows(finalData, volData, lists)} striped hover options={options}>
                                 <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
                                 <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
                                 <TableHeaderColumn dataField='coins' width='320' dataFormat={coinShowAction}>Coins</TableHeaderColumn>

@@ -17,8 +17,8 @@ class Market extends Component {
             symbolSt: '$',
             typeId: 0,
             symbolName: 'USD',
-            metaTitle : '',
-            metaDescription:''
+            metaTitle: '',
+            metaDescription: ''
         }
     }
     componentWillMount(props) {
@@ -28,8 +28,8 @@ class Market extends Component {
     componentDidMount(props) {
         var MkName = this.props.params.market;
         var data = MkName.charAt(0).toUpperCase() + MkName.substr(1);
-        this.state.metaTitle = data+ " Exchange Review | Updated "+data+" Market Prices - 2018";
-        this.state.metaDescription = "Full Review of " +data+ " Exchange Platform | Full list of " +data+ " Prices per Market and "+data+ " Supported Coins at Babacrypto.com -2018"
+        this.state.metaTitle = data + " Exchange Review | Updated " + data + " Market Prices - 2018";
+        this.state.metaDescription = "Full Review of " + data + " Exchange Platform | Full list of " + data + " Prices per Market and " + data + " Supported Coins at Babacrypto.com -2018"
         this.setState(this.state);
         // document.title = data+ " Exchange Review | Updated "+data+" Market Prices - 2018";
     }
@@ -76,6 +76,32 @@ class Market extends Component {
         } else {
             length = '';
         }
+        var visitLinks = '';
+        var dataRender = '';
+        var marketList = this.props.MarketList;
+        if (marketList) {
+            visitLinks = marketList.find(data => {
+                return (data.MARKET).toLowerCase() == exName;
+            });
+            if (visitLinks) {
+                if (visitLinks.externalLink == '' || visitLinks.externalLink == undefined) {
+                    dataRender = (<Link to={"/exchanges/" + exName} target="_blank" rel="nofollow">
+                        <button className="primarybtn"> Visit </button>
+                    </Link>);
+                } else {
+                    dataRender = (
+                        <a href={visitLinks.externalLink} target="_blank">
+                            <button className="primarybtn"> Visit </button>
+                        </a>);
+                }
+            } else {
+                dataRender = (<Link to={"/exchanges/" + exName} target="_blank" rel="nofollow">
+                    <button className="primarybtn"> Visit </button>
+                </Link>);
+            }
+        }
+
+
         var self = this.state;
         return (
             <div>
@@ -112,20 +138,22 @@ class Market extends Component {
                         </div>
                     </div>
                     <div className="medium-4 small-12 right_btn">
-                        <Link to={"/exchanges/" + exName} target="_blank" rel="nofollow">
+                        {/* <Link to={"/exchanges/" + exName} target="_blank" rel="nofollow">
                             <button className="primarybtn"> Visit </button>
-                        </Link>
+                        </Link> */}
+                        {dataRender}
+
                     </div>
                 </div>
             </div>
         );
     }
     render() {
-      const meta = {
-        title: this.state.metaTitle,
-        description: this.state.metaDescription
-      
-      };
+        const meta = {
+            title: this.state.metaTitle,
+            description: this.state.metaDescription
+        };
+
         var coinSymbolList = [];
         var errorActive = false;
         var selectType = '';
@@ -154,7 +182,7 @@ class Market extends Component {
                     var value = data.PRICE;
                     var CHANGE24HOUR = data.CHANGE24HOUR;
                     marketVol24Hour += parseFloat(data.VOLUME24HOURTO);
-                    
+
                     var power = Math.pow(10, 8);
                     function roundingFunction(x) {
                         return Number.parseFloat(x).toFixed(8);
@@ -178,7 +206,6 @@ class Market extends Component {
                         <td>{self.symbolSt}{numeral(data.VOLUME24HOUR).format('0,0.000')}</td>
                     </tr>);
                     */
-                //    console.log(data, "datalis");
                     const datazls = {
                         "id": key + 1,
                         "marketName": data.FROMSYMBOL + "/" + data.TOSYMBOL,
@@ -186,7 +213,7 @@ class Market extends Component {
                         "changePct24Hour": data.CHANGEPCT24HOUR,
                         "change24Hour": data.CHANGE24HOUR,
                         // "vol24h": data.VOLUME24HOUR
-                        "vol24h" : data.VOLUME24HOURTO
+                        "vol24h": data.VOLUME24HOURTO
                     }
                     return datazls;
 
@@ -210,7 +237,7 @@ class Market extends Component {
             var data = '';
             if (action == listObj.changePct24Hour) {
                 // return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
-                return data = <span className={(action >= 0) ? "t--green" : "t--red"}> {((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz +' %' : numeral(action).format('0,0.00000000'))} % </span>;
+                return data = <span className={(action >= 0) ? "t--green" : "t--red"}> {((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz + ' %' : numeral(action).format('0,0.00000000'))} % </span>;
             } else if (action == listObj.change24Hour) {
                 // return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
                 return data = <span className={(action >= 0) ? "t--green" : "t--red"}> {self.symbolSt} {((numeral(action).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(action).format('0,0.00000000'))} </span>;
@@ -271,53 +298,53 @@ class Market extends Component {
         };
         return (
             <div>
-            <DocumentMeta {...meta}>
-                <main className="main">
-                    <div className="grid-container" style={{ paddingBottom: "35px" }}>
+                <DocumentMeta {...meta}>
+                    <main className="main">
+                        <div className="grid-container" style={{ paddingBottom: "35px" }}>
 
-                        {(coinSymbolList.length > 0) ? this.coinNameCall(coinSymbolList) :
-                            <div className='sweet-loading' style={{ textAlign: "center" }}>
-                                <SyncLoader
-                                    color={'#000'}
-                                    size={12}
-                                    loading={this.state.loading}
-                                />
-                            </div>
-
-                        }
-                    </div>
-
-                    <div className="grid-container">
-                        <div className="grid-x align-justify">
-                            <h2 className="allTableHeading" style={{ textTransform: "capitalize" }}>{this.props.params.market} Markets  </h2>
-                            <div className="cell">
-                                <div className="grid-x align-justify">
-                                    <div className="cell shrink">
-                                        <select id="" onChange={this.onchange} className="selectStyle styler">
-                                            {selectType}
-                                        </select>
-                                    </div>
-                                    <div className="cell small-5 medium-shrink">
-                                        <p className="t--right"><strong>Total 24h Volume: </strong>
-                                            {this.state.symbolSt + (numeral(marketVol24Hour).format('0,0.000'))}
-                                        </p>
-                                    </div>
+                            {(coinSymbolList.length > 0) ? this.coinNameCall(coinSymbolList) :
+                                <div className='sweet-loading' style={{ textAlign: "center" }}>
+                                    <SyncLoader
+                                        color={'#000'}
+                                        size={12}
+                                        loading={this.state.loading}
+                                    />
                                 </div>
-                                <div className="table-wrap l-table">
-                                    <BootstrapTable data={exchangeMarketlist} striped hover options={options}>
-                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='150'>Market</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout}  width='150'>Price</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='changePct24Hour' dataSort sortFunc={changePct24HourSortFunc} dataFormat={designLayout} width='150'> 24h % Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='change24Hour' dataSort sortFunc={change24HourSortFunc} dataFormat={designLayout} width='150'>24h Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc} dataFormat={numberLayout} width='200' >24h Volume</TableHeaderColumn>
 
-                                    </BootstrapTable>
+                            }
+                        </div>
+
+                        <div className="grid-container">
+                            <div className="grid-x align-justify">
+                                <h2 className="allTableHeading" style={{ textTransform: "capitalize" }}>{this.props.params.market} Markets  </h2>
+                                <div className="cell">
+                                    <div className="grid-x align-justify">
+                                        <div className="cell shrink">
+                                            <select id="" onChange={this.onchange} className="selectStyle styler">
+                                                {selectType}
+                                            </select>
+                                        </div>
+                                        <div className="cell small-5 medium-shrink">
+                                            <p className="t--right"><strong>Total 24h Volume: </strong>
+                                                {this.state.symbolSt + (numeral(marketVol24Hour).format('0,0.000'))}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="table-wrap l-table">
+                                        <BootstrapTable data={exchangeMarketlist} striped hover options={options}>
+                                            <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='150'>Market</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout} width='150'>Price</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='changePct24Hour' dataSort sortFunc={changePct24HourSortFunc} dataFormat={designLayout} width='150'> 24h % Change</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='change24Hour' dataSort sortFunc={change24HourSortFunc} dataFormat={designLayout} width='150'>24h Change</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc} dataFormat={numberLayout} width='200' >24h Volume</TableHeaderColumn>
+
+                                        </BootstrapTable>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </main >
+                    </main >
                 </DocumentMeta>
 
             </div >
