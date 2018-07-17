@@ -42,37 +42,37 @@ class Home extends Component {
     // }
 
 
-    changeByPrice = (props) => {
-        var coinContentList = [];
-        var coinContent = '';
-        var dataElement = {};
-        var self = this.state;
-        var emptyArr = [];
-        if (this.props.getCoinsList.length > 0) {
-            var dataList = this.props.getCoinsList;
-            const items = dataList
-                .map((item, i) => {
-                    return item.coinlistinfos[self.typeId];
-                })
-                .sort((a, b) => {
-                    return b.PRICE - a.PRICE;
-                })
-                .map((item, i) => {
-                    return item;
-                });
+    // changeByPrice = (props) => {
+    //     var coinContentList = [];
+    //     var coinContent = '';
+    //     var dataElement = {};
+    //     var self = this.state;
+    //     var emptyArr = [];
+    //     if (this.props.getCoinsList.length > 0) {
+    //         var dataList = this.props.getCoinsList;
+    //         const items = dataList
+    //             .map((item, i) => {
+    //                 return item.coinlistinfos[self.typeId];
+    //             })
+    //             .sort((a, b) => {
+    //                 return b.PRICE - a.PRICE;
+    //             })
+    //             .map((item, i) => {
+    //                 return item;
+    //             });
 
-            var list = items.map((itemLs, index) => {
-                var data = dataList.filter(function (datazz, index) {
-                    return (datazz.Symbol == itemLs.CoinInputSymbol);
-                });
-                return data;
-            });
+    //         var list = items.map((itemLs, index) => {
+    //             var data = dataList.filter(function (datazz, index) {
+    //                 return (datazz.Symbol == datazz.CoinInputSymbol);
+    //             });
+    //             return data;
+    //         });
 
-            coinContent = list;
-            return coinContent;
+    //         coinContent = list;
+    //         return coinContent;
 
-        }
-    }
+    //     }
+    // }
 
     onchange = (e) => {
         var checkType = e.target.value;
@@ -303,8 +303,10 @@ class Home extends Component {
                 //     return datazl;
                 // }
                 // return coinContent;
+                console.log(data, "data");
                 return data;
-            }).sort((a, b) => {
+            }).sort((a, b) => {                
+                // return b.coinlistinfos.MKTCAP - a.coinlistinfos.MKTCAP;
                 return b.coinlistinfos[self.typeId].MKTCAP - a.coinlistinfos[self.typeId].MKTCAP;
             })
             .map((data, index) => {
@@ -332,8 +334,9 @@ class Home extends Component {
                 // return coinContent;
             });
             
+            console.log(coinContent, "coinContent");
             
-            ;
+            
         }
 
         const colorAction = (action, listObj) => {

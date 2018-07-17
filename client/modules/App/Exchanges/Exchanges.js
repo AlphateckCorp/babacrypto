@@ -157,6 +157,8 @@ class Exchange extends Component {
                 var datalists = list.filter((data, key) => {
                     return data.MARKET == element;
                 }).map(symbol => {
+                    console.log('symbol',symbol);
+                    
                     return symbol.FROMSYMBOL;
                 });
 
