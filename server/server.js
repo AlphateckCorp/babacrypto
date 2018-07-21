@@ -52,8 +52,8 @@ app.use(function(req, res, next) {
   next();
 });
 app.use('/api',  function(req, res) {  
-    var url = "http://babacrypto.local" + req.url;
-    // var url = "http://api.babacrypto.com" + req.url;
+    // var url = "http://babacrypto.local" + req.url;
+    var url = "http://api.babacrypto.com" + req.url;
 
     req.pipe(request(url)).pipe(res);
   });
