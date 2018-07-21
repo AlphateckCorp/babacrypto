@@ -57,7 +57,7 @@ class Exchange extends Component {
             var count = volData[len];
             var data = count.map((data, key) => {
                 if (len == market) {
-                     return (counts += data);
+                    return (counts += data);
                 }
                 return counts = '';
             });
@@ -84,9 +84,10 @@ class Exchange extends Component {
 
         var i = 1;
         for (let market in finalData) {
-
-            var visitLinkj = lists.find(data=> {
-                return data.MARKET == market;
+            
+            var visitLinkj = lists.find(data => {
+                return data.exchanges.MARKET == market;
+                // return data.MARKET == market;
             });
 
             var data = finalData[market];
@@ -99,7 +100,7 @@ class Exchange extends Component {
                 length = '';
             }
             var marketName = ((market).toLowerCase().trim());
-           
+            //    console.log(market, "market");
             // rowEle.push({
             //     id: i++,
             //     marketName: market,
@@ -112,13 +113,14 @@ class Exchange extends Component {
                 marketName: market,
                 coins: finalData[market],
                 vol24h: this.sumOfVol(market, volData),
-                visit: visitLinkj
+                visit: visitLinkj.exchanges
             });
         }
         return rowEle;
     }
-    
+
     render() {
+
         var rowEle = [];
         const meta = {
             title: 'All CryptoCurrency Exchanges List | Crypto Trading Platforms - 2018',
@@ -138,14 +140,15 @@ class Exchange extends Component {
             var coinSymbol = [];
             list.forEach(function (data, key) {
                 if (listofdata.indexOf(data['MARKET']) == '-1') {
-                    listofdata.push(data.MARKET);
+                    // listofdata.push(data.MARKET);
+                    listofdata.push(data.exchanges.MARKET);
                 }
             });
 
 
             listofdata.forEach(element => {
                 var datalists = list.filter((data, key) => {
-                    return data.MARKET == element;
+                    return data.exchanges.MARKET == element;
                 }).map(symbol => {
                     return symbol.VOLUME24HOUR;
                 });
@@ -155,11 +158,9 @@ class Exchange extends Component {
 
             listofdata.forEach(element => {
                 var datalists = list.filter((data, key) => {
-                    return data.MARKET == element;
-                }).map(symbol => {
-                    console.log('symbol',symbol);
-                    
-                    return symbol.FROMSYMBOL;
+                    return data.exchanges.MARKET == element;
+                }).map(symbol => {                    
+                    return symbol.currencies.Symbol;
                 });
 
                 finalData[element] = datalists;
@@ -174,18 +175,17 @@ class Exchange extends Component {
             );
         };
         const visitAction = (action, listObj) => {
-            
-            if(action.externalLink==''){
+            if (action.externalLink == '') {
                 var marketName = ((action.MARKET).toLowerCase().trim());
                 return (
                     <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
                         <button className="primarybtn"> Visit </button>
                     </Link>
                 );
-            }else{
+            } else {
                 return (
-                    <a href={action.externalLink} target="_blank"> 
-                    <button className="primarybtn"> Visit </button>
+                    <a href={action.externalLink} target="_blank">
+                        <button className="primarybtn"> Visit </button>
                     </a>
                 )
             }
@@ -202,22 +202,22 @@ class Exchange extends Component {
             var showCoinslist = '';
             var length = '';
             if (data.length > 6) {
-                length = data.length -6;
+                length = data.length - 6;
                 showCoins = ((Array.from(new Set(action))).splice(1, 6)).join(', ');
-                showCoinslist =(
-                <div>
-                    <span className="t--black">{showCoins}</span>
-                    <span className="" style={{ background: "#fff", border: "1px solid black", padding: "5px", marginLeft: "9px", borderRadius: "5px", display: "inline-block" }}>
-                        <span data-tip={listofEx}> +{length} </span>
-                        <ReactTooltip className="tooltipStyle" type="light" event="click" border={true} />
-                    </span>
-                </div>);
+                showCoinslist = (
+                    <div>
+                        <span className="t--black">{showCoins}</span>
+                        <span className="" style={{ background: "#fff", border: "1px solid black", padding: "5px", marginLeft: "9px", borderRadius: "5px", display: "inline-block" }}>
+                            <span data-tip={listofEx}> +{length} </span>
+                            <ReactTooltip className="tooltipStyle" type="light" event="click" border={true} />
+                        </span>
+                    </div>);
             } else {
                 length = '';
                 showCoins = (Array.from(new Set(action))).join(', ');
-                showCoinslist =  <span className="t--black">{showCoins} </span>
+                showCoinslist = <span className="t--black">{showCoins} </span>
             }
-           
+
             return (
                 <div>
                     {showCoinslist}
@@ -226,13 +226,13 @@ class Exchange extends Component {
 
         };
 
-        const vol24hAction = (action, listObj) =>  {
-            var data = action.filter(function(v){return v!==''});
+        const vol24hAction = (action, listObj) => {
+            var data = action.filter(function (v) { return v !== '' });
             return (self.symbolSt + "" + numeral(data).format('0,0.000'))
         }
         const vol24hSortFunc = (a, b, order) => {
-            var aData = (a.vol24h).filter(function(v){return v!==''});  
-            var bData = (b.vol24h).filter(function(x){return x!==''});  
+            var aData = (a.vol24h).filter(function (v) { return v !== '' });
+            var bData = (b.vol24h).filter(function (x) { return x !== '' });
             if (order === 'desc') {
                 return (Number(bData) - Number(aData));
             } else {
@@ -240,17 +240,17 @@ class Exchange extends Component {
             }
         }
 
-        
+
         return (
-          <div>
-            <DocumentMeta {...meta}>
-                <InfoSection />
-                <main className="main">
-                    <div className="grid-container">
-                        <div className="grid-x align-justify">
-                            <div className="cell shrink">
-                            </div>
-                            {/*                         
+            <div>
+                <DocumentMeta {...meta}>
+                    <InfoSection />
+                    <main className="main">
+                        <div className="grid-container">
+                            <div className="grid-x align-justify">
+                                <div className="cell shrink">
+                                </div>
+                                {/*                         
                             <div className="cell">
                                 <div className="table-wrap l-table">
                                     <table className="table responsive js-table">
@@ -268,22 +268,22 @@ class Exchange extends Component {
                                     </table>
                                 </div>
                             </div> */}
-                            <div className="cell">
-                            <div className="table-wrap l-table">
-                            <BootstrapTable data={this.renderTableRows(finalData, volData, lists)} striped hover options={options}>
-                                <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
-                                <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
-                                <TableHeaderColumn dataField='coins' width='320' dataFormat={coinShowAction}>Coins</TableHeaderColumn>
-                                <TableHeaderColumn dataField='vol24h' width='150' dataSort sortFunc={vol24hSortFunc}  dataFormat={vol24hAction} >24h volume</TableHeaderColumn>
-                                <TableHeaderColumn dataField='visit' width='150' dataFormat={visitAction} > Visit</TableHeaderColumn>
-                            </BootstrapTable>
-                            </div>
+                                <div className="cell">
+                                    <div className="table-wrap l-table">
+                                        <BootstrapTable data={this.renderTableRows(finalData, volData, lists)} striped hover options={options}>
+                                            <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='coins' width='320' dataFormat={coinShowAction}>Coins</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='vol24h' width='150' dataSort sortFunc={vol24hSortFunc} dataFormat={vol24hAction} >24h volume</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='visit' width='150' dataFormat={visitAction} > Visit</TableHeaderColumn>
+                                        </BootstrapTable>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </main>
-            </DocumentMeta >
-          </div>
+                    </main>
+                </DocumentMeta >
+            </div>
         );
     }
 }
