@@ -31,7 +31,7 @@ class Home extends Component {
     componentDidMount = (props) => {
         // document.title = "List of all CryptoCurrencies at babacrypto.com - 2018";
         // document.head.querySelector('meta[name=description]').content = 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!';
-        this.interval = setInterval(this.tick, 10000);
+        this.interval = setInterval(this.tick, 20000);
     };
     componentWillUnmount = (props) => {
         clearInterval(this.interval);
@@ -116,6 +116,7 @@ class Home extends Component {
             var dataListindex = dataList.length;
             var coinContent = dataList.map(function (data, index) {
                 var CoinName = '';
+
                 if ((data.coinlistinfos).length > 0) {
                     CoinName = ((data.CoinName).toLowerCase().trim());
                     CoinName = CoinName.replace(' / ', '_');
@@ -267,24 +268,27 @@ class Home extends Component {
             return coinContent;
         }
     }
-    
+
     render() {
 
         const meta = {
             title: "List of all CryptoCurrencies at babacrypto.com - 2018",
             description: 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!',
         };
-        
+
         var coinContent = [];
         var marketCap = 0;
         var self = this.state;
 
         if (this.props.getCoinsList.length > 0) {
             var dataList = (this.props.getCoinsList);
-          
-            coinContent = dataList.map(function (data, index) {
+
+            // coinContent = dataList
+                // .map(function (data, index) {
                 // var CoinName = '';
-                // if ((data.coinlistinfos).length > 0) {
+                // console.log(data.coinlistinfos, "data");
+
+                // if ((data.coinlistinfos).length > 0 && data.CoinName!='') {
                 //     CoinName = ((data.CoinName).toLowerCase().trim());
                 //     CoinName = CoinName.replace(' / ', '_');
                 //     CoinName = CoinName.replace(' ', '-');
@@ -301,42 +305,48 @@ class Home extends Component {
                 //         "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
                 //     };
                 //     return datazl;
-                // }
-                // return coinContent;
-                console.log(data, "data");
-                return data;
-            }).sort((a, b) => {                
-                // return b.coinlistinfos.MKTCAP - a.coinlistinfos.MKTCAP;
-                return b.coinlistinfos[self.typeId].MKTCAP - a.coinlistinfos[self.typeId].MKTCAP;
-            })
-            .map((data, index) => {
-                // console.log(item, "item");
-                // return item;
-                var CoinName = '';
-                // if ((data.coinlistinfos).length > 0) {
-                    CoinName = ((data.CoinName).toLowerCase().trim());
-                    CoinName = CoinName.replace(' / ', '_');
-                    CoinName = CoinName.replace(' ', '-');
+                //     return data;
+                //     }
+                //     // return coinContent;
+                //     // console.log(data, "data");
+                // })
+                // .sort((a, b) => {                
+                //     // return b.coinlistinfos.MKTCAP - a.coinlistinfos.MKTCAP;
+                //     return b.coinlistinfos[self.typeId].MKTCAP - a.coinlistinfos[self.typeId].MKTCAP;
+                // })
+                dataList.map((data, index) => {
+                    // return item;
+                    if ((data.coinlistinfos).length > 0) {
+                        var CoinName = '';
+                        CoinName = (data.CoinName) ? ((data.CoinName).toLowerCase().trim()) : '';
+                        CoinName = CoinName.replace(' / ', '_');
+                        CoinName = CoinName.replace(' ', '-');
+                        if ((data.coinlistinfos).length > 0) {
 
-                    marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
-                    const datazl = {
-                        "id": index + 1,
-                        "CoinName": data.CoinName,
-                        "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
-                        "price": data.coinlistinfos[self.typeId].PRICE,
-                        "supply": data.coinlistinfos[self.typeId].SUPPLY,
-                        "totalVol24h":data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-                        "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
-                        // "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
-                    };
-                    return datazl;
-                // }
-                // return coinContent;
-            });
-            
-            console.log(coinContent, "coinContent");
-            
-            
+                            marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+                            var datazl = {
+                                "id": index + 1,
+                                "CoinName": data.CoinName,
+                                "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
+                                "price": data.coinlistinfos[self.typeId].PRICE,
+                                "supply": data.coinlistinfos[self.typeId].SUPPLY,
+                                "totalVol24h": data.coinlistinfos[self.typeId].TOTALVOLUME24H,
+                                "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
+                                // "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
+                            };
+                            coinContent.push(datazl);
+                            return datazl;
+                        }
+                    } 
+                    // else {
+                    //     console.log('else');
+                    //     return;
+                    // }
+                    // return coinContent;
+                });
+
+
+
         }
 
         const colorAction = (action, listObj) => {
@@ -418,13 +428,14 @@ class Home extends Component {
         var options = {
             // noDataText: (<span className="loadingClass headcol" colSpan="6"> Record Not Found!! </span>)
             noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>),
-            sortName: 'mkcapital',
-      sortOrder: 'desc'
+            sortName: 'id',
+            // sortName: 'mkcapital',
+            // sortOrder: 'desc'
         };
 
         return (
-          <div>
-            <DocumentMeta {...meta} />
+            <div>
+                <DocumentMeta {...meta} />
                 <InfoSection />
                 <main className="main">
                     <div className="grid-container">
@@ -442,8 +453,7 @@ class Home extends Component {
                                 </p>
                             </div>
                             <div className="cell">
-                                <div className="table-wrap l-table">
-
+                                <div className="table-wrap l-table">                                    
                                     <BootstrapTable data={coinContent} striped hover options={options}  >
                                         <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
                                         <TableHeaderColumn dataField='CoinName' dataSort={true} dataFormat={LinkAction} width='150'>Coin</TableHeaderColumn>
