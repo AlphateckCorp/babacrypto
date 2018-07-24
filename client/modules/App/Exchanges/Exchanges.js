@@ -174,7 +174,7 @@ class Exchange extends Component {
                 </Link>
             );
         };
-        const visitAction = (action, listObj) => {
+        const visitAction = (action, listObj) => {            
             if (action.externalLink == '') {
                 var marketName = ((action.MARKET).toLowerCase().trim());
                 return (

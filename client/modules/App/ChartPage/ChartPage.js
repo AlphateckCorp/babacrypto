@@ -192,6 +192,7 @@ class ChartPage extends Component {
 
     }
     render() {
+        
       const meta = {
         title: this.state.metaTitle,
         description: this.state.metaDescription
@@ -259,12 +260,12 @@ class ChartPage extends Component {
                 //   console.log(data, "data");
                     const datazls = {
                         "id": key + 1,
-                        "marketName": data.MARKET,
+                        "marketName": data.exchanges.MARKET,
                         "price": data.PRICE,
                         "changePct24Hour": data.CHANGEPCT24HOUR,
                         "change24Hour":data.CHANGE24HOUR,
                         "vol24h": data.VOLUME24HOUR,
-                        "visit": data.MARKET
+                        "visit": data.exchanges
                     }
                     return datazls;
 
@@ -273,13 +274,21 @@ class ChartPage extends Component {
         } 
 
     
-        const visitAction = (action, listObj) => {
-            var marketName = ((action).toLowerCase().trim());
-            return (
-                <Link to={"/exchanges/" + marketName}>
-                    <button className="primarybtn"> Visit </button>
-                </Link>
-            );
+        const visitAction = (action, listObj) => { 
+            if (action.externalLink == '') {
+                var marketName = ((action.MARKET).toLowerCase().trim());
+                return (
+                    <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
+                        <button className="primarybtn"> Visit </button>
+                    </Link>
+                );
+            } else {
+                return (
+                    <a href={action.externalLink} target="_blank">
+                        <button className="primarybtn"> Visit </button>
+                    </a>
+                )
+            }
         }
        
         const numberLayout = (action, listObj) => {

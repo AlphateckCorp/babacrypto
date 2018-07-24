@@ -315,6 +315,7 @@ class Home extends Component {
                 //     return b.coinlistinfos[self.typeId].MKTCAP - a.coinlistinfos[self.typeId].MKTCAP;
                 // })
                 dataList.map((data, index) => {
+                    
                     // return item;
                     if ((data.coinlistinfos).length > 0) {
                         var CoinName = '';
@@ -322,20 +323,22 @@ class Home extends Component {
                         CoinName = CoinName.replace(' / ', '_');
                         CoinName = CoinName.replace(' ', '-');
                         if ((data.coinlistinfos).length > 0) {
+                            if(data.coinlistinfos[self.typeId]){
 
-                            marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
-                            var datazl = {
-                                "id": index + 1,
-                                "CoinName": data.CoinName,
-                                "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
-                                "price": data.coinlistinfos[self.typeId].PRICE,
-                                "supply": data.coinlistinfos[self.typeId].SUPPLY,
-                                "totalVol24h": data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-                                "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
-                                // "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
-                            };
-                            coinContent.push(datazl);
-                            return datazl;
+                                marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+                                var datazl = {
+                                    "id": index + 1,
+                                    "CoinName": data.CoinName,
+                                    "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
+                                    "price": data.coinlistinfos[self.typeId].PRICE,
+                                    "supply": data.coinlistinfos[self.typeId].SUPPLY,
+                                    "totalVol24h": data.coinlistinfos[self.typeId].TOTALVOLUME24H,
+                                    "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
+                                    // "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
+                                };
+                                coinContent.push(datazl);
+                                return datazl;
+                            }
                         }
                     } 
                     // else {

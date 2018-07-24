@@ -81,16 +81,16 @@ class Market extends Component {
         var marketList = this.props.MarketList;
         if (marketList) {
             visitLinks = marketList.find(data => {
-                return (data.MARKET).toLowerCase() == exName;
+                return (data.exchanges.MARKET).toLowerCase() == exName;
             });
             if (visitLinks) {
-                if (visitLinks.externalLink == '' || visitLinks.externalLink == undefined) {
+                if (visitLinks.exchanges.externalLink == '' || visitLinks.exchanges.externalLink == undefined) {
                     dataRender = (<Link to={"/exchanges/" + exName} target="_blank" rel="nofollow">
                         <button className="primarybtn"> Visit </button>
                     </Link>);
                 } else {
                     dataRender = (
-                        <a href={visitLinks.externalLink} target="_blank">
+                        <a href={visitLinks.exchanges.externalLink} target="_blank">
                             <button className="primarybtn"> Visit </button>
                         </a>);
                 }
@@ -137,13 +137,6 @@ class Market extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="medium-4 small-12 right_btn">
-                        {/* <Link to={"/exchanges/" + exName} target="_blank" rel="nofollow">
-                            <button className="primarybtn"> Visit </button>
-                        </Link> */}
-                        {dataRender}
-
-                    </div>
                 </div>
             </div>
         );
@@ -165,7 +158,7 @@ class Market extends Component {
             var opArr = ['USD', 'ETH', 'EUR', 'BTC'];
             MarketList.forEach((mk) => {
                 if (coinSymbolList.indexOf(mk['FROMSYMBOL']) == '-1') {
-                    coinSymbolList.push(mk['FROMSYMBOL']);
+                    coinSymbolList.push(mk.currencies['Name']);
                 }
             });
             var selectType = opArr.map((data, key) => {
@@ -208,7 +201,7 @@ class Market extends Component {
                     */
                     const datazls = {
                         "id": key + 1,
-                        "marketName": data.FROMSYMBOL + "/" + data.TOSYMBOL,
+                        "marketName": data.currencies.Name + "/" + data.TOSYMBOL,
                         "price": data.PRICE,
                         "changePct24Hour": data.CHANGEPCT24HOUR,
                         "change24Hour": data.CHANGE24HOUR,
