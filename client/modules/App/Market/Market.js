@@ -111,7 +111,7 @@ class Market extends Component {
 
                     <div className="medium-4 small-12">
                         <div className="medium-12" style={{ fontSize: "24px" }}>
-                            Exchange Name
+                            Exchange Names
                             </div>
                         <div className="medium-12">
                             <div className="medium-12" style={{ fontSize: "24px", color: "#767B7F", textTransform: "capitalize" }}>
