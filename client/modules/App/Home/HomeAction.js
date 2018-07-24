@@ -32,9 +32,9 @@ export function addCoins(coins) {
   };
 }
 
-export function FetchCoinsRequest() {
+export function FetchCoinsRequest(limit) {
   return (dispatch) => {
-    return callApi('yours').then(res => {
+    return callApi('yours?offset=0&limit='+limit).then(res => {
       dispatch(addCoins(res));
     });
   };

@@ -8,6 +8,7 @@ import DocumentMeta from 'react-document-meta';
 import numeral from 'numeral';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 class Home extends Component {
+    limit = 20;
     constructor(props) {
         super(props);
         this.state = {
@@ -22,18 +23,21 @@ class Home extends Component {
         }
     }
     componentWillMount(props) {
-        this.props.dispatch(FetchCoinsRequest());
+        this.props.dispatch(FetchCoinsRequest(this.limit));
     }
-    tick = (props) => {
+    tick = (props) => {        
         var coinData = (this.props.getCoinsList);
-        this.props.dispatch(FetchCoinsRequest());
+        this.props.dispatch(FetchCoinsRequest(this.limit));
     };
     componentDidMount = (props) => {
+        window.addEventListener('scroll', this.handleScroll);
+
         // document.title = "List of all CryptoCurrencies at babacrypto.com - 2018";
         // document.head.querySelector('meta[name=description]').content = 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!';
         this.interval = setInterval(this.tick, 20000);
     };
     componentWillUnmount = (props) => {
+        window.removeEventListener('scroll', this.handleScroll);
         clearInterval(this.interval);
     };
     // componentWillReceiveProps = (prev, next) => {
@@ -74,6 +78,13 @@ class Home extends Component {
     //     }
     // }
 
+    handleScroll = (e) => {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            // ajax call get data from server and append to the div
+            this.limit = this.limit+20;
+            this.tick();
+        }
+    };
     onchange = (e) => {
         var checkType = e.target.value;
         var selectTypeByid = '';
@@ -284,69 +295,69 @@ class Home extends Component {
             var dataList = (this.props.getCoinsList);
 
             // coinContent = dataList
-                // .map(function (data, index) {
-                // var CoinName = '';
-                // console.log(data.coinlistinfos, "data");
+            // .map(function (data, index) {
+            // var CoinName = '';
+            // console.log(data.coinlistinfos, "data");
 
-                // if ((data.coinlistinfos).length > 0 && data.CoinName!='') {
-                //     CoinName = ((data.CoinName).toLowerCase().trim());
-                //     CoinName = CoinName.replace(' / ', '_');
-                //     CoinName = CoinName.replace(' ', '-');
+            // if ((data.coinlistinfos).length > 0 && data.CoinName!='') {
+            //     CoinName = ((data.CoinName).toLowerCase().trim());
+            //     CoinName = CoinName.replace(' / ', '_');
+            //     CoinName = CoinName.replace(' ', '-');
 
-                //     marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
-                //     const datazl = {
-                //         "id": index + 1,
-                //         "CoinName": data.CoinName,
-                //         "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
-                //         "price": data.coinlistinfos[self.typeId].PRICE,
-                //         "supply": data.coinlistinfos[self.typeId].SUPPLY,
-                //         "totalVol24h":data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-                //         "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR,
-                //         "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
-                //     };
-                //     return datazl;
-                //     return data;
-                //     }
-                //     // return coinContent;
-                //     // console.log(data, "data");
-                // })
-                // .sort((a, b) => {                
-                //     // return b.coinlistinfos.MKTCAP - a.coinlistinfos.MKTCAP;
-                //     return b.coinlistinfos[self.typeId].MKTCAP - a.coinlistinfos[self.typeId].MKTCAP;
-                // })
-                dataList.map((data, index) => {
-                    
-                    // return item;
+            //     marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+            //     const datazl = {
+            //         "id": index + 1,
+            //         "CoinName": data.CoinName,
+            //         "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
+            //         "price": data.coinlistinfos[self.typeId].PRICE,
+            //         "supply": data.coinlistinfos[self.typeId].SUPPLY,
+            //         "totalVol24h":data.coinlistinfos[self.typeId].TOTALVOLUME24H,
+            //         "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR,
+            //         "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
+            //     };
+            //     return datazl;
+            //     return data;
+            //     }
+            //     // return coinContent;
+            //     // console.log(data, "data");
+            // })
+            // .sort((a, b) => {                
+            //     // return b.coinlistinfos.MKTCAP - a.coinlistinfos.MKTCAP;
+            //     return b.coinlistinfos[self.typeId].MKTCAP - a.coinlistinfos[self.typeId].MKTCAP;
+            // })
+            dataList.map((data, index) => {
+
+                // return item;
+                if ((data.coinlistinfos).length > 0) {
+                    var CoinName = '';
+                    CoinName = (data.CoinName) ? ((data.CoinName).toLowerCase().trim()) : '';
+                    CoinName = CoinName.replace(' / ', '_');
+                    CoinName = CoinName.replace(' ', '-');
                     if ((data.coinlistinfos).length > 0) {
-                        var CoinName = '';
-                        CoinName = (data.CoinName) ? ((data.CoinName).toLowerCase().trim()) : '';
-                        CoinName = CoinName.replace(' / ', '_');
-                        CoinName = CoinName.replace(' ', '-');
-                        if ((data.coinlistinfos).length > 0) {
-                            if(data.coinlistinfos[self.typeId]){
+                        if (data.coinlistinfos[self.typeId]) {
 
-                                marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
-                                var datazl = {
-                                    "id": index + 1,
-                                    "CoinName": data.CoinName,
-                                    "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
-                                    "price": data.coinlistinfos[self.typeId].PRICE,
-                                    "supply": data.coinlistinfos[self.typeId].SUPPLY,
-                                    "totalVol24h": data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-                                    "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
-                                    // "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
-                                };
-                                coinContent.push(datazl);
-                                return datazl;
-                            }
+                            marketCap += parseFloat(data.coinlistinfos[self.typeId].MKTCAP);
+                            var datazl = {
+                                "id": index + 1,
+                                "CoinName": data.CoinName,
+                                "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
+                                "price": data.coinlistinfos[self.typeId].PRICE,
+                                "supply": data.coinlistinfos[self.typeId].SUPPLY,
+                                "totalVol24h": data.coinlistinfos[self.typeId].TOTALVOLUME24H,
+                                "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
+                                // "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
+                            };
+                            coinContent.push(datazl);
+                            return datazl;
                         }
-                    } 
-                    // else {
-                    //     console.log('else');
-                    //     return;
-                    // }
-                    // return coinContent;
-                });
+                    }
+                }
+                // else {
+                //     console.log('else');
+                //     return;
+                // }
+                // return coinContent;
+            });
 
 
 
@@ -393,7 +404,7 @@ class Home extends Component {
                 return (Number(a.mkcapital) - Number(b.mkcapital));
             }
         }
-        const priceSortFunc = (a, b, order) => {
+        const priceSortFunc = (a, b, order) => {                     
             if (order === 'desc') {
                 return (Number(b.price) - Number(a.price));
             } else {
@@ -456,7 +467,7 @@ class Home extends Component {
                                 </p>
                             </div>
                             <div className="cell">
-                                <div className="table-wrap l-table">                                    
+                                <div className="table-wrap l-table">
                                     <BootstrapTable data={coinContent} striped hover options={options}  >
                                         <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
                                         <TableHeaderColumn dataField='CoinName' dataSort={true} dataFormat={LinkAction} width='150'>Coin</TableHeaderColumn>
@@ -486,7 +497,7 @@ class Home extends Component {
 }
 
 
-function mapStateToProps(state) {
+function mapStateToProps(state) {    
     return {
         getCoinsList: getCoins(state)
     };
