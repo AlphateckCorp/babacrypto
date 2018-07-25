@@ -8,7 +8,10 @@ import DocumentMeta from 'react-document-meta';
 import numeral from 'numeral';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 class Home extends Component {
-    limit = 20;
+    limit = 100;
+    sort = ['id','asc'];
+    filter;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -23,11 +26,11 @@ class Home extends Component {
         }
     }
     componentWillMount(props) {
-        this.props.dispatch(FetchCoinsRequest(this.limit));
+        this.props.dispatch(FetchCoinsRequest(this.limit,this.sort));
     }
-    tick = (props) => {        
+    tick = (props) => {              
         var coinData = (this.props.getCoinsList);
-        this.props.dispatch(FetchCoinsRequest(this.limit));
+        this.props.dispatch(FetchCoinsRequest(this.limit,this.sort));
     };
     componentDidMount = (props) => {
         window.addEventListener('scroll', this.handleScroll);
@@ -81,7 +84,7 @@ class Home extends Component {
     handleScroll = (e) => {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
             // ajax call get data from server and append to the div
-            this.limit = this.limit+20;
+            this.limit = this.limit+this.limit;
             this.tick();
         }
     };
@@ -263,11 +266,11 @@ class Home extends Component {
                     coinContent = {
                         id: index,
                         CoinName: data.CoinName,
-                        mkcapital: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000'),
+                        mktcap: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].MKTCAP).format('0,0.000'),
                         price: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].PRICE).format('0,0.00'),
                         supply: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].SUPPLY).format('0,0.000'),
-                        totalVol24h: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000'),
-                        vol24h: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000'),
+                        totalvolume24h: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].TOTALVOLUME24H).format('0,0.000'),
+                        totalvolume24hto: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].VOLUME24HOUR).format('0,0.000'),
                         change24h: self.symbolSt + "" + numeral(data.coinlistinfos[self.typeId].CHANGE24HOUR).format('0,0.000')
                     }
                 }
@@ -308,11 +311,11 @@ class Home extends Component {
             //     const datazl = {
             //         "id": index + 1,
             //         "CoinName": data.CoinName,
-            //         "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
+            //         "mktcap": data.coinlistinfos[self.typeId].MKTCAP,
             //         "price": data.coinlistinfos[self.typeId].PRICE,
             //         "supply": data.coinlistinfos[self.typeId].SUPPLY,
-            //         "totalVol24h":data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-            //         "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR,
+            //         "totalvolume24h":data.coinlistinfos[self.typeId].TOTALVOLUME24H,
+            //         "totalvolume24hto": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR,
             //         "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
             //     };
             //     return datazl;
@@ -340,11 +343,11 @@ class Home extends Component {
                             var datazl = {
                                 "id": index + 1,
                                 "CoinName": data.CoinName,
-                                "mkcapital": data.coinlistinfos[self.typeId].MKTCAP,
+                                "mktcap": data.coinlistinfos[self.typeId].MKTCAP,
                                 "price": data.coinlistinfos[self.typeId].PRICE,
                                 "supply": data.coinlistinfos[self.typeId].SUPPLY,
-                                "totalVol24h": data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-                                "vol24h": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
+                                "totalvolume24h": data.coinlistinfos[self.typeId].TOTALVOLUME24H,
+                                "totalvolume24hto": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
                                 // "change24h": data.coinlistinfos[self.typeId].CHANGEPCTDAY
                             };
                             coinContent.push(datazl);
@@ -383,68 +386,70 @@ class Home extends Component {
             );
         }
         const numberLayout = (action, listObj) => {
-            if (action == listObj.mkcapital) {
+            if (action == listObj.mktcap) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.000'));
             } else if (action == listObj.price) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.00'));
             } else if (action == listObj.supply) {
-                return (numeral(action).format('0,0.000'));
-            } else if (action == listObj.totalVol24h) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.000'));
-            } else if (action == listObj.vol24h) {
+            } else if (action == listObj.totalvolume24h) {
+                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
+            } else if (action == listObj.totalvolume24hto) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.000'));
             } else if (action == listObj.change24h) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.000'));
             }
         }
-        const mkcapitalSortFunc = (a, b, order) => {
-            if (order === 'desc') {
-                return (Number(b.mkcapital) - Number(a.mkcapital));
-            } else {
-                return (Number(a.mkcapital) - Number(b.mkcapital));
-            }
-        }
-        const priceSortFunc = (a, b, order) => {                     
-            if (order === 'desc') {
-                return (Number(b.price) - Number(a.price));
-            } else {
-                return (Number(a.price) - Number(b.price));
-            }
-        }
-        const supplySortFunc = (a, b, order) => {
-            if (order === 'desc') {
-                return (Number(b.supply) - Number(a.supply));
-            } else {
-                return (Number(a.supply) - Number(b.supply));
-            }
-        }
-        const totalVol24hSortFunc = (a, b, order) => {
-            if (order === 'desc') {
-                return (Number(b.totalVol24h) - Number(a.totalVol24h));
-            } else {
-                return (Number(a.totalVol24h) - Number(b.totalVol24h));
-            }
-        }
-        const vol24hSortFunc = (a, b, order) => {
-            if (order === 'desc') {
-                return (Number(b.vol24h) - Number(a.vol24h));
-            } else {
-                return (Number(a.vol24h) - Number(b.vol24h));
-            }
-        }
-        const change24hSortFunc = (a, b, order) => {
-            if (order === 'desc') {
-                return (Number(b.change24h) - Number(a.change24h));
-            } else {
-                return (Number(a.change24h) - Number(b.change24h));
-            }
-        };
+        // const mktcapSortFunc = (a, b, order) => {
+        //     if (order === 'desc') {
+        //         return (Number(b.mktcap) - Number(a.mktcap));
+        //     } else {
+        //         return (Number(a.mktcap) - Number(b.mktcap));
+        //     }
+        // }
+        // const priceSortFunc = (a, b, order) => {                     
+        //     if (order === 'desc') {
+        //         return (Number(b.price) - Number(a.price));
+        //     } else {
+        //         return (Number(a.price) - Number(b.price));
+        //     }
+        // }
+        // const supplySortFunc = (a, b, order) => {
+        //     if (order === 'desc') {
+        //         return (Number(b.supply) - Number(a.supply));
+        //     } else {
+        //         return (Number(a.supply) - Number(b.supply));
+        //     }
+        // }
+        // const totalvolume24hSortFunc = (a, b, order) => {
+        //     if (order === 'desc') {
+        //         return (Number(b.totalvolume24h) - Number(a.totalvolume24h));
+        //     } else {
+        //         return (Number(a.totalvolume24h) - Number(b.totalvolume24h));
+        //     }
+        // }
+        // const totalvolume24htoSortFunc = (a, b, order) => {
+        //     if (order === 'desc') {
+        //         return (Number(b.totalvolume24hto) - Number(a.totalvolume24hto));
+        //     } else {
+        //         return (Number(a.totalvolume24hto) - Number(b.totalvolume24hto));
+        //     }
+        // }
+        // const change24hSortFunc = (a, b, order) => {
+        //     if (order === 'desc') {
+        //         return (Number(b.change24h) - Number(a.change24h));
+        //     } else {
+        //         return (Number(a.change24h) - Number(b.change24h));
+        //     }
+        // };
+
         var options = {
             // noDataText: (<span className="loadingClass headcol" colSpan="6"> Record Not Found!! </span>)
             noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>),
-            sortName: 'id',
-            // sortName: 'mkcapital',
-            // sortOrder: 'desc'
+            onSortChange: (sortName, sortOrder) => {
+                this.sort = [sortName, sortOrder];
+                this.tick();
+            }
         };
 
         return (
@@ -470,12 +475,12 @@ class Home extends Component {
                                 <div className="table-wrap l-table">
                                     <BootstrapTable data={coinContent} striped hover options={options}  >
                                         <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='CoinName' dataSort={true} dataFormat={LinkAction} width='150'>Coin</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='mkcapital' dataSort sortFunc={mkcapitalSortFunc} dataFormat={numberLayout} width='165'>Market Cap</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout} width='100' >Price</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='supply' dataSort sortFunc={supplySortFunc} dataFormat={numberLayout} width='165' > Circulating Supply</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='totalVol24h' dataSort sortFunc={totalVol24hSortFunc} dataFormat={numberLayout} width='150' >24h Volume</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='vol24h' dataFormat={colorAction} dataSort sortFunc={vol24hSortFunc} width='125'>24h Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='CoinName' dataSort dataFormat={LinkAction} width='150'>Coin</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='mktcap' dataSort  dataFormat={numberLayout} width='165'>Market Cap</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='price' dataSort  dataFormat={numberLayout} width='100' >Price</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='supply' dataSort  dataFormat={numberLayout} width='165' > Circulating Supply</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='totalvolume24h' dataSort dataFormat={numberLayout} width='150' >24h Volume</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='totalvolume24hto' dataFormat={colorAction} dataSort width='125'>24h Change (%)</TableHeaderColumn>
                                         {/* <TableHeaderColumn dataField='change24h' dataFormat={colorAction} dataSort sortFunc={change24hSortFunc} width='125'> 1d Change</TableHeaderColumn> */}
 
 

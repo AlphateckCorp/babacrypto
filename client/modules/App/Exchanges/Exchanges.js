@@ -66,7 +66,60 @@ class Exchange extends Component {
         return dataElem;
     }
 
-    renderTableRows = (finalData, volData, lists) => {
+    // renderTableRows = (finalData, volData, lists) => {
+    //     var rowEle = [];
+    //     const isEmpty = (obj) => {
+    //         for (var prop in obj) {
+    //             if (obj.hasOwnProperty(prop))
+    //                 return false;
+    //         }
+    //         return true;
+    //     }
+    //     // if (isEmpty(finalData)) {
+    //     //     return (<tr><td className="loadingClass headcol" colSpan="8">Loading...</td></tr>);
+    //     // }
+    //     // if (isEmpty(volData)) {
+    //     //     return (<tr><td className="loadingClass headcol" colSpan="8">Loading...</td></tr>);
+    //     // }
+
+    //     var i = 1;
+    //     for (let market in finalData) {
+            
+    //         var visitLinkj = lists.find(data => {
+    //             return data.exchanges.MARKET == market;
+    //             // return data.MARKET == market;
+    //         });
+
+    //         var data = finalData[market];
+    //         var listofEx = ((Array.from(new Set(finalData[market]))).join(', '));
+
+    //         var length = '';
+    //         if (data.length > 6) {
+    //             length = data.length - 6;
+    //         } else {
+    //             length = '';
+    //         }
+    //         var marketName = ((market).toLowerCase().trim());
+    //         //    console.log(market, "market");
+    //         // rowEle.push({
+    //         //     id: i++,
+    //         //     marketName: market,
+    //         //     coins: finalData[market],
+    //         //     vol24h: this.sumOfVol(market, volData),
+    //         //     visit: market
+    //         // });
+    //         rowEle.push({
+    //             id: i++,
+    //             marketName: market,
+    //             coins: finalData[market],
+    //             vol24h: this.sumOfVol(market, volData),
+    //             visit: visitLinkj.exchanges
+    //         });
+    //     }
+    //     return rowEle;
+    // }
+
+    renderTableRows = () => {
         var rowEle = [];
         const isEmpty = (obj) => {
             for (var prop in obj) {
@@ -83,39 +136,39 @@ class Exchange extends Component {
         // }
 
         var i = 1;
-        for (let market in finalData) {
+        // for (let market in finalData) {
             
-            var visitLinkj = lists.find(data => {
-                return data.exchanges.MARKET == market;
-                // return data.MARKET == market;
-            });
+        //     var visitLinkj = lists.find(data => {
+        //         return data.exchanges.MARKET == market;
+        //         // return data.MARKET == market;
+        //     });
 
-            var data = finalData[market];
-            var listofEx = ((Array.from(new Set(finalData[market]))).join(', '));
+        //     var data = finalData[market];
+        //     var listofEx = ((Array.from(new Set(finalData[market]))).join(', '));
 
-            var length = '';
-            if (data.length > 6) {
-                length = data.length - 6;
-            } else {
-                length = '';
-            }
-            var marketName = ((market).toLowerCase().trim());
-            //    console.log(market, "market");
-            // rowEle.push({
-            //     id: i++,
-            //     marketName: market,
-            //     coins: finalData[market],
-            //     vol24h: this.sumOfVol(market, volData),
-            //     visit: market
-            // });
-            rowEle.push({
-                id: i++,
-                marketName: market,
-                coins: finalData[market],
-                vol24h: this.sumOfVol(market, volData),
-                visit: visitLinkj.exchanges
-            });
-        }
+        //     var length = '';
+        //     if (data.length > 6) {
+        //         length = data.length - 6;
+        //     } else {
+        //         length = '';
+        //     }
+        //     var marketName = ((market).toLowerCase().trim());
+        //     //    console.log(market, "market");
+        //     // rowEle.push({
+        //     //     id: i++,
+        //     //     marketName: market,
+        //     //     coins: finalData[market],
+        //     //     vol24h: this.sumOfVol(market, volData),
+        //     //     visit: market
+        //     // });
+        //     rowEle.push({
+        //         id: i++,
+        //         marketName: market,
+        //         coins: finalData[market],
+        //         vol24h: this.sumOfVol(market, volData),
+        //         visit: visitLinkj.exchanges
+        //     });
+        // }
         return rowEle;
     }
 
@@ -135,36 +188,38 @@ class Exchange extends Component {
         var lists = {};
         if (this.props.getExchangeList.length > 0) {
             var list = this.props.getExchangeList;
+            
+            
             lists = list;
             var listofdata = [];
             var coinSymbol = [];
             list.forEach(function (data, key) {
-                if (listofdata.indexOf(data['MARKET']) == '-1') {
-                    // listofdata.push(data.MARKET);
-                    listofdata.push(data.exchanges.MARKET);
-                }
-            });
-
-
-            listofdata.forEach(element => {
-                var datalists = list.filter((data, key) => {
-                    return data.exchanges.MARKET == element;
-                }).map(symbol => {
-                    return symbol.VOLUME24HOUR;
+               var coins =  data.exchangeList.filter((e,i) => {
+                     return e.FROMSYMBOL;
                 });
+                listofdata.push({id: data.id, market: data.MARKET, coins: coins});
+            });            
 
-                volData[element] = datalists;
-            });
+            
+            // listofdata.forEach(element => {
+            //     var datalists = list.filter((data, key) => {
+            //         return data.exchanges.MARKET == element;
+            //     }).map(symbol => {
+            //         return symbol.VOLUME24HOUR;
+            //     });
 
-            listofdata.forEach(element => {
-                var datalists = list.filter((data, key) => {
-                    return data.exchanges.MARKET == element;
-                }).map(symbol => {                    
-                    return symbol.currencies.Symbol;
-                });
+            //     volData[element] = datalists;
+            // });
 
-                finalData[element] = datalists;
-            });
+            // listofdata.forEach(element => {
+            //     var datalists = list.filter((data, key) => {
+            //         return data.exchanges.MARKET == element;
+            //     }).map(symbol => {                    
+            //         return symbol.currencies.Symbol;
+            //     });
+
+            //     finalData[element] = datalists;
+            // });
         }
         const LinkAction = (action, listObj) => {
             var marketName = ((action).toLowerCase().trim());
@@ -270,12 +325,19 @@ class Exchange extends Component {
                             </div> */}
                                 <div className="cell">
                                     <div className="table-wrap l-table">
-                                        <BootstrapTable data={this.renderTableRows(finalData, volData, lists)} striped hover options={options}>
+                                        {/* <BootstrapTable data={this.renderTableRows(finalData, volData, lists)} striped hover options={options}>
                                             <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
                                             <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
                                             <TableHeaderColumn dataField='coins' width='320' dataFormat={coinShowAction}>Coins</TableHeaderColumn>
                                             <TableHeaderColumn dataField='vol24h' width='150' dataSort sortFunc={vol24hSortFunc} dataFormat={vol24hAction} >24h volume</TableHeaderColumn>
                                             <TableHeaderColumn dataField='visit' width='150' dataFormat={visitAction} > Visit</TableHeaderColumn>
+                                        </BootstrapTable> */}
+                                        <BootstrapTable data={listofdata} striped hover options={options}>
+                                            <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='MARKET' dataSort={true} dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='coins' width='320'>Coins</TableHeaderColumn>
+                                            {/* <TableHeaderColumn dataField='vol24h' width='150' dataSort sortFunc={vol24hSortFunc} dataFormat={vol24hAction} >24h volume</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='visit' width='150' dataFormat={visitAction} > Visit</TableHeaderColumn> */}
                                         </BootstrapTable>
                                     </div>
                                 </div>
