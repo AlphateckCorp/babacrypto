@@ -84,7 +84,7 @@ class Home extends Component {
     handleScroll = (e) => {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
             // ajax call get data from server and append to the div
-            this.limit = this.limit+this.limit;
+            this.limit = this.limit+100;
             this.tick();
         }
     };
@@ -474,7 +474,7 @@ class Home extends Component {
                             <div className="cell">
                                 <div className="table-wrap l-table">
                                     <BootstrapTable data={coinContent} striped hover options={options}  >
-                                        <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
+                                        <TableHeaderColumn isKey dataField='id' width='50'>#</TableHeaderColumn>
                                         <TableHeaderColumn dataField='CoinName' dataSort dataFormat={LinkAction} width='150'>Coin</TableHeaderColumn>
                                         <TableHeaderColumn dataField='mktcap' dataSort  dataFormat={numberLayout} width='165'>Market Cap</TableHeaderColumn>
                                         <TableHeaderColumn dataField='price' dataSort  dataFormat={numberLayout} width='100' >Price</TableHeaderColumn>

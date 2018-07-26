@@ -11,9 +11,9 @@ export function addExchange(exchange) {
   };
 }
 
-export function FetchExchangeRequest() {
+export function FetchExchangeRequest(limit,sort) {
   return (dispatch) => {
-    return callApi('exchangelist').then(res => {
+    return callApi('exchangelist?offset=0&limit='+limit+'&sort='+sort.toString()).then(res => {
       dispatch(addExchange(res));
     });
   };
