@@ -154,7 +154,7 @@ class ChartPage extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="medium-4 small-12">
+                <div className="medium-4 small-12" style={{ textAlign: "center" }}>
                     <div className="medium-12 chartHeadSt">
                         Market Cap
                             </div>
@@ -171,10 +171,10 @@ class ChartPage extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="medium-4 small-12">
-                    <div className="medium-12 chartHeadSt">
+                <div className="medium-4 small-12" style={{ textAlign: "right" }}>
+                    <div className="medium-12  text-right chartHeadSt">
                         Available Supply
-                            </div>
+                    </div>
                     <div className="medium-12">
                         <div className="medium-12 chartHeading">
                             {numeral(data.SUPPLY).format('0,0')}
@@ -284,7 +284,7 @@ class ChartPage extends Component {
                 );
             } else {
                 return (
-                    <a href={action.externalLink} target="_blank">
+                    <a href={action.externalLink} target="_blank" rel="nofollow">
                         <button className="primarybtn"> Visit </button>
                     </a>
                 )
