@@ -284,7 +284,7 @@ class ChartPage extends Component {
                 );
             } else {
                 return (
-                    <a href={action.externalLink} target="_blank">
+                    <a href={action.externalLink} target="_blank" rel="nofollow">
                         <button className="primarybtn"> Visit </button>
                     </a>
                 )
