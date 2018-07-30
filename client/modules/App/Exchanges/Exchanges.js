@@ -8,12 +8,16 @@ import { getExchange } from './ExchangesReducer';
 import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
 import numeral from 'numeral';
-
 // import { Manager, Reference, Popper } from 'react-popper';
 // import Popover from 'react-simple-popover';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 class Exchange extends Component {
+    limit = 100;
+    sort = ['id','asc'];
+    filter;
+    totalRecords = 0;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -25,8 +29,30 @@ class Exchange extends Component {
         }
     }
     componentWillMount(props) {
-        this.props.dispatch(FetchExchangeRequest());
+        this.props.dispatch(FetchExchangeRequest(this.limit,this.sort));
     }
+
+    componentDidMount = (props) => {
+        window.addEventListener('scroll', this.handleScroll);
+    };
+
+    tick = (props) => {              
+        this.props.dispatch(FetchExchangeRequest(this.limit,this.sort));
+    };
+
+    componentWillUnmount = (props) => {
+        window.removeEventListener('scroll', this.handleScroll);
+    };
+
+    handleScroll = (e) => {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            // ajax call get data from server and append to the div
+            if(this.limit < this.totalRecords) {
+                this.limit = this.limit+100;
+                this.tick();
+            }
+        }
+    };
 
     onchange = (e) => {
         var checkType = e.target.value;
@@ -50,74 +76,6 @@ class Exchange extends Component {
         this.setState(this.state);
     }
 
-    sumOfVol = (market, volData) => {
-        var dataElem = [];
-        for (let len in volData) {
-            let counts = 0;
-            var count = volData[len];
-            var data = count.map((data, key) => {
-                if (len == market) {
-                    return (counts += data);
-                }
-                return counts = '';
-            });
-            dataElem.push(counts);
-        }
-        return dataElem;
-    }
-
-    renderTableRows = (finalData, volData, lists) => {
-        var rowEle = [];
-        const isEmpty = (obj) => {
-            for (var prop in obj) {
-                if (obj.hasOwnProperty(prop))
-                    return false;
-            }
-            return true;
-        }
-        // if (isEmpty(finalData)) {
-        //     return (<tr><td className="loadingClass headcol" colSpan="8">Loading...</td></tr>);
-        // }
-        // if (isEmpty(volData)) {
-        //     return (<tr><td className="loadingClass headcol" colSpan="8">Loading...</td></tr>);
-        // }
-
-        var i = 1;
-        for (let market in finalData) {
-            
-            var visitLinkj = lists.find(data => {
-                return data.exchanges.MARKET == market;
-                // return data.MARKET == market;
-            });
-
-            var data = finalData[market];
-            var listofEx = ((Array.from(new Set(finalData[market]))).join(', '));
-
-            var length = '';
-            if (data.length > 6) {
-                length = data.length - 6;
-            } else {
-                length = '';
-            }
-            var marketName = ((market).toLowerCase().trim());
-            //    console.log(market, "market");
-            // rowEle.push({
-            //     id: i++,
-            //     marketName: market,
-            //     coins: finalData[market],
-            //     vol24h: this.sumOfVol(market, volData),
-            //     visit: market
-            // });
-            rowEle.push({
-                id: i++,
-                marketName: market,
-                coins: finalData[market],
-                vol24h: this.sumOfVol(market, volData),
-                visit: visitLinkj.exchanges
-            });
-        }
-        return rowEle;
-    }
 
     render() {
 
@@ -133,39 +91,13 @@ class Exchange extends Component {
         let srtData = {};
         let volData = {};
         var lists = {};
-        if (this.props.getExchangeList.length > 0) {
-            var list = this.props.getExchangeList;
-            lists = list;
-            var listofdata = [];
-            var coinSymbol = [];
-            list.forEach(function (data, key) {
-                if (listofdata.indexOf(data['MARKET']) == '-1') {
-                    // listofdata.push(data.MARKET);
-                    listofdata.push(data.exchanges.MARKET);
-                }
-            });
-
-
-            listofdata.forEach(element => {
-                var datalists = list.filter((data, key) => {
-                    return data.exchanges.MARKET == element;
-                }).map(symbol => {
-                    return symbol.VOLUME24HOUR;
-                });
-
-                volData[element] = datalists;
-            });
-
-            listofdata.forEach(element => {
-                var datalists = list.filter((data, key) => {
-                    return data.exchanges.MARKET == element;
-                }).map(symbol => {                    
-                    return symbol.currencies.Symbol;
-                });
-
-                finalData[element] = datalists;
-            });
+        var list;
+        if (this.props.getExchangeList.rows && this.props.getExchangeList.rows.length > 0) {
+            var records = this.props.getExchangeList;
+            list = records.rows;
+            this.totalRecords = records.count;        
         }
+
         const LinkAction = (action, listObj) => {
             var marketName = ((action).toLowerCase().trim());
             return (
@@ -174,9 +106,10 @@ class Exchange extends Component {
                 </Link>
             );
         };
-        const visitAction = (action, listObj) => {            
-            if (action.externalLink == '') {
-                var marketName = ((action.MARKET).toLowerCase().trim());
+
+        const visitAction = (action, listObj) => {                        
+            if (action == '') {
+                var marketName = ((listObj.market).toLowerCase().trim());
                 return (
                     <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
                         <button className="primarybtn"> Visit </button>
@@ -184,26 +117,31 @@ class Exchange extends Component {
                 );
             } else {
                 return (
-                    <a href={action.externalLink} target="_blank">
+                    <a href={action} target="_blank" rel="nofollow">
                         <button className="primarybtn"> Visit </button>
                     </a>
                 )
             }
 
         }
+
         var options = {
-            // noDataText: (<span className="loadingClass headcol" colSpan="6"> Record Not Found!! </span>)
-            noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>)
+            noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>),
+            onSortChange: (sortName, sortOrder) => {
+                this.sort = [sortName, sortOrder];
+                this.tick();
+            }
         };
+        
         const coinShowAction = (action, listObj) => {
-            var data = (Array.from(new Set(action)))
-            var listofEx = ((Array.from(new Set(action))).join(', '));
+            var data = action.split(',');
+            var listofEx = data.join(', ');
             var showCoins = '';
             var showCoinslist = '';
             var length = '';
             if (data.length > 6) {
                 length = data.length - 6;
-                showCoins = ((Array.from(new Set(action))).splice(1, 6)).join(', ');
+                showCoins = data.splice(1, 6).join(', ');
                 showCoinslist = (
                     <div>
                         <span className="t--black">{showCoins}</span>
@@ -214,7 +152,7 @@ class Exchange extends Component {
                     </div>);
             } else {
                 length = '';
-                showCoins = (Array.from(new Set(action))).join(', ');
+                showCoins = data.join(', ');
                 showCoinslist = <span className="t--black">{showCoins} </span>
             }
 
@@ -227,20 +165,10 @@ class Exchange extends Component {
         };
 
         const vol24hAction = (action, listObj) => {
-            var data = action.filter(function (v) { return v !== '' });
-            return (self.symbolSt + "" + numeral(data).format('0,0.000'))
+            // var data = action.filter(function (v) { return v !== '' });
+            return (self.symbolSt + "" + numeral(action).format('0,0.000'))
         }
-        const vol24hSortFunc = (a, b, order) => {
-            var aData = (a.vol24h).filter(function (v) { return v !== '' });
-            var bData = (b.vol24h).filter(function (x) { return x !== '' });
-            if (order === 'desc') {
-                return (Number(bData) - Number(aData));
-            } else {
-                return (Number(aData) - Number(bData));
-            }
-        }
-
-
+                
         return (
             <div>
                 <DocumentMeta {...meta}>
@@ -270,12 +198,19 @@ class Exchange extends Component {
                             </div> */}
                                 <div className="cell">
                                     <div className="table-wrap l-table">
-                                        <BootstrapTable data={this.renderTableRows(finalData, volData, lists)} striped hover options={options}>
+                                        {/* <BootstrapTable data={this.renderTableRows(finalData, volData, lists)} striped hover options={options}>
                                             <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
                                             <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
                                             <TableHeaderColumn dataField='coins' width='320' dataFormat={coinShowAction}>Coins</TableHeaderColumn>
                                             <TableHeaderColumn dataField='vol24h' width='150' dataSort sortFunc={vol24hSortFunc} dataFormat={vol24hAction} >24h volume</TableHeaderColumn>
                                             <TableHeaderColumn dataField='visit' width='150' dataFormat={visitAction} > Visit</TableHeaderColumn>
+                                        </BootstrapTable> */}
+                                        <BootstrapTable data={list} striped hover options={options}>
+                                            <TableHeaderColumn isKey dataField='id' width='50'>#</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='market' dataSort dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='coins' dataFormat={coinShowAction} width='320'>Coins</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='VOLUME24HOUR' dataSort dataFormat={vol24hAction} width='150'  >24h volume</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='externalLink' dataFormat={visitAction} width='150' > Visit</TableHeaderColumn>
                                         </BootstrapTable>
                                     </div>
                                 </div>
