@@ -118,7 +118,7 @@ class Exchange extends Component {
                 );
             } else {
                 return (
-                    <a href={action} target="_blank">
+                    <a href={action} target="_blank" rel="nofollow">
                         <button className="primarybtn"> Visit </button>
                     </a>
                 )
