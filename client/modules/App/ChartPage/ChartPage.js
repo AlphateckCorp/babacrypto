@@ -51,8 +51,8 @@ class ChartPage extends Component {
             var coinName = this.props.exchangeCoinsList[0].CoinName;
             var symbol = this.props.exchangeCoinsList[0].Symbol;
             var symbolName = this.state.symbolName;
-            this.state.metaTitle = coinName +"("+symbol+") Overview | "+coinName +" Price, Charts and Market Cap";
-            this.state.metaDescription = "Complete Overview of "+coinName+ " ("+symbol+") CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
+            this.state.metaTitle = coinName +" Overview | "+coinName +" Price, Charts and Market Cap";
+            this.state.metaDescription = "Complete Overview of "+coinName+ " CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
             this.setState(this.state);
         }
     }
@@ -71,8 +71,8 @@ class ChartPage extends Component {
             var coinName = this.props.exchangeCoinsList[0].CoinName;
             var symbol = this.props.exchangeCoinsList[0].Symbol;
             var symbolName = this.state.symbolName;
-            this.state.metaTitle = coinName +" ("+symbol+") Overview | "+coinName +" Price, Charts and Market Cap";
-            this.state.metaDescription = "Complete Overview of "+coinName+ " ("+symbol+") CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
+            this.state.metaTitle = coinName +" Overview | "+coinName +" Price, Charts and Market Cap";
+            this.state.metaDescription = "Complete Overview of "+coinName+ " CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
             this.setState(this.state);
         }
 

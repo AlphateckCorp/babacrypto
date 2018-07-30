@@ -8,7 +8,6 @@ import { getExchange } from './ExchangesReducer';
 import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
 import numeral from 'numeral';
-
 // import { Manager, Reference, Popper } from 'react-popper';
 // import Popover from 'react-simple-popover';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
@@ -169,8 +168,7 @@ class Exchange extends Component {
             // var data = action.filter(function (v) { return v !== '' });
             return (self.symbolSt + "" + numeral(action).format('0,0.000'))
         }
-
-
+                
         return (
             <div>
                 <DocumentMeta {...meta}>
