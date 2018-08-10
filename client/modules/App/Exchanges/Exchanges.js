@@ -100,21 +100,33 @@ class Exchange extends Component {
 
         const LinkAction = (action, listObj) => {
             var marketName = ((action).toLowerCase().trim());
-            return (
-                <Link to={"/exchanges/" + marketName}>
-                    <span className="t--blue">{action}</span>
-                </Link>
-            );
+            if (listObj.coins) {
+                return (
+                    <Link to={"/exchanges/" + marketName}>
+                        <span className="t--blue">{action}</span>
+                    </Link>
+                );
+            } else {
+                return (
+                <span className="t--gray">{action}</span>
+                );
+            }
         };
 
         const visitAction = (action, listObj) => {                        
             if (action == '') {
                 var marketName = ((listObj.market).toLowerCase().trim());
-                return (
-                    <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
-                        <button className="primarybtn"> Visit </button>
-                    </Link>
-                );
+                if (listObj.coins) {
+                    return (
+                        <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
+                            <button className="primarybtn"> Visit </button>
+                        </Link>
+                    );
+                } else {
+                    return (
+                        <button className="disabledbtn" disabled> Visit </button>
+                    );
+                }
             } else {
                 return (
                     <a href={action} target="_blank" rel="nofollow">
@@ -134,34 +146,35 @@ class Exchange extends Component {
         };
         
         const coinShowAction = (action, listObj) => {
-            var data = action.split(',');
-            var listofEx = data.join(', ');
-            var showCoins = '';
-            var showCoinslist = '';
-            var length = '';
-            if (data.length > 6) {
-                length = data.length - 6;
-                showCoins = data.splice(1, 6).join(', ');
-                showCoinslist = (
+            if (action) {
+                var data = action.split(',');
+                var listofEx = data.join(', ');
+                var showCoins = '';
+                var showCoinslist = '';
+                var length = '';
+                if (data.length > 6) {
+                    length = data.length - 6;
+                    showCoins = data.splice(1, 6).join(', ');
+                    showCoinslist = (
+                        <div>
+                            <span className="t--black">{showCoins}</span>
+                            <span className="" style={{ background: "#fff", border: "1px solid black", padding: "5px", marginLeft: "9px", borderRadius: "5px", display: "inline-block" }}>
+                                <span data-tip={listofEx}> +{length} </span>
+                                <ReactTooltip className="tooltipStyle" type="light" event="click" border={true} />
+                            </span>
+                        </div>);
+                } else {
+                    length = '';
+                    showCoins = data.join(', ');
+                    showCoinslist = <span className="t--black">{showCoins} </span>
+                }
+
+                return (
                     <div>
-                        <span className="t--black">{showCoins}</span>
-                        <span className="" style={{ background: "#fff", border: "1px solid black", padding: "5px", marginLeft: "9px", borderRadius: "5px", display: "inline-block" }}>
-                            <span data-tip={listofEx}> +{length} </span>
-                            <ReactTooltip className="tooltipStyle" type="light" event="click" border={true} />
-                        </span>
-                    </div>);
-            } else {
-                length = '';
-                showCoins = data.join(', ');
-                showCoinslist = <span className="t--black">{showCoins} </span>
+                        {showCoinslist}
+                    </div>
+                );
             }
-
-            return (
-                <div>
-                    {showCoinslist}
-                </div>
-            );
-
         };
 
         const vol24hAction = (action, listObj) => {
