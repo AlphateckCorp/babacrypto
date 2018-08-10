@@ -1,6 +1,10 @@
 .t--blue {
   color: #4292d6; }
 
+  .t--gray {
+    color: #ccc;
+  }
+
 .t--white {
   color: #fff; }
 

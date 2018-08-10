@@ -78,6 +78,21 @@
     box-shadow: 0 2px 5px 0 #b7b5b5;
     cursor: pointer;
 }
+
+.disabledbtn {
+    background-color: #ccc;
+    border-radius: 3px;
+    border: none;
+    color: white;
+    padding: 10px 40px;
+    text-align: center;
+    text-decoration: none; 
+    display: inline-block; 
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 2px 5px 0 #b7b5b5;
+}
+
 h2 span{
     font-size: 18px;
     font-weight: normal
