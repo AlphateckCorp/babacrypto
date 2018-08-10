@@ -77,7 +77,7 @@ class ChartPage extends Component {
         }
 
     }
-    onchange = (e) => {
+    onchange = (e) => {        
         var checkType = e.target.value;
         var selectTypeByid = '';
         var currencySymbols = '';
@@ -114,9 +114,8 @@ class ChartPage extends Component {
         var coindtls = exchangecoin[0].coinlistinfos;
         // var TOTALVOLUME24HList = 0;
         var coinlistDtl = coindtls.filter((data, index) => {
-            // return self.typeId == index;
-            
-            return self.symbolName == data.TOSYMBOL;
+            // return self.typeId == index;            
+            return self.symbolName == data.tosymbol.Name;
         });
         // var TOTALVOLUME24HList = coindtls.reduce((ls, data) => {
         //     console.log(data, "data")
@@ -216,8 +215,8 @@ class ChartPage extends Component {
             //     return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);
             // }):'';
             var selectType = list ? list.map((data, key) => {
-                if(data.TOSYMBOL!="BTC"){
-                return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);  
+                if(data.tosymbol.Name!="BTC"){
+                return (<option key={key} className="abc" value={data.tosymbol.Name}>{data.tosymbol.Name}</option>);  
                 }
             }):'';
         }
