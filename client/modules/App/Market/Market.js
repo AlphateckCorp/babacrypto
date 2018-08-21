@@ -33,7 +33,7 @@ class Market extends Component {
         this.setState(this.state);
         // document.title = data+ " Exchange Review | Updated "+data+" Market Prices - 2018";
     }
-
+    
     onchange = (e) => {
         var checkType = e.target.value;
         var selectTypeByid = '';

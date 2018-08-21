@@ -4,17 +4,20 @@ import { Link } from 'react-router';
 import InfoSection from './InfoSection/InfoSection';
 import { FetchExchangeRequest } from './ExchangesAction';
 import { getExchange } from './ExchangesReducer';
+import { browserHistory } from 'react-router';
 // import styles from './../Home/Home.css';
 import DocumentMeta from 'react-document-meta';
+import { maskStatus } from '../Visitexchange/visitexchangeaction';
 import ReactTooltip from 'react-tooltip';
 import numeral from 'numeral';
 // import { Manager, Reference, Popper } from 'react-popper';
 // import Popover from 'react-simple-popover';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { getMask } from '../Visitexchange/visitexchangereducer';
 
 class Exchange extends Component {
     limit = 100;
-    sort = ['id','asc'];
+    sort = ['id', 'asc'];
     filter;
     totalRecords = 0;
 
@@ -28,16 +31,18 @@ class Exchange extends Component {
             typeId: 0
         }
     }
-    componentWillMount(props) {
-        this.props.dispatch(FetchExchangeRequest(this.limit,this.sort));
-    }
 
+    componentWillMount(props) {
+        this.props.dispatch(maskStatus(false));
+        this.props.dispatch(FetchExchangeRequest(this.limit, this.sort));
+    }
+    
     componentDidMount = (props) => {
         window.addEventListener('scroll', this.handleScroll);
     };
 
-    tick = (props) => {              
-        this.props.dispatch(FetchExchangeRequest(this.limit,this.sort));
+    tick = (props) => {
+        this.props.dispatch(FetchExchangeRequest(this.limit, this.sort));
     };
 
     componentWillUnmount = (props) => {
@@ -47,8 +52,8 @@ class Exchange extends Component {
     handleScroll = (e) => {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
             // ajax call get data from server and append to the div
-            if(this.limit < this.totalRecords) {
-                this.limit = this.limit+100;
+            if (this.limit < this.totalRecords) {
+                this.limit = this.limit + 100;
                 this.tick();
             }
         }
@@ -95,7 +100,7 @@ class Exchange extends Component {
         if (this.props.getExchangeList.rows && this.props.getExchangeList.rows.length > 0) {
             var records = this.props.getExchangeList;
             list = records.rows;
-            this.totalRecords = records.count;        
+            this.totalRecords = records.count;
         }
 
         const LinkAction = (action, listObj) => {
@@ -108,32 +113,32 @@ class Exchange extends Component {
                 );
             } else {
                 return (
-                <span className="t--gray">{action}</span>
+                    <span className="t--gray">{action}</span>
                 );
             }
         };
 
-        const visitAction = (action, listObj) => {                        
-            if (action == '') {
-                var marketName = ((listObj.market).toLowerCase().trim());
-                if (listObj.coins) {
-                    return (
-                        <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
-                            <button className="primarybtn"> Visit </button>
-                        </Link>
-                    );
-                } else {
-                    return (
-                        <button className="disabledbtn" disabled> Visit </button>
-                    );
-                }
+        const visitAction = (action, listObj) => {
+            // if (action == '') {
+            var marketName = ((listObj.market).toLowerCase().trim());
+            if (listObj.coins) {
+                return (
+                    <Link to={"/visitexchange?exchange=" + marketName} rel="nofollow">
+                        <button className="primarybtn"> Visit </button>
+                    </Link>
+                );
             } else {
                 return (
-                    <a href={action} target="_blank" rel="nofollow">
-                        <button className="primarybtn"> Visit </button>
-                    </a>
-                )
+                    <button className="disabledbtn" disabled> Visit </button>
+                );
             }
+            // } else {
+            //     return (
+            //         <a href={action} target="_blank" rel="nofollow">
+            //             <button className="primarybtn"> Visit </button>
+            //         </a>
+            //     )
+            // }
 
         }
 
@@ -144,7 +149,7 @@ class Exchange extends Component {
                 this.tick();
             }
         };
-        
+
         const coinShowAction = (action, listObj) => {
             if (action) {
                 var data = action.split(',');
@@ -181,7 +186,7 @@ class Exchange extends Component {
             // var data = action.filter(function (v) { return v !== '' });
             return (self.symbolSt + "" + numeral(action).format('0,0.000'))
         }
-                
+
         return (
             <div>
                 <DocumentMeta {...meta}>
@@ -239,7 +244,8 @@ class Exchange extends Component {
 
 function mapStateToProps(state) {
     return {
-        getExchangeList: getExchange(state)
+        getExchangeList: getExchange(state),
+        maskstatus: getMask(state)
     };
 }
 export default connect(mapStateToProps)(Exchange);
