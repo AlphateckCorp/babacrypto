@@ -9,6 +9,7 @@ import posts from './modules/Post/PostReducer';
 import intl from './modules/Intl/IntlReducer';
 import CoinList from './modules/App/Home/HomeReducer';
 import ExchangeList from './modules/App/Exchanges/ExchangesReducer';
+import MaskStatus from './modules/App/Visitexchange/visitexchangereducer';
 import Chartlist from './modules/App/ChartPage/ChartPageReducer';
 import ChartMarket from './modules/App/ChartPage/ChartMarketReducer';
 import Market from './modules/App/Market/MarketReducer';
@@ -23,4 +24,5 @@ export default combineReducers({
   Chartlist,
   ChartMarket,
   Market,
+  MaskStatus,
 });
