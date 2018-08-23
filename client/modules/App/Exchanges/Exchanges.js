@@ -56,6 +56,7 @@ class Exchange extends Component {
         }
     };
 
+
     onchange = (e) => {
         var checkType = e.target.value;
         var selectTypeByid = '';
@@ -76,6 +77,11 @@ class Exchange extends Component {
         this.state.typeId = selectTypeByid;
         this.state.symbolSt = currencySymbols;
         this.setState(this.state);
+    }
+
+    goToVistExchange = (e) => {
+        e.preventDefault();
+        console.log(e.target.name);
     }
 
 
@@ -120,9 +126,9 @@ class Exchange extends Component {
             var marketName = ((listObj.market).toLowerCase().trim());
             if (listObj.coins) {
                 return (
-                    <Link to={"/visitexchange?exchange=" + marketName} rel="nofollow">
+                    <a href={"/visitexchange?exchange=" + marketName}  target="_blank" rel="nofollow" >
                         <button className="primarybtn"> Visit </button>
-                    </Link>
+                    </a>
                 );
             } else {
                 return (
@@ -183,6 +189,7 @@ class Exchange extends Component {
             // var data = action.filter(function (v) { return v !== '' });
             return (self.symbolSt + "" + numeral(action).format('0,0.000'))
         }
+
 
         return (
             <div>

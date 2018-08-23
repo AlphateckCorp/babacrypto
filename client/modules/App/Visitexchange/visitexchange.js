@@ -14,8 +14,8 @@ class Mask extends Component {
   componentDidMount() {
     callApi('exchangeMarket?market=' + this.state.exchangeName).then(res => {
       if (res.externalLink) {
-        window.open(res.externalLink, '_blank');
-        browserHistory.goBack();
+        window.location = res.externalLink;
+        // browserHistory.goBack();
       }
       else {
         browserHistory.replace('/exchanges/' + this.state.exchangeName);

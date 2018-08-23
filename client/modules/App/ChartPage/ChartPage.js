@@ -277,7 +277,7 @@ class ChartPage extends Component {
             // if (action.externalLink == '') {
             var marketName = ((action.MARKET).toLowerCase().trim());
             return (
-                <Link to={"/visitexchange?exchange=" + marketName} rel="nofollow">
+                <Link to={"/visitexchange?exchange=" + marketName} target="_blank" rel="nofollow">
                     <button className="primarybtn"> Visit </button>
                 </Link>
             );
