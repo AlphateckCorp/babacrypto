@@ -7,13 +7,11 @@ import { getExchange } from './ExchangesReducer';
 import { browserHistory } from 'react-router';
 // import styles from './../Home/Home.css';
 import DocumentMeta from 'react-document-meta';
-import { maskStatus } from '../Visitexchange/visitexchangeaction';
 import ReactTooltip from 'react-tooltip';
 import numeral from 'numeral';
 // import { Manager, Reference, Popper } from 'react-popper';
 // import Popover from 'react-simple-popover';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { getMask } from '../Visitexchange/visitexchangereducer';
 
 class Exchange extends Component {
     limit = 100;
@@ -33,10 +31,9 @@ class Exchange extends Component {
     }
 
     componentWillMount(props) {
-        this.props.dispatch(maskStatus(false));
         this.props.dispatch(FetchExchangeRequest(this.limit, this.sort));
     }
-    
+
     componentDidMount = (props) => {
         window.addEventListener('scroll', this.handleScroll);
     };
@@ -245,7 +242,6 @@ class Exchange extends Component {
 function mapStateToProps(state) {
     return {
         getExchangeList: getExchange(state),
-        maskstatus: getMask(state)
     };
 }
 export default connect(mapStateToProps)(Exchange);
