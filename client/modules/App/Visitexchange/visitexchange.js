@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import callApi from '../../../util/apiCaller';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import { getMask } from './visitexchangereducer';
-import { maskStatus } from './visitexchangeaction';
-
 
 class Mask extends Component {
   constructor(props) {
@@ -15,24 +12,16 @@ class Mask extends Component {
   }
 
   componentDidMount() {
-    if (this.props.maskstatus) {
-      browserHistory.push('exchanges');
-    }
-    else {
-      callApi('exchangeMarket?market=' + this.state.exchangeName).then(res => {
-        if (res.externalLink) {
-          // window.location = res.externalLink;
-          window.open(res.externalLink, '_blank');
-          browserHistory.push('exchanges');
-        }
-        else {
-          this.props.dispatch(maskStatus(true));
-          browserHistory.push('/exchanges/' + this.state.exchangeName);
-        }
-      });
-    }
+    callApi('exchangeMarket?market=' + this.state.exchangeName).then(res => {
+      if (res.externalLink) {
+        window.open(res.externalLink, '_blank');
+        browserHistory.goBack();
+      }
+      else {
+        browserHistory.replace('/exchanges/' + this.state.exchangeName);
+      }
+    });
   }
-
 
   render() {
 
@@ -58,10 +47,4 @@ class Mask extends Component {
 }
 
 
-function mapStateToProps(state) {
-  return {
-    maskstatus: getMask(state)
-  };
-}
-
-export default connect(mapStateToProps)(Mask);
+export default Mask;
