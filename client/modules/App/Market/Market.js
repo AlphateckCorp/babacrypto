@@ -152,9 +152,9 @@ class Market extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="medium-4 small-12" style={{ textAlign: 'right',paddingTop:'10px' }}>
+                    <div className="medium-4 small-12" style={{ textAlign: 'right', paddingTop: '10px' }}>
                         {(this.state.visitButton) ?
-                            <Link to={this.state.externalLink} target="_blank" rel="nofollow">
+                            <Link to={"/visit-exchange/" + this.props.params.market} target="_blank" rel="nofollow">
                                 <input type="button" className="primarybtn" value="Visit" />
                             </Link>
                             :
