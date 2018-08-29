@@ -7,14 +7,14 @@ class Mask extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exchangeName: props.location.query.exchange,
+      exchangeName: props.params.marketname,
     }
   }
 
   componentDidMount() {
     callApi('exchangeMarket?market=' + this.state.exchangeName).then(res => {
       if (res.externalLink) {
-        window.location = res.externalLink;
+        window.location.replace(res.externalLink);
         // browserHistory.goBack();
       }
       else {
