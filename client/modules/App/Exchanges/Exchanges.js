@@ -126,7 +126,7 @@ class Exchange extends Component {
             var marketName = ((listObj.market).toLowerCase().trim());
             if (listObj.coins) {
                 return (
-                    <a href={"/visitexchange?exchange=" + marketName}  target="_blank" rel="nofollow" >
+                    <a href={"/visit-exchange/" + marketName}  target="_blank" rel="nofollow" >
                         <button className="primarybtn"> Visit </button>
                     </a>
                 );

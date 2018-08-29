@@ -96,7 +96,7 @@ export default (
       }}
     />
     <Route
-      path="/visitexchange"
+      path="/visit-exchange/:marketname"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/App/Visitexchange/visitexchange').default);
