@@ -1,7 +1,7 @@
-import { 
-    // ADD_POST, 
-    ADD_COINS
-    // DELETE_POST 
+import {
+  // ADD_POST, 
+  ADD_COINS
+  // DELETE_POST 
 } from './HomeAction';
 
 // Initial State
@@ -14,7 +14,7 @@ const HomeReducer = (state = initialState, action) => {
     //     data: [action.post, ...state.data],
     //   };
 
-    case ADD_COINS :
+    case ADD_COINS:
       return {
         data: action.coins,
       };
