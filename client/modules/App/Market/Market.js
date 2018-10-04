@@ -158,8 +158,9 @@ class Market extends Component {
                                 <input type="button" className="primarybtn" value="Visit" />
                             </Link>
                             :
-                            <input type="button" className="disabledbtn" value="Visit" />
-                        }
+                            <Link to={{pathname: "/visit-exchange/" + this.props.params.market, state: { prevPath: location.pathname }}} rel="nofollow">
+                                <input type="button" className="primarybtn" value="Visit" />
+                            </Link>}
                     </div>
                 </div>
             </div>

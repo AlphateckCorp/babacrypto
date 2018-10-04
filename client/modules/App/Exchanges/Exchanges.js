@@ -33,7 +33,7 @@ class Exchange extends Component {
     componentWillMount(props) {
         this.props.dispatch(FetchExchangeRequest(this.limit, this.sort));
     }
-
+    
     componentDidMount = (props) => {
         window.addEventListener('scroll', this.handleScroll);
     };
@@ -126,9 +126,9 @@ class Exchange extends Component {
             var marketName = ((listObj.market).toLowerCase().trim());
             if (listObj.coins) {
                 return (
-                    <a href={"/visit-exchange/" + marketName}  target="_blank" rel="nofollow" >
+                    <Link to={"/visit-exchange/" + marketName}  target="_blank" rel="nofollow" >
                         <button className="primarybtn"> Visit </button>
-                    </a>
+                    </Link>
                 );
             } else {
                 return (
