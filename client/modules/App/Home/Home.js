@@ -7,6 +7,7 @@ import DocumentMeta from 'react-document-meta';
 import numeral from 'numeral';
 import callApi from '../../../util/apiCaller';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import styles from '../App.css';
 
 class Home extends Component {
     limit = 100;
@@ -35,10 +36,18 @@ class Home extends Component {
                 price: 'asc',
                 supply: 'asc',
                 totalvolume24h: 'asc',
-                totalvolume24hto: 'asc'
+                changepct24hour: 'asc'
             },
             name: '',
-            sorting: false
+            sorting: {
+                forAll: false,
+                CoinName: false,
+                mktcap: false,
+                price: false,
+                supply: false,
+                totalvolume24h: false,
+                changepct24hour: false
+            }
         }
     }
 
@@ -88,12 +97,12 @@ class Home extends Component {
         var currencySymbols = '';
         this.getTotalValue(checkType);
         let order = this.state.sortOrder[this.state.name] === 'asc' ? 'desc' : 'asc';
-        this.sort = [this.state.name, order];
         switch (checkType) {
             case ('EUR'):
                 selectTypeByid = 1;
                 currencySymbols = '€';
-                if (this.state.sorting) {
+                if (this.state.sorting["forAll"]) {
+                    this.sort = [this.state.name, order];
                     this.currency = '2867';
                     this.tick();
                 }
@@ -101,7 +110,8 @@ class Home extends Component {
             case ('ETH'):
                 selectTypeByid = 2;
                 currencySymbols = 'Ξ';
-                if (this.state.sorting) {
+                if (this.state.sorting["forAll"]) {
+                    this.sort = [this.state.name, order];
                     this.currency = '2';
                     this.tick();
                 }
@@ -109,7 +119,8 @@ class Home extends Component {
             default:
                 selectTypeByid = 0;
                 currencySymbols = '$';
-                if (this.state.sorting) {
+                if (this.state.sorting["forAll"]) {
+                    this.sort = [this.state.name, order];
                     this.currency = '2866';
                     this.tick();
                 }
@@ -121,7 +132,10 @@ class Home extends Component {
     }
 
     onSortChange = (name) => {
-        this.setState({ name: name, sorting: true });
+        let sorting = this.state.sorting;
+        sorting["forAll"] = true;
+        sorting[name] = true;
+        this.setState({ name: name, sorting });
         let sortOrder = this.state.sortOrder;
         let order = sortOrder[name];
         this.sort = [name, order];
@@ -131,9 +145,19 @@ class Home extends Component {
     }
 
     renderCustomHeader(headerName, name) {
-        return (
-            <p onClick={() => this.onSortChange(name)}>{headerName}</p>
-        );
+        let header;
+        if (this.state.sorting[name]) {
+            header = <p className={styles.header} onClick={() => this.onSortChange(name)}>{headerName}&nbsp;
+                {this.state.sortOrder[name] === 'desc' ? <span><i style={{fontSize:12}} className="fa fa-caret-up"></i></span> :
+                    <span><i style={{fontSize:12}} className="fa fa-caret-down"></i></span>}
+            </p>
+        }
+        else {
+            header = <p className={styles.header} onClick={() => this.onSortChange(name)}>{headerName}&nbsp;
+                <i style={{fontSize:12,color:"#cfd1d3"}} className="fa fa-caret-down"></i><i style={{fontSize:12,color:"#cfd1d3"}} className="fa fa-caret-up"></i>
+            </p>
+        }
+        return header;
     }
 
     render() {
@@ -150,7 +174,7 @@ class Home extends Component {
 
         if (this.state.getCoinsList.length > 0) {
             var dataList = (this.state.getCoinsList);
-            dataList.map((data, index) => {
+            dataList.map((data, index) => {                
                 if ((data.coinlistinfos).length > 0) {
                     var CoinName = '';
                     CoinName = (data.CoinName) ? ((data.CoinName).toLowerCase().trim()) : '';
@@ -165,7 +189,7 @@ class Home extends Component {
                                 "price": data.coinlistinfos[self.typeId].PRICE,
                                 "supply": data.coinlistinfos[self.typeId].SUPPLY,
                                 "totalvolume24h": data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-                                "totalvolume24hto": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
+                                "changepct24hour": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
                             };
                             coinContent.push(datazl);
                         }
@@ -245,7 +269,7 @@ class Home extends Component {
                                         <TableHeaderColumn dataField='price' dataFormat={numberLayout} width='100' >{this.renderCustomHeader('Price', 'price')}</TableHeaderColumn>
                                         <TableHeaderColumn dataField='supply' dataFormat={supplyLayout} width='165' >{this.renderCustomHeader('Circulating Supply', 'supply')}</TableHeaderColumn>
                                         <TableHeaderColumn dataField='totalvolume24h' dataFormat={numberLayout} width='150' >{this.renderCustomHeader('24h Volume', 'totalvolume24h')}</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='totalvolume24hto' dataFormat={colorAction} width='125'>{this.renderCustomHeader('24h Change (%)', 'totalvolume24hto')}</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='changepct24hour' dataFormat={colorAction} width='125'>{this.renderCustomHeader('24h Change (%)', 'changepct24hour')}</TableHeaderColumn>
                                     </BootstrapTable>
                                 </div>
                             </div>
