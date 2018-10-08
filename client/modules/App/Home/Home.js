@@ -7,11 +7,13 @@ import DocumentMeta from 'react-document-meta';
 import numeral from 'numeral';
 import callApi from '../../../util/apiCaller';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import styles from '../App.css';
 
 class Home extends Component {
     limit = 100;
     sort = ['id', 'asc'];
     filter;
+    currency = '2866';
     mktCap;
 
 
@@ -28,8 +30,24 @@ class Home extends Component {
             data: '',
             mktCap: null,
             getCoinsList: [],
-            sortName: [],
-            sortOrder: []
+            sortOrder: {
+                CoinName: 'asc',
+                mktcap: 'asc',
+                price: 'asc',
+                supply: 'asc',
+                totalvolume24h: 'asc',
+                changepct24hour: 'asc'
+            },
+            name: '',
+            sorting: {
+                forAll: false,
+                CoinName: false,
+                mktcap: false,
+                price: false,
+                supply: false,
+                totalvolume24h: false,
+                changepct24hour: false
+            }
         }
     }
 
@@ -40,20 +58,20 @@ class Home extends Component {
         });
     }
 
-    FetchCoinsRequest = (limit, sort) => {
-        return callApi('yours?offset=0&limit=' + limit + '&sort=' + sort.toString()).then(res => {
+    FetchCoinsRequest = (limit, sort, currency) => {
+        return callApi('yours?offset=0&limit=' + limit + '&sort=' + sort.toString() + '&currency=' + currency).then(res => {
             this.setState({ getCoinsList: res });
         });
     }
 
 
     componentWillMount(props) {
-        this.FetchCoinsRequest(this.limit, this.sort);
+        this.FetchCoinsRequest(this.limit, this.sort, this.currency);
         this.getTotalValue('USD');
     }
 
     tick = (props) => {
-        this.FetchCoinsRequest(this.limit, this.sort);
+        this.FetchCoinsRequest(this.limit, this.sort, this.currency);
     };
 
     componentDidMount = (props) => {
@@ -78,18 +96,34 @@ class Home extends Component {
         var selectTypeByid = '';
         var currencySymbols = '';
         this.getTotalValue(checkType);
+        let order = this.state.sortOrder[this.state.name] === 'asc' ? 'desc' : 'asc';
         switch (checkType) {
             case ('EUR'):
                 selectTypeByid = 1;
                 currencySymbols = '€';
+                if (this.state.sorting["forAll"]) {
+                    this.sort = [this.state.name, order];
+                    this.currency = '2867';
+                    this.tick();
+                }
                 break;
             case ('ETH'):
                 selectTypeByid = 2;
                 currencySymbols = 'Ξ';
+                if (this.state.sorting["forAll"]) {
+                    this.sort = [this.state.name, order];
+                    this.currency = '2';
+                    this.tick();
+                }
                 break;
             default:
                 selectTypeByid = 0;
                 currencySymbols = '$';
+                if (this.state.sorting["forAll"]) {
+                    this.sort = [this.state.name, order];
+                    this.currency = '2866';
+                    this.tick();
+                }
         }
 
         this.state.typeId = selectTypeByid;
@@ -97,9 +131,33 @@ class Home extends Component {
         this.setState(this.state);
     }
 
-    onSortChange = (name, order) => {
+    onSortChange = (name) => {
+        let sorting = this.state.sorting;
+        sorting["forAll"] = true;
+        sorting[name] = true;
+        this.setState({ name: name, sorting });
+        let sortOrder = this.state.sortOrder;
+        let order = sortOrder[name];
         this.sort = [name, order];
         this.tick();
+        order === 'asc' ? sortOrder[name] = 'desc' : sortOrder[name] = 'asc';
+        this.setState({ sortOrder });
+    }
+
+    renderCustomHeader(headerName, name) {
+        let header;
+        if (this.state.sorting[name]) {
+            header = <p className={styles.header} onClick={() => this.onSortChange(name)}>{headerName}&nbsp;
+                {this.state.sortOrder[name] === 'desc' ? <span><i style={{fontSize:12}} className="fa fa-caret-up"></i></span> :
+                    <span><i style={{fontSize:12}} className="fa fa-caret-down"></i></span>}
+            </p>
+        }
+        else {
+            header = <p className={styles.header} onClick={() => this.onSortChange(name)}>{headerName}&nbsp;
+                <i style={{fontSize:12,color:"#cfd1d3"}} className="fa fa-caret-down"></i><i style={{fontSize:12,color:"#cfd1d3"}} className="fa fa-caret-up"></i>
+            </p>
+        }
+        return header;
     }
 
     render() {
@@ -116,7 +174,7 @@ class Home extends Component {
 
         if (this.state.getCoinsList.length > 0) {
             var dataList = (this.state.getCoinsList);
-            dataList.map((data, index) => {
+            dataList.map((data, index) => {                
                 if ((data.coinlistinfos).length > 0) {
                     var CoinName = '';
                     CoinName = (data.CoinName) ? ((data.CoinName).toLowerCase().trim()) : '';
@@ -131,13 +189,12 @@ class Home extends Component {
                                 "price": data.coinlistinfos[self.typeId].PRICE,
                                 "supply": data.coinlistinfos[self.typeId].SUPPLY,
                                 "totalvolume24h": data.coinlistinfos[self.typeId].TOTALVOLUME24H,
-                                "totalvolume24hto": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
+                                "changepct24hour": data.coinlistinfos[self.typeId].CHANGEPCT24HOUR
                             };
                             coinContent.push(datazl);
                         }
                     }
                 }
-
             });
         }
 
@@ -164,7 +221,7 @@ class Home extends Component {
 
         const numberLayout = (action, listObj) => {
             if (action == listObj.mktcap) {
-                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
+                return (self.symbolSt + "" + action);
             } else if (action == listObj.price) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.00'));
             } else if (action == listObj.totalvolume24h) {
@@ -180,9 +237,8 @@ class Home extends Component {
             return (numeral(action).format('0,0.000'));
         }
 
-        var options = {
-            noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>),
-            onSortChange: this.onSortChange
+        const options = {
+            noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>)
         };
 
         return (
@@ -206,14 +262,14 @@ class Home extends Component {
                             </div>
                             <div className="cell">
                                 <div className="table-wrap l-table">
-                                    <BootstrapTable data={coinContent} striped hover options={options} multiColumnSort={6}>
+                                    <BootstrapTable data={coinContent} options={options} striped hover>
                                         <TableHeaderColumn isKey dataField='id' width='50'>#</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='CoinName' dataSort={true} dataFormat={LinkAction} width='150'>Coin</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='mktcap' dataSort={true} dataFormat={numberLayout} width='165'>Market Cap</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='price' dataSort={true} dataFormat={numberLayout} width='100' >Price</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='supply' dataSort={true} dataFormat={supplyLayout} width='165' > Circulating Supply</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='totalvolume24h' dataSort={true} dataFormat={numberLayout} width='150' >24h Volume</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='totalvolume24hto' dataFormat={colorAction} dataSort={true} width='125'>24h Change (%)</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='CoinName' dataFormat={LinkAction} width='150'>{this.renderCustomHeader('Coin', 'CoinName')}</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='mktcap' dataFormat={numberLayout} width='165'>{this.renderCustomHeader('Market Cap', 'mktcap')}</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='price' dataFormat={numberLayout} width='100' >{this.renderCustomHeader('Price', 'price')}</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='supply' dataFormat={supplyLayout} width='165' >{this.renderCustomHeader('Circulating Supply', 'supply')}</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='totalvolume24h' dataFormat={numberLayout} width='150' >{this.renderCustomHeader('24h Volume', 'totalvolume24h')}</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='changepct24hour' dataFormat={colorAction} width='125'>{this.renderCustomHeader('24h Change (%)', 'changepct24hour')}</TableHeaderColumn>
                                     </BootstrapTable>
                                 </div>
                             </div>
