@@ -221,7 +221,7 @@ class Home extends Component {
 
         const numberLayout = (action, listObj) => {
             if (action == listObj.mktcap) {
-                return (self.symbolSt + "" + action);
+                return (self.symbolSt + "" + numeral(action).format('0,0.000'));
             } else if (action == listObj.price) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.00'));
             } else if (action == listObj.totalvolume24h) {

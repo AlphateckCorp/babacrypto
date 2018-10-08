@@ -188,11 +188,7 @@ class Exchange extends Component {
         };
 
         const vol24hAction = (action, listObj) => {
-            if (action === null) {
-                return (self.symbolSt + "" + "0")
-            } else {
-                return (self.symbolSt + "" + action)
-            }
+            return (self.symbolSt + "" + numeral(action).format('0,0.000'))
         }
 
 
