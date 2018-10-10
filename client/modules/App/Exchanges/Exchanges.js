@@ -4,17 +4,17 @@ import { Link } from 'react-router';
 import InfoSection from './InfoSection/InfoSection';
 import { FetchExchangeRequest } from './ExchangesAction';
 import { getExchange } from './ExchangesReducer';
-// import styles from './../Home/Home.css';
+import { browserHistory } from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
 import numeral from 'numeral';
-// import { Manager, Reference, Popper } from 'react-popper';
-// import Popover from 'react-simple-popover';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import styles from '../App.css';
+
 
 class Exchange extends Component {
     limit = 100;
-    sort = ['id','asc'];
+    sort = ['id', 'asc'];
     filter;
     totalRecords = 0;
 
@@ -25,19 +25,30 @@ class Exchange extends Component {
             openPopup: false,
             open: false,
             symbolSt: '$',
-            typeId: 0
+            typeId: 0,
+            sortOrder: {
+                market: 'asc',
+                VOLUME24HOUR: 'asc'
+            },
+            name: '',
+            sorting: {
+                forAll: false,
+                market: false,
+                VOLUME24HOUR: false
+            }
         }
     }
+
     componentWillMount(props) {
-        this.props.dispatch(FetchExchangeRequest(this.limit,this.sort));
+        this.props.dispatch(FetchExchangeRequest(this.limit, this.sort));
     }
 
     componentDidMount = (props) => {
         window.addEventListener('scroll', this.handleScroll);
     };
 
-    tick = (props) => {              
-        this.props.dispatch(FetchExchangeRequest(this.limit,this.sort));
+    tick = (props) => {
+        this.props.dispatch(FetchExchangeRequest(this.limit, this.sort));
     };
 
     componentWillUnmount = (props) => {
@@ -47,33 +58,45 @@ class Exchange extends Component {
     handleScroll = (e) => {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
             // ajax call get data from server and append to the div
-            if(this.limit < this.totalRecords) {
-                this.limit = this.limit+100;
+            if (this.limit < this.totalRecords) {
+                this.limit = this.limit + 100;
                 this.tick();
             }
         }
     };
 
-    onchange = (e) => {
-        var checkType = e.target.value;
-        var selectTypeByid = '';
-        var currencySymbols = '';
-        switch (checkType) {
-            case ('EUR'):
-                selectTypeByid = 1;
-                currencySymbols = '€';
-                break;
-            case ('ETH'):
-                selectTypeByid = 2;
-                currencySymbols = 'Ξ';
-                break;
-            default:
-                selectTypeByid = 0;
-                currencySymbols = '$';
+
+    goToVistExchange = (e) => {
+        e.preventDefault();
+    }
+
+    onSortChange = (name) => {
+        let sorting = this.state.sorting;
+        sorting["forAll"] = true;
+        sorting[name] = true;
+        this.setState({ name: name, sorting });
+        let sortOrder = this.state.sortOrder;
+        let order = sortOrder[name];
+        this.sort = [name, order];
+        this.tick();
+        order === 'asc' ? sortOrder[name] = 'desc' : sortOrder[name] = 'asc';
+        this.setState({ sortOrder });
+    }
+
+    renderCustomHeader(headerName, name) {
+        let header;
+        if (this.state.sorting[name]) {
+            header = <p className={styles.header} onClick={() => this.onSortChange(name)}>{headerName}&nbsp;
+                {this.state.sortOrder[name] === 'desc' ? <span><i style={{ fontSize: 12 }} className="fa fa-caret-up"></i></span> :
+                    <span><i style={{ fontSize: 12 }} className="fa fa-caret-down"></i></span>}
+            </p>
         }
-        this.state.typeId = selectTypeByid;
-        this.state.symbolSt = currencySymbols;
-        this.setState(this.state);
+        else {
+            header = <p className={styles.header} onClick={() => this.onSortChange(name)}>{headerName}&nbsp;
+                <i style={{ fontSize: 12, color: "#cfd1d3" }} className="fa fa-caret-down"></i><i style={{ fontSize: 12, color: "#cfd1d3" }} className="fa fa-caret-up"></i>
+            </p>
+        }
+        return header;
     }
 
 
@@ -95,7 +118,7 @@ class Exchange extends Component {
         if (this.props.getExchangeList.rows && this.props.getExchangeList.rows.length > 0) {
             var records = this.props.getExchangeList;
             list = records.rows;
-            this.totalRecords = records.count;        
+            this.totalRecords = records.count;
         }
 
         const LinkAction = (action, listObj) => {
@@ -108,43 +131,30 @@ class Exchange extends Component {
                 );
             } else {
                 return (
-                <span className="t--gray">{action}</span>
+                    <span className="t--gray">{action}</span>
                 );
             }
         };
 
-        const visitAction = (action, listObj) => {                        
-            if (action == '') {
-                var marketName = ((listObj.market).toLowerCase().trim());
-                if (listObj.coins) {
-                    return (
-                        <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
-                            <button className="primarybtn"> Visit </button>
-                        </Link>
-                    );
-                } else {
-                    return (
-                        <button className="disabledbtn" disabled> Visit </button>
-                    );
-                }
+        const visitAction = (action, listObj) => {
+            var marketName = ((listObj.market).toLowerCase().trim());
+            if (listObj.coins) {
+                return (
+                    <Link to={"/visit-exchange/" + marketName} target="_blank" rel="nofollow" >
+                        <button className="primarybtn"> Visit </button>
+                    </Link>
+                );
             } else {
                 return (
-                    <a href={action} target="_blank" rel="nofollow">
-                        <button className="primarybtn"> Visit </button>
-                    </a>
-                )
+                    <button className="disabledbtn" disabled> Visit </button>
+                );
             }
-
         }
 
         var options = {
-            noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>),
-            onSortChange: (sortName, sortOrder) => {
-                this.sort = [sortName, sortOrder];
-                this.tick();
-            }
+            noDataText: (<span className="loadingClass headcol" colSpan="6"> Loading... </span>)
         };
-        
+
         const coinShowAction = (action, listObj) => {
             if (action) {
                 var data = action.split(',');
@@ -178,10 +188,10 @@ class Exchange extends Component {
         };
 
         const vol24hAction = (action, listObj) => {
-            // var data = action.filter(function (v) { return v !== '' });
             return (self.symbolSt + "" + numeral(action).format('0,0.000'))
         }
-                
+
+
         return (
             <div>
                 <DocumentMeta {...meta}>
@@ -191,38 +201,13 @@ class Exchange extends Component {
                             <div className="grid-x align-justify">
                                 <div className="cell shrink">
                                 </div>
-                                {/*                         
-                            <div className="cell">
-                                <div className="table-wrap l-table">
-                                    <table className="table responsive js-table">
-                                        <thead>
-                                            <tr>
-                                                <th className="headcol2" style={{ padding: "6px" }}></th>
-                                                <th className="market-cap-col">Coins</th>
-                                                <th className="market-cap-col">24h volume</th>
-                                                <th className="market-cap-col">Visit</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.renderTableRows(finalData, volData)}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div> */}
                                 <div className="cell">
                                     <div className="table-wrap l-table">
-                                        {/* <BootstrapTable data={this.renderTableRows(finalData, volData, lists)} striped hover options={options}>
-                                            <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='coins' width='320' dataFormat={coinShowAction}>Coins</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='vol24h' width='150' dataSort sortFunc={vol24hSortFunc} dataFormat={vol24hAction} >24h volume</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='visit' width='150' dataFormat={visitAction} > Visit</TableHeaderColumn>
-                                        </BootstrapTable> */}
                                         <BootstrapTable data={list} striped hover options={options}>
                                             <TableHeaderColumn isKey dataField='id' width='50'>#</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='market' dataSort dataFormat={LinkAction} width='125'>Exchange</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='market' dataFormat={LinkAction} width='125'>{this.renderCustomHeader('Exchange', 'market')}</TableHeaderColumn>
                                             <TableHeaderColumn dataField='coins' dataFormat={coinShowAction} width='320'>Coins</TableHeaderColumn>
-                                            <TableHeaderColumn dataField='VOLUME24HOUR' dataSort dataFormat={vol24hAction} width='150'  >24h volume</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='VOLUME24HOUR' dataFormat={vol24hAction} width='150'  >{this.renderCustomHeader('24h volume', 'VOLUME24HOUR')}</TableHeaderColumn>
                                             <TableHeaderColumn dataField='externalLink' dataFormat={visitAction} width='150' > Visit</TableHeaderColumn>
                                         </BootstrapTable>
                                     </div>
@@ -239,7 +224,7 @@ class Exchange extends Component {
 
 function mapStateToProps(state) {
     return {
-        getExchangeList: getExchange(state)
+        getExchangeList: getExchange(state),
     };
 }
 export default connect(mapStateToProps)(Exchange);

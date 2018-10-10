@@ -3,6 +3,7 @@ import callApi from '../../../util/apiCaller';
 // Export Constants
 // export const ADD_POST = 'ADD_POST';
 export const ADD_COINS = 'ADD_COINS';
+
 // export const DELETE_POST = 'DELETE_POST';
 
 // Export Actions
@@ -40,21 +41,3 @@ export function FetchCoinsRequest(limit,sort) {
   };
 }
 
-// export function fetchPost(cuid) {
-//   return (dispatch) => {
-//     return callApi(`posts/${cuid}`).then(res => dispatch(addPost(res.post)));
-//   };
-// }
-
-// export function deletePost(cuid) {
-//   return {
-//     type: DELETE_POST,
-//     cuid,
-//   };
-// }
-
-// export function deletePostRequest(cuid) {
-//   return (dispatch) => {
-//     return callApi(`posts/${cuid}`, 'delete').then(() => dispatch(deletePost(cuid)));
-//   };
-// }

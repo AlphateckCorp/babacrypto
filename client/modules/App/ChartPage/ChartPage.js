@@ -18,9 +18,9 @@ class ChartPage extends Component {
             typeId: 0,
             symbolName: 'USD',
             showChart: false,
-            meta:false,
-            metaTitle : '',
-            metaDescription:''
+            meta: false,
+            metaTitle: '',
+            metaDescription: ''
         }
     }
 
@@ -51,8 +51,8 @@ class ChartPage extends Component {
             var coinName = this.props.exchangeCoinsList[0].CoinName;
             var symbol = this.props.exchangeCoinsList[0].Symbol;
             var symbolName = this.state.symbolName;
-            this.state.metaTitle = coinName +" Overview | "+coinName +" Price, Charts and Market Cap";
-            this.state.metaDescription = "Complete Overview of "+coinName+ " CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
+            this.state.metaTitle = coinName + " Overview | " + coinName + " Price, Charts and Market Cap";
+            this.state.metaDescription = "Complete Overview of " + coinName + " CryptoCurrency | Updated " + coinName + " Price, " + coinName + " Charts and " + coinName + " Market Capitalization at Babacrypto.com";
             this.setState(this.state);
         }
     }
@@ -71,13 +71,13 @@ class ChartPage extends Component {
             var coinName = this.props.exchangeCoinsList[0].CoinName;
             var symbol = this.props.exchangeCoinsList[0].Symbol;
             var symbolName = this.state.symbolName;
-            this.state.metaTitle = coinName +" Overview | "+coinName +" Price, Charts and Market Cap";
-            this.state.metaDescription = "Complete Overview of "+coinName+ " CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
+            this.state.metaTitle = coinName + " Overview | " + coinName + " Price, Charts and Market Cap";
+            this.state.metaDescription = "Complete Overview of " + coinName + " CryptoCurrency | Updated " + coinName + " Price, " + coinName + " Charts and " + coinName + " Market Capitalization at Babacrypto.com";
             this.setState(this.state);
         }
 
     }
-    onchange = (e) => {        
+    onchange = (e) => {
         var checkType = e.target.value;
         var selectTypeByid = '';
         var currencySymbols = '';
@@ -122,17 +122,17 @@ class ChartPage extends Component {
         //     console.log(data.LASTMARKET, "LASTMARKET")
         //     console.log(data.VOLUME24HOUR, "VOLUME24HOUR");
         //     console.log(data.VOLUME24HOURTO, "VOLUME24HOURTO");
-            
+
         //     console.log(data.TOTALVOLUME24H, "TOTALVOLUME24H");
         //     console.log(ls, "ls")
         //     var aa = parseFloat(data.TOTALVOLUME24H);
         //     return ls += aa;
         // }, 0);
-        
-        
+
+
 
         var coindata = coinlistDtl ? coinlistDtl.map((data, index) => {
-            
+
             return (<div key={index} className="grid-x mainCoinshow">
                 <div className="medium-4 small-12">
                     <div className="medium-12 chartHeadSt">
@@ -140,7 +140,7 @@ class ChartPage extends Component {
                             </div>
                     <div className="medium-12">
                         <div className="medium-12 chartHeading">
-                            {self.symbolSt}{numeral(data.PRICE).format('0,0')}  <span className={(data.CHANGEPCT24HOUR > 0) ? "t--green" : "t--red"} style={{fontSize:"18px"}} > {numeral(data.CHANGEPCT24HOUR).format('0,0.00')} %</span>
+                            {self.symbolSt}{numeral(data.PRICE).format('0,0')}  <span className={(data.CHANGEPCT24HOUR > 0) ? "t--green" : "t--red"} style={{ fontSize: "18px" }} > {numeral(data.CHANGEPCT24HOUR).format('0,0.00')} %</span>
                         </div>
                         <div className="medium-12 chartSubHeading">
                             Open: <span style={{ color: "#7F8386" }}> {self.symbolSt}{numeral(data.OPENDAY).format('0,0')}  </span>
@@ -162,10 +162,10 @@ class ChartPage extends Component {
                             {self.symbolSt}{numeral(data.MKTCAP).format('0,0.000')}
                         </div>
                         <div className="medium-12 chartSubHeading">
-                            24H Trade Volume: <span style={{ color: "#7F8386" }}> 
-                            {self.symbolSt}{numeral(data.VOLUME24HOUR).format('0,0.000')}
-                            
-                            
+                            24H Trade Volume: <span style={{ color: "#7F8386" }}>
+                                {self.symbolSt}{numeral(data.VOLUME24HOUR).format('0,0.000')}
+
+
                             </span>
                         </div>
                     </div>
@@ -191,11 +191,11 @@ class ChartPage extends Component {
 
     }
     render() {
-        
-      const meta = {
-        title: this.state.metaTitle,
-        description: this.state.metaDescription
-      };
+
+        const meta = {
+            title: this.state.metaTitle,
+            description: this.state.metaDescription
+        };
         var exchangeMarketlist = [];
         var exchangecoin = '';
         var coinlist = '';
@@ -215,16 +215,16 @@ class ChartPage extends Component {
             //     return (<option key={key} className="abc" value={data.TOSYMBOL}>{data.TOSYMBOL}</option>);
             // }):'';
             var selectType = list ? list.map((data, key) => {
-                if(data.tosymbol.Name!="BTC"){
-                return (<option key={key} className="abc" value={data.tosymbol.Name}>{data.tosymbol.Name}</option>);  
+                if (data.tosymbol.Name != "BTC") {
+                    return (<option key={key} className="abc" value={data.tosymbol.Name}>{data.tosymbol.Name}</option>);
                 }
-            }):'';
+            }) : '';
         }
         if (this.props.exchangeMarketList != undefined && this.props.exchangeMarketList.length > 0) {
             var exchangeMarket = this.props.exchangeMarketList;
             // console.log(exchangeMarket, "exchangeMarket");
-           
-            
+
+
             var datalist = exchangeMarket.filter((data) => {
                 return data.TOSYMBOL == self.symbolName;
             });
@@ -255,83 +255,84 @@ class ChartPage extends Component {
 
             if (datalist.length > 0) {
                 var datazls = [];
-                exchangeMarketlist =  datalist ? datalist.map((data, key) => {
-                //   console.log(data, "data");
+                exchangeMarketlist = datalist ? datalist.map((data, key) => {
+                    //   console.log(data, "data");
                     const datazls = {
                         "id": key + 1,
                         "marketName": data.exchanges.MARKET,
                         "price": data.PRICE,
                         "changePct24Hour": data.CHANGEPCT24HOUR,
-                        "change24Hour":data.CHANGE24HOUR,
+                        "change24Hour": data.CHANGE24HOUR,
                         "vol24h": data.VOLUME24HOUR,
                         "visit": data.exchanges
                     }
                     return datazls;
 
                 }) : [];
-            } 
-        } 
-
-    
-        const visitAction = (action, listObj) => { 
-            if (action.externalLink == '') {
-                var marketName = ((action.MARKET).toLowerCase().trim());
-                return (
-                    <Link to={"/exchanges/" + marketName} target="_blank" rel="nofollow">
-                        <button className="primarybtn"> Visit </button>
-                    </Link>
-                );
-            } else {
-                return (
-                    <a href={action.externalLink} target="_blank" rel="nofollow">
-                        <button className="primarybtn"> Visit </button>
-                    </a>
-                )
             }
         }
-       
+
+
+        const visitAction = (action, listObj) => {
+            // if (action.externalLink == '') {
+            var marketName = ((action.MARKET).toLowerCase().trim());
+            return (
+                <Link to={"/visit-exchange/" + marketName} target="_blank" rel="nofollow">
+                    <button className="primarybtn"> Visit </button>
+                </Link>
+            );
+
+            //  else {
+            //     return (
+            //         <a href={action.externalLink} target="_blank" rel="nofollow">
+            //             <button className="primarybtn"> Visit </button>
+            //         </a>
+            //     )
+            // }
+        }
+
         const numberLayout = (action, listObj) => {
             var data = '';
             if (action == listObj.price) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.000'));
             } else if (action == listObj.changePct24Hour) {
-                return data = <span className={(action >= 0)? "t--green": "t--red" }>{numeral(action).format('0,0.000')} %</span>
+                return data = <span className={(action >= 0) ? "t--green" : "t--red"}>{numeral(action).format('0,0.000')} %</span>
             } else if (action == listObj.change24Hour) {
-                return data = <span className={(action >= 0)? "t--green": "t--red" }>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
-                 
+                return data = <span className={(action >= 0) ? "t--green" : "t--red"}>{self.symbolSt}{numeral(action).format('0,0.000')}</span>
+
             } else if (action == listObj.vol24h) {
                 return (self.symbolSt + "" + numeral(action).format('0,0.000'));
             }
         };
-        const vol24hSortFunc = (a, b, order) =>{
+        const vol24hSortFunc = (a, b, order) => {
             if (order === 'desc') {
                 return (Number(b.vol24h) - Number(a.vol24h));
             } else {
                 return (Number(a.vol24h) - Number(b.vol24h));
             }
         };
-        const change24HourSortFunc = (a, b, order) =>{
+        const change24HourSortFunc = (a, b, order) => {
             if (order === 'desc') {
                 return (Number(b.change24Hour) - Number(a.change24Hour));
             } else {
                 return (Number(a.change24Hour) - Number(b.change24Hour));
             }
         };
-        const changePct24HourSortFunc = (a, b, order) =>{
+        const changePct24HourSortFunc = (a, b, order) => {
             if (order === 'desc') {
                 return (Number(b.changePct24Hour) - Number(a.changePct24Hour));
             } else {
                 return (Number(a.changePct24Hour) - Number(b.changePct24Hour));
             }
         };
-        const priceSortFunc = (a, b, order) =>{
+        const priceSortFunc = (a, b, order) => {
             if (order === 'desc') {
                 return (Number(b.price) - Number(a.price));
             } else {
                 return (Number(a.price) - Number(b.price));
             }
         };
-        const blueLayout = (action, listObj) =>{
+        const blueLayout = (action, listObj) => {
             var marketName = ((action).toLowerCase().trim());
             return (
                 <Link to={"/exchanges/" + marketName}>
@@ -339,11 +340,11 @@ class ChartPage extends Component {
                 </Link>
             );
         };
-        
+
 
         return (
-          <div>
-            <DocumentMeta {...meta} />
+            <div>
+                <DocumentMeta {...meta} />
                 <main className="main">
                     <div className="grid-container" style={{ paddingBottom: "35px" }}>
                         <div className="grid-x align-justify">
@@ -359,7 +360,7 @@ class ChartPage extends Component {
                                 </div>
                                 : ''}
                         </div>
-                        
+
                         {(exchangecoin) ? this.coinNameCall(exchangecoin) :
                             <div className='sweet-loading' style={{ textAlign: "center" }}>
                                 <SyncLoader
@@ -379,14 +380,14 @@ class ChartPage extends Component {
                             </div>
                             :
                             <div className="container">
-                             <h2 className="allTableHeading">{(coinlist) ? coinlist.CoinName : ''} Charts</h2>
-                            <div className='sweet-loading' style={{ textAlign: "center" }}>
-                                <SyncLoader
-                                    color={'#000'}
-                                    size={12}
-                                    loading={this.state.loading}
-                                />
-                            </div>
+                                <h2 className="allTableHeading">{(coinlist) ? coinlist.CoinName : ''} Charts</h2>
+                                <div className='sweet-loading' style={{ textAlign: "center" }}>
+                                    <SyncLoader
+                                        color={'#000'}
+                                        size={12}
+                                        loading={this.state.loading}
+                                    />
+                                </div>
                             </div>
                         }
                     </div>
@@ -394,16 +395,16 @@ class ChartPage extends Component {
                     <div className="grid-container">
                         <div className="grid-x align-justify">
                             <h2 className="allTableHeading">{coinlist.CoinName} Markets  <span>  ({coinlist.Name + "/" + self.symbolName}) </span>  </h2>
-                            
+
                             <div className="cell">
                                 <div className="table-wrap l-table">
                                     <BootstrapTable data={exchangeMarketlist} striped hover >
                                         <TableHeaderColumn isKey dataField='id' dataSort={true} width='50'>#</TableHeaderColumn>
                                         <TableHeaderColumn dataField='marketName' dataSort={true} dataFormat={blueLayout} width='125'>Exchange</TableHeaderColumn>
                                         <TableHeaderColumn dataField='price' dataSort sortFunc={priceSortFunc} dataFormat={numberLayout} width='125'>Price</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='changePct24Hour'  dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='125'> 24h % Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='change24Hour'  dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='125'>24h Change</TableHeaderColumn>
-                                        <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc}  dataFormat={numberLayout} width='125' >24h Volume</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='changePct24Hour' dataSort sortFunc={changePct24HourSortFunc} dataFormat={numberLayout} width='125'> 24h % Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='change24Hour' dataSort sortFunc={change24HourSortFunc} dataFormat={numberLayout} width='125'>24h Change</TableHeaderColumn>
+                                        <TableHeaderColumn dataField='vol24h' dataSort sortFunc={vol24hSortFunc} dataFormat={numberLayout} width='125' >24h Volume</TableHeaderColumn>
                                         <TableHeaderColumn dataField='visit' dataFormat={visitAction} width='150'> Visit</TableHeaderColumn>
 
                                     </BootstrapTable>
@@ -424,7 +425,7 @@ class ChartPage extends Component {
 function mapStateToProps(state) {
     return {
         exchangeCoinsList: getCoinsList(state),
-        exchangeMarketList: getExchangeList(state)
+        exchangeMarketList: getExchangeList(state),
     };
 }
 export default connect(mapStateToProps)(ChartPage);

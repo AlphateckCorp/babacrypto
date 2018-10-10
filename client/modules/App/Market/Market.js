@@ -8,6 +8,7 @@ import numeral from 'numeral';
 import ReactTooltip from 'react-tooltip';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import DocumentMeta from 'react-document-meta';
+import callApi from '../../../util/apiCaller';
 
 class Market extends Component {
     constructor(props) {
@@ -18,13 +19,26 @@ class Market extends Component {
             typeId: 0,
             symbolName: 'USD',
             metaTitle: '',
-            metaDescription: ''
+            metaDescription: '',
+            visitButton: false,
+            externalLink: '',
         }
     }
     componentWillMount(props) {
         var MarketName = this.props.params.market;
         this.props.dispatch(FetchMarketRequest(MarketName));
+        callApi('exchangeMarket?market=' + this.props.params.market).then(res => {
+            if (res.externalLink) {
+                this.state.externalLink = res.externalLink;
+                this.state.visitButton = true;
+                this.setState(this.state);
+            }
+            else {
+                this.setState({ visitButton: false });
+            }
+        });
     }
+
     componentDidMount(props) {
         var MkName = this.props.params.market;
         var data = MkName.charAt(0).toUpperCase() + MkName.substr(1);
@@ -65,6 +79,7 @@ class Market extends Component {
         this.state.symbolName = symbolName;
         this.setState(this.state);
     }
+
 
     coinNameCall = (exchangecoin) => {
         var exName = this.props.params.market;
@@ -137,6 +152,16 @@ class Market extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className="medium-4 small-12" style={{ textAlign: 'right', paddingTop: '10px' }}>
+                        {(this.state.visitButton) ?
+                            <Link to={"/visit-exchange/" + this.props.params.market} target="_blank" rel="nofollow">
+                                <input type="button" className="primarybtn" value="Visit" />
+                            </Link>
+                            :
+                            <Link to={{pathname: "/visit-exchange/" + this.props.params.market, state: { prevPath: location.pathname }}} rel="nofollow">
+                                <input type="button" className="primarybtn" value="Visit" />
+                            </Link>}
+                    </div>
                 </div>
             </div>
         );
@@ -185,20 +210,20 @@ class Market extends Component {
                     var outputz = ((roundingFunction(valueToRound) / power).toFixed(boundedPrecision));
                     var change24hours = ((roundingFunction(CHANGE24HOURROUND) / power).toFixed(boundedPrecision));
                     /*
-                    return (<tr key={key}>
-                        <td className="headcol" style={{ width: "50px" }}>{key + 1}</td>
-                        <td className="coinName headcol2 t--blue">{data.FROMSYMBOL}/{data.TOSYMBOL}</td>
-                        <td>{self.symbolSt}
-                            {(numeral(data.PRICE).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(data.PRICE).format('0,0.00000000')}
-                        </td>
-                        <td className={(data.CHANGE24HOUR > 0) ? "t--green" : "t--red"}> {numeral(data.CHANGEPCT24HOUR).format('0,0.000')} %</td>
-                        <td className={(data.CHANGE24HOUR > 0) ? "t--green" : "t--red"}>{self.symbolSt}
-                      
-                            {(numeral(data.CHANGE24HOUR).format('0,0[.]00000000') == 'NaN') ? change24hours : numeral(data.CHANGEPCT24HOUR).format('0,0.00000000')}
-                        </td>
-                        <td>{self.symbolSt}{numeral(data.VOLUME24HOUR).format('0,0.000')}</td>
-                    </tr>);
-                    */
+                        return (<tr key={key}>
+                            <td className="headcol" style={{ width: "50px" }}>{key + 1}</td>
+                            <td className="coinName headcol2 t--blue">{data.FROMSYMBOL}/{data.TOSYMBOL}</td>
+                            <td>{self.symbolSt}
+                                {(numeral(data.PRICE).format('0,0[.]00000000') == 'NaN') ? outputz : numeral(data.PRICE).format('0,0.00000000')}
+                            </td>
+                            <td className={(data.CHANGE24HOUR > 0) ? "t--green" : "t--red"}> {numeral(data.CHANGEPCT24HOUR).format('0,0.000')} %</td>
+                            <td className={(data.CHANGE24HOUR > 0) ? "t--green" : "t--red"}>{self.symbolSt}
+    
+                                {(numeral(data.CHANGE24HOUR).format('0,0[.]00000000') == 'NaN') ? change24hours : numeral(data.CHANGEPCT24HOUR).format('0,0.00000000')}
+                            </td>
+                            <td>{self.symbolSt}{numeral(data.VOLUME24HOUR).format('0,0.000')}</td>
+                        </tr>);
+                        */
                     const datazls = {
                         "id": key + 1,
                         "marketName": data.currencies.Name + "/" + data.TOSYMBOL,
