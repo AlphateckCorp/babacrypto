@@ -46,40 +46,46 @@ app.use(compression());
 // app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 // app.use('/api', posts);
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.use('/api',  function(req, res) {  
-    // var url = "http://babacrypto.local" + req.url;
-    var url = "http://api.babacrypto.com" + req.url;
-    // var url = "http://devapi.babacrypto.com" + req.url;
 
-    req.pipe(request(url)).pipe(res);
-  });
+app.get('/*', function (req, res, next) {
+  if (req.headers.host.match(/^www/) == null) res.redirect(301, 'http://www.'+ req.headers.host + req.url);
+  else next();
+});
+
+app.use('/api', function (req, res) {
+  // var url = "http://babacrypto.local" + req.url;
+  var url = "http://api.babacrypto.com" + req.url;
+  // var url = "http://devapi.babacrypto.com" + req.url;
+
+  req.pipe(request(url)).pipe(res);
+});
 
 // Render Initial HTML
-const renderFullPage = (html, initialState,requestedPage) => {
+const renderFullPage = (html, initialState, requestedPage) => {
   const pageMeta = {};
   const requestedPageUrl = requestedPage.url.split('/');
-  
+
   if (requestedPageUrl[1] == '') {
     pageMeta.title = "List of all CryptoCurrencies at babacrypto.com - 2018";
     pageMeta.description = 'babacrypto.com list all the CryptoCurrency coins, get insights about CryptoCurrency market cap, price, trade volume and chose the best digital currency!';
   } else if (requestedPageUrl[1] == 'exchanges') {
-    if(requestedPageUrl[2]) {
+    if (requestedPageUrl[2]) {
       let coinName = requestedPageUrl[2].charAt(0).toUpperCase() + requestedPageUrl[2].substr(1).toLowerCase();
-      pageMeta.title = coinName + " Exchange Review | Updated " +coinName + " Market Prices - 2018";
+      pageMeta.title = coinName + " Exchange Review | Updated " + coinName + " Market Prices - 2018";
       pageMeta.description = "Full Review of " + coinName + " Exchange Platform | Full list of " + coinName + " Prices per Market and " + coinName + " Supported Coins at Babacrypto.com -2018"
     } else {
       pageMeta.title = 'All CryptoCurrency Exchanges List | Crypto Trading Platforms - 2018';
-      pageMeta.description = 'List of all Cryptocurrency Exchanges | Crypto exchanges supported coins and volume amount, Find the best CryptoCurrency trading platforms! - 2018';  
+      pageMeta.description = 'List of all Cryptocurrency Exchanges | Crypto exchanges supported coins and volume amount, Find the best CryptoCurrency trading platforms! - 2018';
     }
   } else if (requestedPageUrl[1] == 'coins') {
     let coinName = requestedPageUrl[2].charAt(0).toUpperCase() + requestedPageUrl[2].substr(1).toLowerCase();
-    pageMeta.title = coinName +" Overview | "+coinName +" Price, Charts and Market Cap";
-    pageMeta.description = "Complete Overview of "+coinName+ " CryptoCurrency | Updated "+ coinName + " Price, "+ coinName +  " Charts and " +coinName + " Market Capitalization at Babacrypto.com";
+    pageMeta.title = coinName + " Overview | " + coinName + " Price, Charts and Market Cap";
+    pageMeta.description = "Complete Overview of " + coinName + " CryptoCurrency | Updated " + coinName + " Price, " + coinName + " Charts and " + coinName + " Market Capitalization at Babacrypto.com";
   }
 
   const head = Helmet.rewind();
@@ -112,7 +118,7 @@ const renderFullPage = (html, initialState,requestedPage) => {
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
           ${isProdMode ?
-          `//<![CDATA[
+      `//<![CDATA[
           window.webpackManifest = ${JSON.stringify(chunkManifest)};
           //]]>` : ''}
         </script>
@@ -125,18 +131,18 @@ const renderFullPage = (html, initialState,requestedPage) => {
   `;
 };
 
-const renderError = (err,req) => {
+const renderError = (err, req) => {
   const softTab = '&#32;&#32;&#32;&#32;';
   const errTrace = isProdMode ?
     `:<br><br><pre style="color:red">${softTab}${err.stack.replace(/\n/g, `<br>${softTab}`)}</pre>` : '';
-  return renderFullPage(`Server Error${errTrace}`, {},req);
+  return renderFullPage(`Server Error${errTrace}`, {}, req);
 };
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
   match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
     if (err) {
-      return res.status(500).end(renderError(err,req));
+      return res.status(500).end(renderError(err, req));
     }
 
     if (redirectLocation) {
@@ -159,12 +165,12 @@ app.use((req, res, next) => {
           </Provider>
         );
         const finalState = store.getState();
-        console.log('req',req);
-        
+        console.log('req', req);
+
         res
           .set('Content-Type', 'text/html')
           .status(200)
-          .end(renderFullPage(initialView, finalState,req));
+          .end(renderFullPage(initialView, finalState, req));
       })
       .catch((error) => next(error));
   });
