@@ -39,11 +39,14 @@ import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
-const forceDomain = require('forcedomain');
 
 
 // Apply body Parser and server public assets and routes
 app.use(compression());
+app.get('/*', function (req, res, next) {
+  if (req.headers.host.match(/^www/) == null) res.redirect(301, 'http://www.babacrypto.com' + req.url);
+  else next();
+});
 // app.use(bodyParser.json({ limit: '20mb' }));
 // app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
@@ -62,12 +65,6 @@ app.use('/api', function (req, res) {
 
   req.pipe(request(url)).pipe(res);
 });
-
-
-// app.get('/*', function (req, res, next) {
-//   if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
-//   else next();
-// });
 
 // Render Initial HTML
 const renderFullPage = (html, initialState, requestedPage) => {
@@ -169,7 +166,6 @@ app.use((req, res, next) => {
           </Provider>
         );
         const finalState = store.getState();
-        console.log('req', req);
 
         res
           .set('Content-Type', 'text/html')
