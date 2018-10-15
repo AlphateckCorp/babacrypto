@@ -52,17 +52,18 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.get('/*', function (req, res, next) {
-//   if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
-//   else next();
-// });
-
 app.use('/api', function (req, res) {
   // var url = "http://babacrypto.local" + req.url;
   var url = "http://api.babacrypto.com" + req.url;
   // var url = "http://devapi.babacrypto.com" + req.url;
 
   req.pipe(request(url)).pipe(res);
+});
+
+
+app.get('/*', function (req, res, next) {  
+  if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
+  else next();
 });
 
 // Render Initial HTML
