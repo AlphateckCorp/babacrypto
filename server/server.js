@@ -43,10 +43,10 @@ import serverConfig from './config';
 
 // Apply body Parser and server public assets and routes
 app.use(compression());
-app.get('/*', function (req, res, next) {
-  if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
-  else next();
-});
+// app.get('/*', function (req, res, next) {
+//   if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
+//   else next();
+// });
 // app.use(bodyParser.json({ limit: '20mb' }));
 // app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
