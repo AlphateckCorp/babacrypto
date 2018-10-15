@@ -63,15 +63,6 @@ app.use('/api', function (req, res) {
   req.pipe(request(url)).pipe(res);
 });
 
-app.all(/.*/, function(req, res, next) {
-  var host = req.header("host");
-  if (host.match(/^www\..*/i)) {
-    next();
-  } else {
-    res.redirect(301, "https://www.babacrypto.com");
-  }
-});
-
 
 // app.get('/*', function (req, res, next) {
 //   if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
