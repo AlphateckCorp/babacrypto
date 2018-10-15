@@ -54,10 +54,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(forceDomain({
-  hostname: 'www.babacrypto.com',
-  protocol: 'https'
-}));
 
 app.use('/api', function (req, res) {
   // var url = "http://babacrypto.local" + req.url;
@@ -65,6 +61,15 @@ app.use('/api', function (req, res) {
   // var url = "http://devapi.babacrypto.com" + req.url;
 
   req.pipe(request(url)).pipe(res);
+});
+
+app.all(/.*/, function(req, res, next) {
+  var host = req.header("host");
+  if (host.match(/^www\..*/i)) {
+    next();
+  } else {
+    res.redirect(301, "http://www." + host);
+  }
 });
 
 
