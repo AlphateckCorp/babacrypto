@@ -61,10 +61,10 @@ app.use('/api', function (req, res) {
 });
 
 
-// app.get('/*', function (req, res, next) {  
-//   if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
-//   else next();
-// });
+app.get('/*', function (req, res, next) {
+  if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
+  else next();
+});
 
 // Render Initial HTML
 const renderFullPage = (html, initialState, requestedPage) => {
