@@ -63,9 +63,9 @@ app.use('/api', function (req, res) {
 });
 
 app.get('/*', function (req, res, next) {
-  console.log(req, '...req.headers.host');
+  console.log(req.headers.x-forwarded-host, '...req.headers.host');
   
-  if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
+  if (req.headers.x-forwarded-host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
   else next();
 });
 
