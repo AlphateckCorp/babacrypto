@@ -39,6 +39,8 @@ import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
+const forceDomain = require('forcedomain');
+
 
 // Apply body Parser and server public assets and routes
 app.use(compression());
@@ -51,6 +53,10 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use(forceDomain({
+  hostname: 'https://www.babacrypto.com'
+}));
 
 app.use('/api', function (req, res) {
   // var url = "http://babacrypto.local" + req.url;
