@@ -55,7 +55,8 @@ app.use(function (req, res, next) {
 });
 
 app.use(forceDomain({
-  hostname: 'https://www.babacrypto.com'
+  hostname: 'www.babacrypto.com',
+  protocol: 'https'
 }));
 
 app.use('/api', function (req, res) {
