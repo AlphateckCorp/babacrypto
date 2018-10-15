@@ -44,7 +44,7 @@ import serverConfig from './config';
 // Apply body Parser and server public assets and routes
 app.use(compression());
 app.get('/*', function (req, res, next) {
-  if (req.headers.host.match(/^www/) == null) res.redirect(301, 'http://www.babacrypto.com' + req.url);
+  if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
   else next();
 });
 // app.use(bodyParser.json({ limit: '20mb' }));
