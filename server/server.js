@@ -43,10 +43,6 @@ import serverConfig from './config';
 
 // Apply body Parser and server public assets and routes
 app.use(compression());
-// app.get('/*', function (req, res, next) {
-//   if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
-//   else next();
-// });
 // app.use(bodyParser.json({ limit: '20mb' }));
 // app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
@@ -64,6 +60,12 @@ app.use('/api', function (req, res) {
   // var url = "http://devapi.babacrypto.com" + req.url;
 
   req.pipe(request(url)).pipe(res);
+});
+
+app.get('/*', function (req, res, next) {
+  console.log('Dataa..............',req.headers.host);
+  if (req.headers.host.match(/^www/) == null) res.redirect(301, 'https://www.babacrypto.com' + req.url);
+  else next();
 });
 
 // Render Initial HTML
