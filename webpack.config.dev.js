@@ -25,7 +25,7 @@ module.exports = {
   output: {
     path: __dirname,
     filename: '[name].js',
-    publicPath: 'http://localhost:8000/',
+    publicPath: 'https://www.babacrypto.com/',
   },
 
   resolve: {
